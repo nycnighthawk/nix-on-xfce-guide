@@ -42,15 +42,16 @@ Rules:
   # nixpkgs 26.05, pinned to an exact commit
   import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/fa1373130d5a21c040a47c5dbe1913d59ed91808.tar.gz";
-    sha256 = "@@NIXPKGS_2605_SHA256@@";
+    sha256 = "16x4xwxrp7aqrdd3k06rc94wnxh877incf2fscf03q6qnb326f0z";
   })
   ```
 - Flakes use `inputs.nixpkgs.url = "github:NixOS/nixpkgs/fa1373130d5a21c040a47c5dbe1913d59ed91808";`
   and, where a second version is needed, `github:NixOS/nixpkgs/b6018f87da91d19d0ab4cf979885689b469cdd41` (25.11).
 - Lessons may mention the moving branches (`nixos-26.05`, `nixos-unstable`) when teaching pinning.
 - Known source hash: GNU hello 2.12.3 `sha256-DV9gFUOC/uELEUocNOeF2LH0kgc64tOm97FHaHs2aqA=`
-  (`mirror://gnu/hello/hello-2.12.3.tar.gz`). Placeholders `@@HELLO_2_12_1_SRI@@`,
-  `@@HELLO_2_10_SRI@@` are filled in from the CI probe.
+  (`mirror://gnu/hello/hello-2.12.3.tar.gz`); 2.12.2 `sha256-WpqZbcKSzCTc9BHO6H6S9qrluNE72caBm0x6nc4IGKs=`;
+  2.12.1 `sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=`; 2.10 `sha256-MeBmE3qWJnbon2nRtlOC3pWn732RS4y5VvQepy4PUWs=`
+  (computed by `ci/probe.md` on the CI machine).
 - System: `x86_64-linux`. User: whoever runs it (CI uses `tester`); never hard-code a username.
 
 ## Voice

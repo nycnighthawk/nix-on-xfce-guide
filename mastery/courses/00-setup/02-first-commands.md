@@ -17,16 +17,18 @@ Nix has two CLIs that talk to the same store:
 You'll see both in documentation and in nixpkgs. This path uses whichever is clearer and names
 the other.
 
-The `nixpkgs` in `nixpkgs#hello` is a **flake reference** looked up in the *flake registry*,
-which by default points at the moving `nixpkgs-unstable` branch. Course 04 replaces it with
-exact pins; for now, just look:
+The `nixpkgs` in `nixpkgs#hello` is a **flake reference** looked up in the *flake registry*.
+By default it points at the moving `nixpkgs-unstable` channel (currently served as a tarball
+from `channels.nixos.org`), so `nixpkgs#…` can give different versions next week. Course 04
+replaces it with exact pins; for now, just look:
 
 ```bash
 nix registry list | grep -m1 'flake:nixpkgs'
 ```
 
 ```text expect
-github:NixOS/nixpkgs
+flake:nixpkgs
+nixpkgs-unstable
 ```
 
 ## Run without installing

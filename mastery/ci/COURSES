@@ -1,1 +1,1 @@
-probe 00-setup
+00-setup 01-how-nix-works 02-nix-language

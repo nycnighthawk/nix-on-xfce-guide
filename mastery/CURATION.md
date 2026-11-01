@@ -31,7 +31,12 @@ Zero to Nix, the NixOS Wiki, community blog posts, the 2025 community survey dis
   - nixpkgs 26.05: `fa1373130d5a21c040a47c5dbe1913d59ed91808` (channel nixos-26.05.13297)
   - nixpkgs 25.11: `b6018f87da91d19d0ab4cf979885689b469cdd41` (channel nixos-25.11.12484), for
     "two versions side by side" lessons
-  - GNU hello 2.12.3 source: `sha256-DV9gFUOC/uELEUocNOeF2LH0kgc64tOm97FHaHs2aqA=` (from nixpkgs)
+  - nixpkgs 26.05 tarball (for `fetchTarball`): `16x4xwxrp7aqrdd3k06rc94wnxh877incf2fscf03q6qnb326f0z`;
+    25.11: `0ln4yw7z3g9lb0x081hc0pd2j1wsx2qqf6bgmwwvdbkcl4bcy1dp` (computed by `ci/probe.md`)
+  - GNU hello sources: 2.12.3 `sha256-DV9gFUOC/uELEUocNOeF2LH0kgc64tOm97FHaHs2aqA=` (from nixpkgs);
+    2.12.1 `sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=`; 2.10 `sha256-MeBmE3qWJnbon2nRtlOC3pWn732RS4y5VvQepy4PUWs=`
+  - CI capability: nested KVM is available inside the Xubuntu VM on GitHub runners; a minimal NixOS
+    VM test takes about 3 minutes there
 - **Current packaging conventions (nixpkgs 26.05):**
   - `stdenv.mkDerivation (finalAttrs: { … })` is the preferred form.
   - "All new top level packages must enable `__structuredAttrs`" (stdenv chapter).

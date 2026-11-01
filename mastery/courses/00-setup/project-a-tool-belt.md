@@ -8,10 +8,11 @@ shebang); pinning.
 
 ## 1. A report script that needs tools you don't have
 
-The script below uses `jq` and `figlet`. Neither is installed on Xubuntu by default:
+The script below uses `figlet` and `cowsay`. Neither is installed on Xubuntu by default
+(it does ship `jq`, which the script also uses — you'll see why that matters):
 
 ```bash
-command -v jq figlet || echo "not installed"
+command -v figlet cowsay || echo "not installed"
 ```
 
 ```text expect
@@ -25,12 +26,15 @@ interpreter to use and which packages to provide, from an **exact nixpkgs commit
 
 ```bash file=report.sh
 #! /usr/bin/env nix-shell
-#! nix-shell -i bash --pure -p jq figlet coreutils
+#! nix-shell -i bash --pure -p jq figlet cowsay coreutils
 #! nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/fa1373130d5a21c040a47c5dbe1913d59ed91808.tar.gz
 
-# Inside, jq and figlet exist. --pure also removes everything else from PATH,
-# so the script can't accidentally depend on tools from the host.
+# Inside, figlet and cowsay exist, and jq is Nix's pinned jq, not Xubuntu's /usr/bin/jq.
+# --pure removes everything else from PATH, so the script can't accidentally depend on
+# tools from the host.
 figlet -f small "report"
+cowsay -f tux "pinned tools"
+command -v jq
 echo '{"tool":"jq","ok":true,"items":[3,1,2]}' | jq -c '{tool, sorted: (.items | sort)}'
 command -v curl >/dev/null && echo "curl visible" || echo "host tools hidden by --pure"
 ```
@@ -41,6 +45,8 @@ chmod +x report.sh
 ```
 
 ```text expect
+pinned tools
+/nix/store/
 {"tool":"jq","sorted":[1,2,3]}
 host tools hidden by --pure
 ```
@@ -75,8 +81,8 @@ chmod +x report2.sh
 ## 3. Verify: nothing was installed
 
 ```bash
-command -v jq figlet || echo "still not installed"
-ls ~/.nix-profile/bin 2>/dev/null | grep -E '^(jq|figlet)$' || echo "profile untouched"
+command -v figlet cowsay || echo "still not installed"
+ls ~/.nix-profile/bin 2>/dev/null | grep -E '^(figlet|cowsay)$' || echo "profile untouched"
 ```
 
 ```text expect
