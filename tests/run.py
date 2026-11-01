@@ -459,8 +459,12 @@ def after(step):
         check("checkhealth reports no ERROR",
               "nvim --headless '+checkhealth' '+w! /tmp/h.txt' +qa >/dev/null 2>&1; wc -l < /tmp/h.txt; grep -n ERROR /tmp/h.txt; ! grep -q ERROR /tmp/h.txt",
               step=step, timeout=300)
-        check("nil_ls attaches + tree-sitter highlights a .nix file",
-              f"cd {hm} && nvim --headless flake.nix -c 'luafile /tmp/lsp.lua' 2>&1", lambda rc, o: "LSP=nil_ls" in o and "TS_HL=true" in o, step=step, timeout=120)
+        if NVIM_OPTION == "A":
+            check("nil_ls attaches + tree-sitter highlights a .nix file",
+                  f"cd {hm} && nvim --headless flake.nix -c 'luafile /tmp/lsp.lua' 2>&1", lambda rc, o: "LSP=nil_ls" in o and "TS_HL=true" in o, step=step, timeout=120)
+        else:   # option B: highlighting is up to your own config; the stand-in one has no Nix parser
+            check("nil_ls (from extraPackages) attaches to a .nix file with your own config",
+                  f"cd {hm} && nvim --headless flake.nix -c 'luafile /tmp/lsp.lua' 2>&1", lambda rc, o: "LSP=nil_ls" in o, step=step, timeout=120)
         check("lua_ls attaches to a .lua file",
               "printf 'local x = 1\\nprint(x)\\n' > /tmp/t.lua && cd /tmp && nvim --headless t.lua -c 'luafile /tmp/lsp.lua' 2>&1",
               lambda rc, o: "lua_ls" in o, step=step, timeout=120)
