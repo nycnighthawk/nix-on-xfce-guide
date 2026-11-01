@@ -192,7 +192,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "nycnighthawk";
     repo = "nix-on-xfce-guide";
     tag = "greet-v${finalAttrs.version}";
-    hash = "@@GREET_SRC_SRI@@";
+    hash = "sha256-Kd0Lg2p5xN6A7QWPUYyRlVycCV69tSYwTogzSAOLkKg=";
   };
 
   # The program lives in a subdirectory of the repository.

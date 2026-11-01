@@ -35,6 +35,7 @@ Zero to Nix, the NixOS Wiki, community blog posts, the 2025 community survey dis
     25.11: `0ln4yw7z3g9lb0x081hc0pd2j1wsx2qqf6bgmwwvdbkcl4bcy1dp` (computed by `ci/probe.md`)
   - GNU hello sources: 2.12.3 `sha256-DV9gFUOC/uELEUocNOeF2LH0kgc64tOm97FHaHs2aqA=` (from nixpkgs);
     2.12.1 `sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=`; 2.10 `sha256-MeBmE3qWJnbon2nRtlOC3pWn732RS4y5VvQepy4PUWs=`
+  - Course 07's upstream: tag `greet-v1.0.0` of this repository, `sha256-Kd0Lg2p5xN6A7QWPUYyRlVycCV69tSYwTogzSAOLkKg=`
   - CI capability: nested KVM is available inside the Xubuntu VM on GitHub runners; a minimal NixOS
     VM test takes about 3 minutes there
 - **Current packaging conventions (nixpkgs 26.05):**
