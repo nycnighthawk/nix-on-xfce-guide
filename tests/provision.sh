@@ -29,13 +29,13 @@ xubuntu|mint)
     apt-get -o Acquire::AllowInsecureRepositories=true update || true
     apt-get install -y --allow-unauthenticated linuxmint-keyring
     apt-get update
-    # Mint ships without snapd
+    # Mint ships without snapd (its ubuntu-system-adjustments package installs the nosnap pin itself)
     apt-get purge -y snapd 2>/dev/null || true
-    printf 'Package: snapd\nPin: release a=*\nPin-Priority: -10\n' > /etc/apt/preferences.d/nosnap.pref
-    apt-get install -y mint-meta-xfce || apt-get install -y --no-install-recommends mint-meta-xfce
+    DPKG="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew"
+    apt-get install -y $DPKG mint-meta-xfce
     # Mint's base-files (os-release says "Linux Mint") is older-versioned than Ubuntu's: allow the downgrade
     v=$(apt-cache madison base-files | awk '/packages.linuxmint.com/{print $3; exit}')
-    [ -n "$v" ] && apt-get install -y --allow-downgrades "base-files=$v" || true
+    [ -n "$v" ] && apt-get install -y $DPKG --allow-downgrades "base-files=$v" || true
     rm -f /etc/xdg/autostart/mintwelcome.desktop
     S=xfce
   else
@@ -63,5 +63,6 @@ rm -f /etc/xdg/autostart/light-locker.desktop /etc/xdg/autostart/xfce4-screensav
 install -d -o tester -g tester /home/tester/.config/xfce4/xfconf/xfce-perchannel-xml
 [ -f /etc/xdg/xfce4/panel/default.xml ] && install -o tester -g tester /etc/xdg/xfce4/panel/default.xml \
   /home/tester/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+chown -R tester:tester /home/tester/.config
 . /etc/os-release; echo "PROVISIONED: $PRETTY_NAME, session $S"
 cat /etc/linuxmint/info 2>/dev/null || true
