@@ -1,6 +1,6 @@
 # Guide test results
 
-Run: https://github.com/nycnighthawk/nix-on-xfce-guide/actions/runs/41272705668 (commit 53f36a38f26e9b40c8bd1fbf8e5e67f42ac29462)
+Run: https://github.com/nycnighthawk/nix-on-xfce-guide/actions/runs/41275228360 (commit 0b41f68ef13d43799c53988b9c5c763a64941b99)
 
 
 ## arch: guide test
