@@ -1,0 +1,99 @@
+name: Test the guide in real desktop VMs
+
+on:
+  push:
+    branches: [main]
+    paths: ["guide/**", "tests/**", ".github/workflows/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: test-guide
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      distros: ${{ steps.p.outputs.distros }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: echo "distros=$(python3 -c 'import json;print(json.dumps(open("tests/DISTROS").read().split()))')" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: ${{ fromJSON(needs.plan.outputs.distros) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space for the VM
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune --all --force >/dev/null || true
+          df -h /
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-system-x86 qemu-utils cloud-image-utils >/dev/null
+          qemu-system-x86_64 --version | head -1
+
+      - name: Extract the page's steps
+        run: python3 tests/extract.py guide/index.html steps.json tester
+
+      - name: Walk the guide on ${{ matrix.distro }}
+        run: python3 tests/run.py ${{ matrix.distro }}
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.distro }}
+          path: results/${{ matrix.distro }}
+          if-no-files-found: warn
+
+  publish:
+    needs: test
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: ${{ runner.temp }}/res
+      - name: Commit results to the "results" branch
+        run: |
+          set -x
+          git config user.name "guide-test-bot"
+          git config user.email "guide-test-bot@users.noreply.github.com"
+          git fetch origin results || true
+          if git rev-parse -q --verify origin/results; then
+            git switch -c results origin/results            # keeps results of distros not rerun this time
+          else
+            git switch --orphan results && git rm -rqf . 2>/dev/null || true
+          fi
+          for d in "$RUNNER_TEMP"/res/results-*; do n=${d##*/results-}; rm -rf "$n"; mkdir -p "$n"; cp -r "$d"/. "$n"/; done
+          ls -R | head -50
+          {
+            echo "# Guide test results"; echo
+            echo "Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID} (commit ${GITHUB_SHA})"; echo
+            for f in */report.md; do echo; sed 's/^# /## /' "$f"; done
+          } > README.md
+          git add -A
+          git commit -qm "Results of run ${GITHUB_RUN_ID} for ${GITHUB_SHA}" || echo "nothing to commit"
+          git push -f origin results

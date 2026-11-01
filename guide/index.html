@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nix on Xubuntu, Arch &amp; Mint Xfce — with a reproducible Neovim dev setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1218; --panel:#161b24; --panel2:#1c2330; --line:#2a3342; --text:#dfe5ee; --muted:#93a0b4;
+  --accent:#7eb6ff; --accent2:#9ae6b4; --warn:#f6c177; --bad:#ff8b8b; --code:#0b0e13;
+  --ubuntu:#e95420; --arch:#1793d1; --mint:#87cf3e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:15.5px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+a{color:var(--accent)}
+code,pre{font-family:"JetBrains Mono",ui-monospace,monospace}
+:not(pre)>code{background:var(--panel2);border:1px solid var(--line);padding:.05em .35em;border-radius:4px;font-size:.88em}
+.layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+nav.side{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line);padding:22px 16px;background:#0c0f14}
+nav.side h1{font-size:15px;margin:0 0 4px;letter-spacing:.02em}
+nav.side .sub{color:var(--muted);font-size:12.5px;margin-bottom:18px}
+nav.side a{display:block;color:var(--muted);text-decoration:none;padding:5px 8px;border-radius:6px;font-size:13.5px}
+nav.side a:hover{background:var(--panel);color:var(--text)}
+nav.side a .n{display:inline-block;width:20px;color:#5d6a7e;font-family:"JetBrains Mono",monospace;font-size:12px}
+.progress{margin:18px 0 0;font-size:12px;color:var(--muted)}
+.bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+main{padding:0 40px 120px;max-width:1000px}
+.top{position:sticky;top:0;z-index:5;background:rgba(15,18,24,.93);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:14px 0;display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:7px 14px;font:inherit;font-size:14px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{color:#fff}
+.seg button[data-d="xubuntu"][aria-pressed="true"]{background:var(--ubuntu)}
+.seg button[data-d="arch"][aria-pressed="true"]{background:var(--arch)}
+.seg button[data-d="mint"][aria-pressed="true"]{background:#5e9a27}
+.field{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
+.field input,.field select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:6px 9px;font:13.5px "JetBrains Mono",monospace;width:150px}
+.field select{width:auto}
+section{padding-top:34px}
+h2{font-size:24px;margin:0 0 6px;display:flex;gap:12px;align-items:baseline}
+h2 .n{font:600 14px "JetBrains Mono",monospace;color:var(--accent)}
+h3{font-size:17px;margin:26px 0 6px}
+p.lead{color:var(--muted);margin-top:0}
+.step{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:14px 16px 6px;margin:14px 0}
+.step-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.step-h input{width:18px;height:18px;accent-color:var(--accent2);cursor:pointer;flex:none}
+.step-h b{font-weight:600}
+.step.done{opacity:.6}
+.step.done .step-h b{text-decoration:line-through;text-decoration-color:var(--accent2)}
+.step p{margin:4px 0 10px}
+.code{position:relative;margin:8px 0 12px}
+.code .lbl{position:absolute;top:0;left:12px;transform:translateY(-50%);font:600 11px "JetBrains Mono",monospace;color:var(--muted);background:var(--panel);padding:0 6px;border-radius:4px}
+pre{margin:0;background:var(--code);border:1px solid var(--line);border-radius:8px;padding:16px 14px 14px;overflow:auto;font-size:13.2px;line-height:1.55;color:#cfd8e6}
+pre .c{color:#6b7a90}
+.copy{position:absolute;top:8px;right:8px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:4px 10px;font:12px "IBM Plex Sans",sans-serif;cursor:pointer;opacity:.85}
+.copy:hover{opacity:1;border-color:var(--accent)}
+.copy.ok{background:#1f3b2c;border-color:var(--accent2);color:var(--accent2)}
+.note{border-left:3px solid var(--accent);background:#141c28;padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:14.5px}
+.note.warn{border-color:var(--warn);background:#221d14}
+.note.bad{border-color:var(--bad);background:#24161a}
+.note.ok{border-color:var(--accent2);background:#13221b}
+.badge{display:inline-block;font:600 11px "JetBrains Mono",monospace;padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.b-x{background:var(--ubuntu);color:#fff}.b-a{background:var(--arch);color:#fff}.b-m{background:#5e9a27;color:#fff}
+[data-only]{display:none}
+body[data-distro="xubuntu"] [data-only~="xubuntu"],
+body[data-distro="arch"] [data-only~="arch"],
+body[data-distro="mint"] [data-only~="mint"]{display:block}
+body[data-distro="xubuntu"] span[data-only~="xubuntu"],body[data-distro="arch"] span[data-only~="arch"],body[data-distro="mint"] span[data-only~="mint"]{display:inline}
+.tabs{display:flex;gap:6px;margin:12px 0 0;flex-wrap:wrap}
+.tabs button{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:5px 12px;border-radius:6px 6px 0 0;cursor:pointer;font:13px "JetBrains Mono",monospace}
+.tabs button[aria-selected="true"]{color:var(--text);border-color:var(--accent);background:var(--code)}
+.tabpanel{display:none}.tabpanel.on{display:block}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600}
+.layers{display:grid;gap:8px;margin:14px 0}
+.layer{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--panel)}
+.layer b{font-family:"JetBrains Mono",monospace;font-size:13px}
+.l1{border-left:4px solid #8892a6}.l2{border-left:4px solid var(--accent)}.l3{border-left:4px solid var(--accent2)}
+@media (max-width:860px){.layout{grid-template-columns:1fr}nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}main{padding:0 16px 80px}.layer{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-distro="xubuntu">
+<div class="layout">
+<nav class="side">
+  <h1>Nix on a regular distro</h1>
+  <div class="sub">Xubuntu · Arch · Mint Xfce + Neovim</div>
+  <a href="#plan"><span class="n">0</span>The plan</a>
+  <a href="#install"><span class="n">1</span>Install Nix</a>
+  <a href="#config"><span class="n">2</span>Enable flakes</a>
+  <a href="#hm"><span class="n">3</span>Home Manager</a>
+  <a href="#nvim"><span class="n">4</span>Neovim, declaratively</a>
+  <a href="#project"><span class="n">5</span>Per-project dev shells</a>
+  <a href="#hygiene"><span class="n">6</span>Avoid pollution</a>
+  <a href="#maint"><span class="n">7</span>Update · roll back · clean</a>
+  <a href="#uninstall"><span class="n">8</span>Uninstall</a>
+  <div class="progress">Progress for <span id="pdistro">Xubuntu</span>: <span id="pcount">0/0</span>
+    <div class="bar"><i id="pbar"></i></div>
+  </div>
+</nav>
+
+<main>
+<div class="top">
+  <div class="seg" role="group" aria-label="Distribution">
+    <button data-d="xubuntu" aria-pressed="true">Xubuntu</button>
+    <button data-d="arch" aria-pressed="false">Arch</button>
+    <button data-d="mint" aria-pressed="false">Mint Xfce</button>
+  </div>
+  <label class="field">username <input id="uname" value="you" spellcheck="false"></label>
+  <label class="field">arch
+    <select id="sys"><option>x86_64-linux</option><option>aarch64-linux</option></select>
+  </label>
+  <span class="field" style="font-size:12px">Commands below update as you type.</span>
+</div>
+
+<!-- 0 -->
+<section id="plan">
+  <h2><span class="n">00</span>The plan</h2>
+  <p class="lead">You don't replace apt or pacman. Nix sits alongside them in <code>/nix</code> and only ever writes there. The aim is to split responsibilities so that nothing you install for development lands in the system.</p>
+  <div class="layers">
+    <div class="layer l1"><b>apt / pacman</b><span>Kernel, drivers, Xfce desktop, firmware, login manager, printing, and most GUI apps. Keep this layer small and boring.</span></div>
+    <div class="layer l2"><b>Nix + Home Manager</b><span>Your user environment: CLI tools, shell config, git, <b>Neovim with its plugins and language servers</b>. One file, pinned by a lock file, the same on every machine.</span></div>
+    <div class="layer l3"><b>Project flake + direnv</b><span>Compilers, runtimes, and per-project LSPs. They load when you <code>cd</code> into the project and disappear when you leave.</span></div>
+  </div>
+  <div class="note ok"><b>Tested 31 Oct 2026.</b> Every step was run in User-Mode Linux VMs on Ubuntu 26.04 (Xubuntu's base), Linux Mint 22.3 "Zena" Xfce and current Arch, with Nix 2.35.4 and nixpkgs/Home Manager 26.05, using the code blocks extracted from this page. The Neovim config was also run natively: <code>nil_ls</code>/<code>lua_ls</code> attach, tree-sitter highlights, and format-on-save works.</div>
+  <div class="note">Pick your distro at the top. Steps specific to that distro appear, and the progress bar tracks your checkboxes per distro (saved in this browser).</div>
+</section>
+
+<!-- 1 -->
+<section id="install">
+  <h2><span class="n">01</span>Install Nix</h2>
+  <p class="lead">This sets up a multi-user (daemon) install, the right choice on systemd distros: builds run as dedicated <code>nixbld</code> users, so the store stays clean.</p>
+
+  <!-- Ubuntu / Mint -->
+  <div data-only="xubuntu mint">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Update the system and get prerequisites</b></div>
+      <div class="code"><pre><code>sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo apt install -y curl xz-utils git</code></pre></div>
+    </div>
+    <div data-only="mint" class="note">Linux Mint 22.x is built on Ubuntu 24.04, so every step here is the same as Xubuntu. Mint's update manager doesn't touch <code>/nix</code>.</div>
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Run the official installer in daemon mode</b></div>
+      <p>It's best to download and read the script before running it:</p>
+      <div class="code"><pre><code>curl --proto '=https' --tlsv1.2 -sSfL https://nixos.org/nix/install -o nix-install.sh
+less nix-install.sh          <span class="c"># read it</span>
+sh nix-install.sh --daemon</code></pre></div>
+      <p>Answer <b>y</b> at the prompts. The installer creates <code>/nix</code>, the <code>nixbld</code> group and users, and a <code>nix-daemon</code> systemd unit. It also backs up and edits <code>/etc/bash.bashrc</code>.</p>
+    </div>
+  </div>
+
+  <!-- Arch -->
+  <div data-only="arch">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Install Arch's native package</b></div>
+      <p>On Arch, use the repo package. pacman tracks it, and its systemd units and <code>nixbld</code> build users come pre-configured.</p>
+      <div class="code"><pre><code>sudo pacman -Syu
+sudo pacman -S --needed nix git</code></pre></div>
+    </div>
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Enable the daemon and initialise the store</b></div>
+      <div class="code"><pre><code>sudo systemctl enable --now nix-daemon.socket
+sudo nix-store --init          <span class="c"># creates /nix/store; the package doesn't</span>
+systemctl status nix-daemon.socket --no-pager</code></pre></div>
+      <p>Without <code>nix-store --init</code>, every command fails with <code>error: opening file "/nix/store": No such file or directory</code>, even with the daemon running.</p>
+      <div class="note">Older guides tell you to join a <code>nix-users</code> group. Current Arch packages no longer create that group, and none is needed: the daemon socket is open to all users.</div>
+    </div>
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Log out of Xfce and back in</b></div>
+      <p>The package ships <code>/etc/profile.d/nix-daemon.sh</code>, which adds <code>~/.nix-profile/bin</code> to <code>PATH</code> and Nix's <code>share</code> folders to <code>XDG_DATA_DIRS</code> at login. You don't need to edit <code>~/.bashrc</code>.</p>
+    </div>
+    <div class="note">Alternative: the upstream script (<code>sh &lt;(curl -L https://nixos.org/nix/install) --daemon</code>) also works on Arch, but pacman won't know about it. Don't mix the two methods.</div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Open a new terminal and verify</b></div>
+    <div data-only="xubuntu mint"><div class="code"><pre><code>nix --version
+nix-shell -p hello --run hello     <span class="c"># should print "Hello, world!"</span></code></pre></div>
+    <p>If <code>nix</code> isn't found, log out of Xfce and back in (or reboot) so the new profile scripts load.</p></div>
+    <div data-only="arch"><div class="code"><pre><code>nix --version
+nix-instantiate --eval -E '1 + 1'  <span class="c"># prints 2: client, daemon and store all work</span></code></pre></div>
+    <p>Skip <code>nix-shell -p …</code> here: it needs a channel, which the Arch package doesn't set up and this guide doesn't use. Step 02 downloads and runs a real package through flakes.</p></div>
+  </div>
+  <div class="note">About the Determinate Systems installer: since early 2026 it installs only <em>Determinate Nix</em>, their downstream distribution, rather than upstream Nix. It's fine to use, but it enables flakes and manages <code>nix.conf</code> itself, so step 02 changes slightly. This guide uses upstream Nix.</div>
+</section>
+
+<!-- 2 -->
+<section id="config">
+  <h2><span class="n">02</span>Enable flakes and sensible defaults</h2>
+  <p class="lead">Flakes plus their <code>flake.lock</code> are what make an environment reproducible: every input is pinned to an exact commit.</p>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Write /etc/nix/nix.conf settings</b></div>
+    <div class="code"><pre><code>sudo tee -a /etc/nix/nix.conf &gt;/dev/null &lt;&lt;'EOF'
+experimental-features = nix-command flakes
+max-jobs = auto
+auto-optimise-store = true
+trusted-users = root {{USER}}
+EOF</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Restart the daemon and check</b></div>
+    <div class="code"><pre><code>sudo systemctl restart nix-daemon
+nix config show | grep -E 'experimental-features|trusted-users'
+nix run nixpkgs#cowsay -- "flakes work"</code></pre></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="hm">
+  <h2><span class="n">03</span>Home Manager: your whole user environment in one repo</h2>
+  <p class="lead">Home Manager installs your tools into <code>~/.nix-profile</code> and generates your dotfiles from a single <code>home.nix</code>. Commit this folder to git and any machine reproduces it with one command.</p>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Create the config repo</b></div>
+    <div class="code"><pre><code>mkdir -p ~/.config/home-manager &amp;&amp; cd ~/.config/home-manager
+git init</code></pre></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Create <code>flake.nix</code></b></div>
+    <p>This pins nixpkgs and Home Manager to the same stable release (26.05). Check <a href="https://status.nixos.org" target="_blank" rel="noopener">status.nixos.org</a> for the current release name.</p>
+    <div class="code"><span class="lbl">~/.config/home-manager/flake.nix</span><pre><code>{
+  description = "{{USER}}'s home";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { nixpkgs, home-manager, ... }:
+    let
+      system = "{{SYS}}";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      homeConfigurations."{{USER}}" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home.nix ./nvim.nix ];
+      };
+    };
+}</code></pre></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Create <code>home.nix</code></b></div>
+    <div class="code"><span class="lbl">~/.config/home-manager/home.nix</span><pre><code>{ pkgs, ... }:
+{
+  home.username = "{{USER}}";
+  home.homeDirectory = "/home/{{USER}}";
+  home.stateVersion = "26.05";   <span class="c"># set once, never bump casually</span>
+
+  <span class="c"># Integrates with a non-NixOS distro: sets XDG_DATA_DIRS so Nix apps
+  # show up in the Xfce Whisker menu, fixes locales and terminfo, etc.</span>
+  targets.genericLinux.enable = true;
+
+  programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    ripgrep fd fzf jq bat eza tree htop
+    gnumake unzip curl wget
+  ];
+
+  programs.bash = {
+    enable = true;               <span class="c"># HM now owns ~/.bashrc (old one is backed up)</span>
+    shellAliases = { ll = "eza -la --git"; v = "nvim"; };
+  };
+
+  programs.git = {
+    enable = true;
+    settings.user.name  = "Your Name";        <span class="c"># older HM: userName</span>
+    settings.user.email = "you@example.com";  <span class="c"># older HM: userEmail</span>
+  };
+
+  <span class="c"># direnv + nix-direnv: auto-load project shells (section 05)</span>
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    PIP_REQUIRE_VIRTUALENV = "true";   <span class="c"># refuse global pip installs</span>
+  };
+}</code></pre></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Create a placeholder <code>nvim.nix</code></b> (filled in at step 04)</div>
+    <div class="code"><pre><code>echo '{ ... }: { }' &gt; ~/.config/home-manager/nvim.nix</code></pre></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Bootstrap and switch</b></div>
+    <p>Flakes only see files that git tracks, so <code>git add</code> them first. That's the #1 "file not found" gotcha.</p>
+    <div class="code"><pre><code>cd ~/.config/home-manager
+git add -A
+nix run home-manager/release-26.05 -- switch -b backup --flake .#{{USER}}
+<span class="c"># after the first run the command exists in your profile:</span>
+home-manager switch --flake ~/.config/home-manager#{{USER}}</code></pre></div>
+    <p><code>-b backup</code> renames any dotfile that's in the way to <code>*.backup</code> instead of failing. Commit <code>flake.lock</code>, since it is the pin.</p>
+    <div class="code"><pre><code>cd ~/.config/home-manager &amp;&amp; git add -A &amp;&amp; git commit -m "initial home"</code></pre></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Log out of Xfce and back in</b></div>
+    <p>Session variables (<code>XDG_DATA_DIRS</code>, <code>EDITOR</code>) only reach the desktop and Whisker menu after a fresh login.</p>
+  </div>
+
+  <div class="note">GUI apps from Nix need your GPU drivers. <code>targets.genericLinux.enable</code> also turns on Home Manager's GPU integration, and the first switch prints a one-time command (<code>sudo /nix/store/…-non-nixos-gpu/bin/non-nixos-gpu-setup</code>). Run it once. With the proprietary NVIDIA driver, also set <code>targets.genericLinux.gpu.nvidia = { enable = true; version = "…"; };</code> to the exact version the host uses. The simplest setup is still browsers and other GUI apps from <span data-only="xubuntu mint">apt or Flatpak</span><span data-only="arch">pacman or Flatpak</span>, with Nix for CLI and dev tools.</div>
+</section>
+
+<!-- 4 -->
+<section id="nvim">
+  <h2><span class="n">04</span>Neovim, declaratively</h2>
+  <p class="lead">Neovim, every plugin, every tree-sitter grammar and the always-on language servers all come from the pinned nixpkgs. Nothing gets downloaded at startup, and a fresh machine gets an identical editor.</p>
+
+  <div class="tabs" role="tablist" data-group="nv">
+    <button role="tab" aria-selected="true" data-tab="nv-a">A · fully Nix-managed (recommended)</button>
+    <button role="tab" aria-selected="false" data-tab="nv-b">B · keep my Lua config + lazy.nvim</button>
+  </div>
+
+  <div class="tabpanel on" id="nv-a">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Replace <code>nvim.nix</code></b></div>
+      <div class="code"><span class="lbl">~/.config/home-manager/nvim.nix</span><pre><code>{ pkgs, ... }:
+{
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+
+    <span class="c"># Tools on nvim's PATH only. Global, project-agnostic LSPs go here;
+    # language-specific ones belong in each project's flake (section 05).</span>
+    extraPackages = with pkgs; [
+      lua-language-server
+      nil                      <span class="c"># Nix LSP</span>
+      nixfmt
+      stylua
+      ripgrep fd               <span class="c"># for telescope</span>
+      tree-sitter
+    ];
+
+    plugins = with pkgs.vimPlugins; [
+      nvim-treesitter.withAllGrammars
+      nvim-lspconfig
+      telescope-nvim plenary-nvim telescope-fzf-native-nvim
+      blink-cmp
+      conform-nvim
+      gitsigns-nvim
+      lualine-nvim nvim-web-devicons
+      which-key-nvim
+      tokyonight-nvim
+    ];
+
+    <span class="c"># initLua was called extraLuaConfig before Home Manager 26.05</span>
+    initLua = ''
+      vim.g.mapleader = " "
+      vim.o.number = true
+      vim.o.relativenumber = true
+      vim.o.expandtab = true
+      vim.o.shiftwidth = 2
+      vim.o.termguicolors = true
+      vim.o.signcolumn = "yes"
+      vim.cmd.colorscheme("tokyonight-night")
+
+      -- nvim-treesitter (main branch, as in nixpkgs 26.05) only ships parsers +
+      -- queries; highlighting is Neovim's own. Start it for every filetype that has one.
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev)
+          if pcall(vim.treesitter.start, ev.buf) then
+            vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
+      require("lualine").setup({})
+      require("gitsigns").setup({})
+      require("which-key").setup({})
+      require("blink.cmp").setup({ keymap = { preset = "default" } })
+
+      local tb = require("telescope.builtin")
+      require("telescope").load_extension("fzf")
+      vim.keymap.set("n", "&lt;leader&gt;ff", tb.find_files, { desc = "Find files" })
+      vim.keymap.set("n", "&lt;leader&gt;fg", tb.live_grep,  { desc = "Grep" })
+      vim.keymap.set("n", "&lt;leader&gt;fb", tb.buffers,    { desc = "Buffers" })
+
+      -- Neovim 0.11+ native LSP API; nvim-lspconfig supplies server defaults.
+      -- Servers that aren't on PATH are skipped, so project shells can add
+      -- pyright, rust-analyzer, gopls, ts_ls, ... and they just start.
+      vim.lsp.config("*", { capabilities = require("blink.cmp").get_lsp_capabilities() })
+      vim.lsp.enable({ "lua_ls", "nil_ls", "pyright", "ruff",
+                       "rust_analyzer", "gopls", "ts_ls", "clangd" })
+
+      require("conform").setup({
+        formatters_by_ft = { nix = { "nixfmt" }, lua = { "stylua" },
+                             python = { "ruff_format" }, rust = { "rustfmt" } },
+        format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
+      })
+    '';
+  };
+}</code></pre></div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="nv-b">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Version your existing config through Home Manager</b></div>
+      <p>Move your current config into the repo. Home Manager links it into place, and Nix still provides Neovim and the LSPs. Commit <code>lazy-lock.json</code> so plugin versions are pinned too.</p>
+      <div class="code"><pre><code>mv ~/.config/nvim ~/.config/home-manager/nvim
+cd ~/.config/home-manager &amp;&amp; git add nvim</code></pre></div>
+      <div class="code"><span class="lbl">~/.config/home-manager/nvim.nix</span><pre><code>{ pkgs, config, ... }:
+{
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    sideloadInitLua = true;   <span class="c"># HM won't write ~/.config/nvim/init.lua; yours lives there</span>
+    extraPackages = with pkgs; [
+      lua-language-server nil nixfmt stylua
+      ripgrep fd tree-sitter gcc gnumake   <span class="c"># gcc: for treesitter parsers</span>
+    ];
+  };
+
+  <span class="c"># Out-of-store link so lazy.nvim can still update lazy-lock.json in place</span>
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/.config/home-manager/nvim";
+}</code></pre></div>
+      <div class="note warn">Turn off Mason, or at least don't use it to install language servers. Its binaries are generic Linux builds that often break with Nix, and they bypass your lock file. Let Nix supply the servers instead.</div>
+    </div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Apply and check</b></div>
+    <div class="code"><pre><code>cd ~/.config/home-manager &amp;&amp; git add -A
+home-manager switch --flake .#{{USER}}
+nvim +checkhealth</code></pre></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="project">
+  <h2><span class="n">05</span>Per-project dev shells</h2>
+  <p class="lead">Each project gets its own <code>flake.nix</code> listing its toolchain. When you <code>cd</code> in, direnv loads it, and Neovim started from that shell sees the project's compiler and LSP. Teammates and CI get the exact same versions from <code>flake.lock</code>.</p>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Pick a template and save it as <code>flake.nix</code> in the project root</b></div>
+    <p>New project? Create it as a git repository first (flakes only see tracked files):</p>
+    <div class="code"><pre><code>mkdir -p ~/code/myproject &amp;&amp; cd ~/code/myproject &amp;&amp; git init</code></pre></div>
+    <div class="tabs" role="tablist" data-group="tpl">
+      <button role="tab" aria-selected="true" data-tab="t-py">Python</button>
+      <button role="tab" aria-selected="false" data-tab="t-node">Node / TS</button>
+      <button role="tab" aria-selected="false" data-tab="t-rust">Rust</button>
+      <button role="tab" aria-selected="false" data-tab="t-go">Go</button>
+      <button role="tab" aria-selected="false" data-tab="t-c">C / C++</button>
+    </div>
+    <div class="tabpanel on" id="t-py"><div class="code"><pre><code>{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  outputs = { nixpkgs, ... }:
+    let pkgs = nixpkgs.legacyPackages."{{SYS}}"; in {
+      devShells."{{SYS}}".default = pkgs.mkShell {
+        packages = with pkgs; [ python313 uv pyright ruff ];
+        shellHook = ''
+          export UV_PYTHON_DOWNLOADS=never     # use Nix's python, not uv's
+          [ -d .venv ] || uv venv -q .venv
+          source .venv/bin/activate
+        '';
+      };
+    };
+}</code></pre></div></div>
+    <div class="tabpanel" id="t-node"><div class="code"><pre><code>{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  outputs = { nixpkgs, ... }:
+    let pkgs = nixpkgs.legacyPackages."{{SYS}}"; in {
+      devShells."{{SYS}}".default = pkgs.mkShell {
+        packages = with pkgs; [
+          nodejs_22 pnpm
+          typescript typescript-language-server
+          vscode-langservers-extracted   # html/css/json/eslint LSPs
+        ];
+        shellHook = ''export PATH="$PWD/node_modules/.bin:$PATH"'';
+      };
+    };
+}</code></pre></div></div>
+    <div class="tabpanel" id="t-rust"><div class="code"><pre><code>{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  outputs = { nixpkgs, ... }:
+    let pkgs = nixpkgs.legacyPackages."{{SYS}}"; in {
+      devShells."{{SYS}}".default = pkgs.mkShell {
+        packages = with pkgs; [
+          cargo rustc rust-analyzer clippy rustfmt pkg-config openssl
+        ];
+        RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
+      };
+    };
+}</code></pre></div></div>
+    <div class="tabpanel" id="t-go"><div class="code"><pre><code>{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  outputs = { nixpkgs, ... }:
+    let pkgs = nixpkgs.legacyPackages."{{SYS}}"; in {
+      devShells."{{SYS}}".default = pkgs.mkShell {
+        packages = with pkgs; [ go gopls gotools golangci-lint delve ];
+        shellHook = ''
+          export GOPATH="$PWD/.go"; export PATH="$GOPATH/bin:$PATH"
+        '';
+      };
+    };
+}</code></pre></div></div>
+    <div class="tabpanel" id="t-c"><div class="code"><pre><code>{
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  outputs = { nixpkgs, ... }:
+    let pkgs = nixpkgs.legacyPackages."{{SYS}}"; in {
+      devShells."{{SYS}}".default = pkgs.mkShell {
+        packages = with pkgs; [ cmake ninja gdb clang-tools bear pkg-config ];
+        # mkShell already provides gcc; use pkgs.clangStdenv.mkDerivation-style
+        # shells (pkgs.mkShell.override { stdenv = pkgs.clangStdenv; }) for clang
+      };
+    };
+}</code></pre></div></div>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Wire it to direnv</b></div>
+    <div class="code"><pre><code>cd ~/code/myproject
+echo 'use flake' &gt; .envrc
+echo '.direnv/' &gt;&gt; .gitignore
+git add flake.nix .envrc .gitignore    <span class="c"># flakes need tracked files</span>
+direnv allow                           <span class="c"># first load builds; later loads are cached</span>
+nvim .                                 <span class="c"># the project's LSP is on PATH now</span></code></pre></div>
+    <p>Commit the generated <code>flake.lock</code>. Without direnv, <code>nix develop</code> drops you into the same shell.</p>
+  </div>
+
+  <div class="step"><div class="step-h"><input type="checkbox"><b>One-off tools without installing anything</b></div>
+    <div class="code"><pre><code>nix shell nixpkgs#httpie nixpkgs#sqlite   <span class="c"># gone when you exit</span>
+nix run nixpkgs#hyperfine -- 'sleep 0.1'
+nix search nixpkgs neovim                  <span class="c"># find package names</span></code></pre></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="hygiene">
+  <h2><span class="n">06</span>Rules that keep the system clean</h2>
+  <table>
+    <tr><th>Instead of…</th><th>Do this</th></tr>
+    <tr><td><code>sudo <span data-only="xubuntu mint">apt install</span><span data-only="arch">pacman -S</span> python3-dev nodejs golang …</code></td><td>Put the toolchain in the project's <code>flake.nix</code></td></tr>
+    <tr><td><code>sudo pip install</code> / <code>pip install --user</code></td><td>A venv inside the dev shell (<code>PIP_REQUIRE_VIRTUALENV</code> blocks the rest)</td></tr>
+    <tr><td><code>npm install -g</code>, <code>cargo install</code>, <code>go install</code> globally</td><td>Add it to <code>home.packages</code>, or to the project flake if only one project needs it</td></tr>
+    <tr><td><code>curl … | sh</code> version managers (nvm, pyenv, rustup, sdkman)</td><td>Pinned versions in <code>flake.nix</code>, e.g. <code>nodejs_20</code>, <code>python312</code></td></tr>
+    <tr><td><code>nix-env -i</code> / <code>nix profile install</code></td><td><code>home.packages</code>; imperative installs sit outside your config</td></tr>
+    <tr><td>Mason / plugin managers downloading LSP binaries</td><td><code>extraPackages</code> (global) or the project flake</td></tr>
+    <tr><td><code>nix flake update</code> whenever</td><td>Update on purpose, commit the lock, and roll back if something breaks</td></tr>
+  </table>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Audit what's already polluting the base system</b></div>
+    <p>List what you installed by hand and move the dev tools out:</p>
+    <div data-only="xubuntu mint"><div class="code"><pre><code>apt-mark showmanual | grep -Ei 'python3-|nodejs|npm|golang|rustc|cargo|clang|gcc|cmake|neovim|lua'
+pip list --user 2&gt;/dev/null; ls ~/.local/bin ~/.npm-global 2&gt;/dev/null
+<span class="c"># once Nix provides them:</span>
+sudo apt remove --autoremove neovim nodejs npm golang-go</code></pre></div></div>
+    <div data-only="arch"><div class="code"><pre><code>pacman -Qqe | grep -Ei 'python-|nodejs|npm|^go$|rust|clang|cmake|neovim|lua'
+pacman -Qqm                                  <span class="c"># AUR/foreign packages</span>
+ls ~/.local/bin ~/.cargo/bin ~/go/bin 2&gt;/dev/null
+<span class="c"># once Nix provides them:</span>
+sudo pacman -Rns neovim nodejs npm go</code></pre></div></div>
+    <div class="note warn">Never remove the distro's own <code>python3</code> (Ubuntu/Mint system tools depend on it) or <code>base-devel</code> (Arch needs it for the AUR). Leave those alone. Your PATH puts <code>~/.nix-profile/bin</code> first, so the Nix versions win.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="maint">
+  <h2><span class="n">07</span>Update, roll back, clean up</h2>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Update your home environment deliberately</b></div>
+    <div class="code"><pre><code>cd ~/.config/home-manager
+nix flake update                         <span class="c"># bumps flake.lock</span>
+home-manager switch --flake .#{{USER}}
+git commit -qam "bump inputs" || echo "already up to date"   <span class="c"># undo: git checkout flake.lock</span></code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Roll back if an update breaks something</b></div>
+    <div class="code"><pre><code>home-manager generations                 <span class="c"># list, newest first</span>
+<span class="c"># copy the store path of the generation you want, then:</span>
+/nix/store/&lt;hash&gt;-home-manager-generation/activate</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Reclaim disk space</b></div>
+    <div class="code"><pre><code>home-manager expire-generations "-30 days"
+nix-collect-garbage --delete-older-than 30d
+sudo nix-collect-garbage --delete-older-than 30d
+du -sh /nix/store</code></pre></div>
+    <p>To automate it, add to <code>home.nix</code>: <code>nix.gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 30d"; };</code></p>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Set up a second machine</b></div>
+    <div class="code"><pre><code><span class="c"># after steps 01–02 on the new box:</span>
+git clone &lt;your-repo&gt; ~/.config/home-manager
+nix run home-manager/release-26.05 -- switch -b backup --flake ~/.config/home-manager#{{USER}}</code></pre></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="uninstall">
+  <h2><span class="n">08</span>Uninstall (if you ever need to)</h2>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Remove Home Manager's files first</b></div>
+    <div class="code"><pre><code><span class="c"># the uninstaller imports &lt;nixpkgs&gt;; point it at the flake registry (Arch has no channel)</span>
+NIX_PATH=nixpkgs=flake:nixpkgs home-manager uninstall
+<span class="c"># the first switch (-b backup) renamed your original dotfiles; put them back:</span>
+for f in ~/.bashrc ~/.profile ~/.bash_profile; do
+  if [ -f "$f.backup" ]; then mv "$f.backup" "$f"; fi
+done</code></pre></div>
+  </div>
+  <div data-only="arch">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Remove the package and the store</b></div>
+      <div class="code"><pre><code>sudo systemctl disable --now nix-daemon.socket nix-daemon.service
+sudo pacman -Rns nix
+sudo rm -rf /nix /etc/nix ~/.nix-profile ~/.nix-defexpr ~/.nix-channels ~/.cache/nix ~/.local/state/nix</code></pre></div>
+    </div>
+  </div>
+  <div data-only="xubuntu mint">
+    <div class="step"><div class="step-h"><input type="checkbox"><b>Undo the multi-user install</b></div>
+      <div class="code"><pre><code>sudo systemctl stop nix-daemon.service nix-daemon.socket
+sudo systemctl disable nix-daemon.socket nix-daemon.service
+sudo systemctl daemon-reload
+sudo rm -rf /etc/nix /etc/profile.d/nix.sh /etc/tmpfiles.d/nix-daemon.conf /nix \
+  ~root/.nix-channels ~root/.nix-defexpr ~root/.nix-profile ~root/.cache/nix \
+  ~/.nix-profile ~/.nix-defexpr ~/.nix-channels ~/.cache/nix ~/.local/state/nix
+for i in $(seq 1 32); do sudo userdel nixbld$i 2&gt;/dev/null; done
+sudo groupdel nixbld
+<span class="c"># restore shell files the installer edited:</span>
+for f in /etc/bash.bashrc /etc/bashrc /etc/zshrc /etc/zsh/zshrc; do
+  if [ -f "$f.backup-before-nix" ]; then sudo mv "$f.backup-before-nix" "$f"; fi
+done</code></pre></div>
+    </div>
+  </div>
+  <div class="note ok">That's the full loop: the base distro stays stock, your environment lives in one git repo, and each project brings its own toolchain.</div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  const store = {
+    get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+    set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+  };
+  const names = {xubuntu:"Xubuntu",arch:"Arch",mint:"Mint Xfce"};
+
+  // Templates: keep original text of every code block
+  const codes = [...document.querySelectorAll("pre code")];
+  codes.forEach(c => c.dataset.tpl = c.innerHTML);
+  const esc = s => s.replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+  function render(){
+    const u = esc((document.getElementById("uname").value || "you").trim().replace(/\s+/g,""));
+    const s = esc(document.getElementById("sys").value);
+    codes.forEach(c => c.innerHTML = c.dataset.tpl.replaceAll("{{USER}}", u).replaceAll("{{SYS}}", s));
+  }
+
+  // Copy buttons
+  document.querySelectorAll(".code").forEach(box => {
+    const b = document.createElement("button");
+    b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+    b.addEventListener("click", async () => {
+      const text = box.querySelector("code").innerText.replace(/\n$/,"");
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; }
+      catch(e){
+        try { const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); ok=document.execCommand("copy"); ta.remove(); } catch(_){}
+      }
+      b.textContent = ok ? "Copied ✓" : "Select & copy";
+      b.classList.toggle("ok", ok);
+      setTimeout(()=>{ b.textContent="Copy"; b.classList.remove("ok"); }, 1600);
+    });
+    box.appendChild(b);
+  });
+
+  // Checkboxes: id by order, stored per distro
+  const boxes = [...document.querySelectorAll(".step-h input[type=checkbox]")];
+  boxes.forEach((cb,i) => cb.dataset.k = "s"+i);
+  function visible(el){ return el.offsetParent !== null || getComputedStyle(el).display!=="none" && el.closest("[data-only]")===null; }
+  function loadChecks(){
+    const d = document.body.dataset.distro;
+    const saved = store.get("nixguide-checks-"+d, {});
+    boxes.forEach(cb => { cb.checked = !!saved[cb.dataset.k]; cb.closest(".step").classList.toggle("done", cb.checked); });
+    progress();
+  }
+  function progress(){
+    const vis = boxes.filter(cb => cb.closest(".step").offsetParent !== null);
+    const done = vis.filter(cb => cb.checked).length;
+    document.getElementById("pcount").textContent = done+"/"+vis.length;
+    document.getElementById("pbar").style.width = (vis.length? done/vis.length*100:0)+"%";
+    document.getElementById("pdistro").textContent = names[document.body.dataset.distro];
+  }
+  boxes.forEach(cb => cb.addEventListener("change", () => {
+    const d = document.body.dataset.distro;
+    const saved = store.get("nixguide-checks-"+d, {});
+    saved[cb.dataset.k] = cb.checked; store.set("nixguide-checks-"+d, saved);
+    cb.closest(".step").classList.toggle("done", cb.checked);
+    progress();
+  }));
+
+  // Distro switch
+  function setDistro(d){
+    document.body.dataset.distro = d;
+    document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.d===d));
+    store.set("nixguide-distro", d);
+    loadChecks();
+  }
+  document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => setDistro(b.dataset.d)));
+
+  // Tabs
+  document.querySelectorAll(".tabs").forEach(t => {
+    t.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+      t.querySelectorAll("button").forEach(x => { x.setAttribute("aria-selected", x===btn); document.getElementById(x.dataset.tab).classList.toggle("on", x===btn); });
+      progress();
+    }));
+  });
+
+  // Inputs
+  const un = document.getElementById("uname"), sy = document.getElementById("sys");
+  un.value = store.get("nixguide-user", "you"); sy.value = store.get("nixguide-sys", "x86_64-linux");
+  un.addEventListener("input", () => { store.set("nixguide-user", un.value); render(); });
+  sy.addEventListener("change", () => { store.set("nixguide-sys", sy.value); render(); });
+
+  render();
+  setDistro(store.get("nixguide-distro","xubuntu"));
+})();
+</script>
+</body>
+</html>
