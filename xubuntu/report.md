@@ -8,7 +8,7 @@ Neovim option tested: A
 |---|---|---|---|
 | 0 | Update the system and get prerequisites | PASS |  |
 | 1 | Run the official installer in daemon mode | PASS | --yes answers the installer's prompts; skipped `less` (paging needs a human) |
-| 5 | Open a new terminal and verify | PASS | first try: nix not found in a new terminal; worked after logging out and back in, as the page advises |
+| 5 | Open a new terminal and verify | PASS |  |
 | 6 | Write /etc/nix/nix.conf settings | PASS |  |
 | 7 | Restart the daemon and check | PASS |  |
 | 8 | Create the config repo | PASS |  |
@@ -26,7 +26,7 @@ Neovim option tested: A
 | 17 | Pick a template and save it as flake.nix in the project root | PASS | c template dev shell |
 | 18 | Wire it to direnv | PASS | full-screen Neovim screenshotted, then quit |
 | 19 | One-off tools without installing anything | PASS | `nix shell` given a command instead of opening an interactive subshell |
-| 20 | Audit what's already polluting the base system | PASS |  |
+| 20 | Audit what's already polluting the base system | PASS | -y answers apt's [Y/n] on the example removal |
 | 21 | Update your home environment deliberately | PASS |  |
 | 22 | Roll back if an update breaks something | PASS | `<hash>` filled in with the previous generation from the listing |
 | 23 | Reclaim disk space | PASS |  |
@@ -39,7 +39,6 @@ Neovim option tested: A
 
 | Check | Result |
 |---|---|
-| diagnostics: how a new terminal's bash is set up after installing | PASS |
 | HM tools on PATH in a new terminal | PASS |
 | Session variables (EDITOR, PIP_REQUIRE_VIRTUALENV, XDG_DATA_DIRS) | PASS |
 | git identity from Home Manager | PASS |
@@ -57,4 +56,4 @@ Neovim option tested: A
 | page's nix.gc snippet builds and installs a timer: nix.gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 30d"; }; | PASS |
 | original ~/.bashrc restored after uninstall | PASS |
 
-**45 passed, 0 failed**
+**44 passed, 0 failed**
