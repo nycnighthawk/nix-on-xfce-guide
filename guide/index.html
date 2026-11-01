@@ -539,14 +539,14 @@ nix search nixpkgs neovim                  <span class="c"># find package names<
   <div class="step"><div class="step-h"><input type="checkbox"><b>Audit what's already polluting the base system</b></div>
     <p>List what you installed by hand and move the dev tools out:</p>
     <div data-only="xubuntu mint"><div class="code"><pre><code>apt-mark showmanual | grep -Ei 'python3-|nodejs|npm|golang|rustc|cargo|clang|gcc|cmake|neovim|lua'
-pip list --user 2&gt;/dev/null; ls ~/.local/bin ~/.npm-global 2&gt;/dev/null
-<span class="c"># once Nix provides them:</span>
-sudo apt remove --autoremove neovim nodejs npm golang-go</code></pre></div></div>
+pip list --user 2&gt;/dev/null; ls ~/.local/bin ~/.npm-global 2&gt;/dev/null || true</code></pre></div>
+    <p>Once Nix provides them, remove the distro copies, for example:</p>
+    <div class="code"><pre><code>sudo apt remove --autoremove neovim nodejs npm golang-go</code></pre></div></div>
     <div data-only="arch"><div class="code"><pre><code>pacman -Qqe | grep -Ei 'python-|nodejs|npm|^go$|rust|clang|cmake|neovim|lua'
 pacman -Qqm                                  <span class="c"># AUR/foreign packages</span>
-ls ~/.local/bin ~/.cargo/bin ~/go/bin 2&gt;/dev/null
-<span class="c"># once Nix provides them:</span>
-sudo pacman -Rns neovim nodejs npm go</code></pre></div></div>
+ls ~/.local/bin ~/.cargo/bin ~/go/bin 2&gt;/dev/null || true</code></pre></div>
+    <p>Once Nix provides them, remove the distro copies, for example:</p>
+    <div class="code"><pre><code>sudo pacman -Rns neovim nodejs npm go</code></pre></div></div>
     <div class="note warn">Never remove the distro's own <code>python3</code> (Ubuntu/Mint system tools depend on it) or <code>base-devel</code> (Arch needs it for the AUR). Leave those alone. Your PATH puts <code>~/.nix-profile/bin</code> first, so the Nix versions win.</div>
   </div>
 </section>
