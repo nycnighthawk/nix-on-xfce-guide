@@ -19,3 +19,8 @@ Edit [`tests/DISTROS`](tests/DISTROS) to choose which ones run.
 
 Where the test has to change a command (for example answering a `[Y/n]` prompt with
 `--noconfirm`), the change is listed on that step in the report.
+
+## Building the page with screenshots
+
+    git clone -b results https://github.com/nycnighthawk/nix-on-xfce-guide results
+    python3 tests/build_page.py results site      # needs Pillow; writes site/index.html + site/shots/
