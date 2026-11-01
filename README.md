@@ -20,6 +20,11 @@ Edit [`tests/DISTROS`](tests/DISTROS) to choose which ones run.
 Where the test has to change a command (for example answering a `[Y/n]` prompt with
 `--noconfirm`), the change is listed on that step in the report.
 
+## Nix mastery path
+
+A nine-course path from how the Nix store works to contributing to nixpkgs, with projects,
+every command tested on Xubuntu 26.04 by CI: [`mastery/`](mastery/README.md).
+
 ## Building the page with screenshots
 
     git clone -b results https://github.com/nycnighthawk/nix-on-xfce-guide results

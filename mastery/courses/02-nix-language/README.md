@@ -1,4 +1,4 @@
-# Course 02 — The Nix language
+# Course 02 · The Nix language
 
 Nix is a small, lazy, purely functional language for describing derivations. You could
 learn its syntax in an afternoon. Reading nixpkgs takes more: you need its *idioms*, the

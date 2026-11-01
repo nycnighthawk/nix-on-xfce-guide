@@ -75,11 +75,17 @@ def md_to_html(path, course, links):
     def relink(m):
         target = m.group(2)
         t = target.split("#")[0]
-        if t.endswith(".md"):
-            p = (path.parent / t).resolve()
-            if p in links:
-                return f"[{m.group(1)}](#{links[p]})"
-        return m.group(0)
+        if target.startswith(("http:", "https:", "#", "mailto:")):
+            return m.group(0)
+        p = (path.parent / t).resolve()
+        if p in links:
+            return f"[{m.group(1)}](#{links[p]})"
+        try:
+            rel = p.relative_to(ROOT.parent)
+        except ValueError:
+            return m.group(0)
+        kind = "tree" if (p.is_dir() or target.endswith("/")) else "blob"
+        return f"[{m.group(1)}](https://github.com/nycnighthawk/nix-on-xfce-guide/{kind}/main/{rel.as_posix()})"
     src = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", relink, src)
     h = markdown.markdown(src, extensions=["tables", "md_in_html", "sane_lists"])
     for n, b in enumerate(blocks):

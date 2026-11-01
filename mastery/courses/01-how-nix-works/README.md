@@ -1,4 +1,4 @@
-# Course 01 — How Nix works
+# Course 01 · How Nix works
 
 Most Nix confusion comes from one missing picture: what the store is and how a build gets
 into it. This course builds that picture one piece at a time, and you test each claim with a
