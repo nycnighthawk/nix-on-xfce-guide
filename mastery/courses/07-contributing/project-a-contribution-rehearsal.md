@@ -4,7 +4,8 @@
 run, and end with commits and patches you could open a pull request with.
 
 The upstream is `greet`, a small C program that lives in this repository at
-[`mastery/src/greet/`](../../src/greet/) and is released as the tag `greet-v1.0.0`. It has a
+[`mastery/src/greet/`](../../src/greet/); release 1.0.0 is published as commit
+`7d4aabe07a77…` (upstream doesn't tag releases yet — a common situation). It has a
 `Makefile` that honours `PREFIX` and `DESTDIR`, a `make check` target, `--version`, and an MIT
 licence — everything a well-behaved upstream offers. You'll package it as
 `pkgs/by-name/gr/greet/package.nix` on a branch of nixpkgs 26.05 (the pinned commit), so every
@@ -23,11 +24,11 @@ Nothing here pushes, opens a PR, or needs a GitHub token. The last section shows
 ## 1. Read the upstream
 
 Before packaging anything, download the exact release and look at it. `nix-prefetch-url
---unpack` fetches the archive GitHub serves for the tag, unpacks it into the store, and prints
+--unpack` fetches the archive GitHub serves for that commit, unpacks it into the store, and prints
 the hash of the unpacked tree — the same hash `fetchFromGitHub` will check:
 
 ```bash
-url=https://github.com/nycnighthawk/nix-on-xfce-guide/archive/refs/tags/greet-v1.0.0.tar.gz
+url=https://github.com/nycnighthawk/nix-on-xfce-guide/archive/7d4aabe07a77d1ea9da3d011c5215bd112a09aa8.tar.gz
 out=$(nix-prefetch-url --unpack --print-path "$url")
 upstream=$(sed -n 2p <<< "$out")
 sri=$(nix hash convert --hash-algo sha256 --to sri "$(sed -n 1p <<< "$out")")
@@ -50,7 +51,7 @@ install: greet
 What the reviewer in you notes: the program is in a **subdirectory** of a bigger repository
 (so `sourceRoot` is needed); `make` builds, `make check` tests, `make install` respects
 `PREFIX`/`DESTDIR` (so stdenv's default phases will do); the licence is MIT; there are no
-dependencies; release tags look like `greet-v1.0.0` (the update script must know that).
+dependencies; there are no release tags, so the source is pinned by its full commit hash.
 
 ## 2. A nixpkgs checkout, efficiently
 
@@ -191,7 +192,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "nycnighthawk";
     repo = "nix-on-xfce-guide";
-    tag = "greet-v${finalAttrs.version}";
+    rev = "7d4aabe07a77d1ea9da3d011c5215bd112a09aa8";
     hash = "sha256-Kd0Lg2p5xN6A7QWPUYyRlVycCV69tSYwTogzSAOLkKg=";
   };
 
@@ -210,12 +211,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   passthru = {
     tests.version = testers.testVersion { package = finalAttrs.finalPackage; };
-    updateScript = nix-update-script {
-      extraArgs = [
-        "--version-regex"
-        "greet-v(.*)"
-      ];
-    };
+    updateScript = nix-update-script { };
   };
 
   meta = {
@@ -231,9 +227,11 @@ stdenv.mkDerivation (finalAttrs: {
 
 Notes a reviewer would check:
 
-- **`tag = "greet-v${finalAttrs.version}"`** — `fetchFromGitHub` takes either `tag` or `rev`,
-  never both (`pkgs/build-support/fetchgithub/default.nix` asserts it). Deriving the tag from
-  `version` means an update only touches `version` and `hash`.
+- **`rev = "7d4aabe…"`** (the full 40-character hash) — `fetchFromGitHub` takes either `tag` or
+  `rev`, never both (`pkgs/build-support/fetchgithub/default.nix` asserts it). Upstream has no
+  release tags, so the commit is the only stable name. When upstreams do tag releases, prefer
+  `tag = "v${finalAttrs.version}"` so an update only touches `version` and `hash` — and it's
+  worth asking upstream to start tagging.
 - **`sourceRoot = "${finalAttrs.src.name}/mastery/src/greet"`** — stdenv unpacks the source into
   a directory named after the source derivation (`source`, the default from
   `config.fetchedSourceNameDefault`) and then `cd`s into `sourceRoot`. Using `src.name` instead
@@ -314,7 +312,7 @@ nix-instantiate --eval --strict -A greet.updateScript
 ```text expect
 greet-1.0.0.drv
 greet-aarch64-unknown-linux-gnu-1.0.0.drv
-"greet-v(.*)"
+/bin/nix-update
 ```
 
 Commit it with a title CI accepts and a body that says what the software is:

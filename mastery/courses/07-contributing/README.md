@@ -36,8 +36,8 @@ By the end you can:
 | [project-a-contribution-rehearsal.md](project-a-contribution-rehearsal.md) | Package a real upstream (`greet`, in this repository) in a nixpkgs checkout at the pinned commit, pass every CI check locally, and produce the commits as patches ready for a PR |
 
 The upstream you package in the project lives in [`mastery/src/greet/`](../../src/greet/): a
-small C program with a `Makefile` that honours `PREFIX` and `DESTDIR`, released as the git tag
-`greet-v1.0.0` of this repository.
+small C program with a `Makefile` that honours `PREFIX` and `DESTDIR`, published as commit
+`7d4aabe07a77…` of this repository (no release tags — packaged by commit, as nixpkgs allows).
 
 ## Patterns you'll drill
 

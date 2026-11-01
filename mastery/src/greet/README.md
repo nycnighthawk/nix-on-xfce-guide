@@ -13,7 +13,6 @@ $ make check
 $ make install PREFIX=/usr DESTDIR=/tmp/stage   # installs /tmp/stage/usr/bin/greet
 ```
 
-No dependencies beyond a C99 compiler and libc. Releases are tagged `greet-vX.Y.Z` in this
-repository. MIT licensed (see `LICENSE`).
+No dependencies beyond a C99 compiler and libc. Release 1.0.0 is commit 7d4aabe07a77d1ea9da3d011c5215bd112a09aa8 of this repository (no tags yet).
 
 This file is not a lesson and has no runnable blocks.

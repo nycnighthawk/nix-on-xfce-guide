@@ -192,7 +192,7 @@ The r-ryantm bot (nixpkgs-update) periodically tries to update every package wit
 `passthru.updateScript`, opens the PR, and builds it. For most packages, `nix-update-script`
 is enough: it runs `nix-update`, which finds the newest release, changes `version`, and fixes
 every hash (`pkgs/README.md`, "Automatic package updates"). If upstream's tags aren't plain
-versions — `greet-v1.0.0` in this course's project — tell it how to read them:
+versions — say an upstream tags its releases `greet-v1.0.0` — tell it how to read them:
 
 ```nix
 { nix-update-script, ... }:
