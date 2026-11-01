@@ -419,8 +419,9 @@ def run_guide(steps):
                     _, s3, _ = terminal(t + ": nvim +checkhealth", "nvim +checkhealth\n", interactive_secs=25)
                 elif l.startswith("nvim ."):
                     ssh("cd ~/code/myproject && printf 'def greet(name: str) -> str:\\n    return \"hi \" + name\\n\\n\\nprint(greet(\"nix\"))\\n' > main.py", quiet=True)
-                    _, s3, _ = terminal(t + ": nvim in the project", "cd ~/code/myproject\neval \"$(direnv export bash 2>/dev/null)\"\nnvim main.py\n",
-                                        interactive_secs=30)
+                    _, s3, _ = terminal(t + ": nvim in the project", "cd ~/code/myproject\neval \"$(direnv export bash 2>/dev/null)\"\n"
+                                        "nvim main.py +'lua vim.g.health = { style = \"float\" }; vim.defer_fn(function() vim.cmd(\"checkhealth vim.lsp\") end, 15000)'\n",
+                                        interactive_secs=35)
                 shots.append(s3)
             note = (note + "; " if note else "") + "full-screen Neovim screenshotted, then quit"
         add_step(step, status, rc, shots, note, lg)
@@ -459,7 +460,7 @@ def after(step):
                   f"readlink -f ~/.config/nvim; echo '-- edit' >> {hm}/nvim/init.lua; tail -1 ~/.config/nvim/init.lua | grep -q edit", step=step)
     if t.startswith("Wire it to direnv"):
         check("dev shell: python from .venv, pyright, ruff",
-              'cd ~/code/myproject && direnv exec . bash -c "python --version; which python; pyright --version; ruff --version; [[ \\$(which python) == */.venv/bin/python ]]"',
+              'cd ~/code/myproject && direnv exec . bash -c "python --version; command -v python; pyright --version; ruff --version; [[ \\$(command -v python) == */.venv/bin/python ]]"',
               step=step, timeout=1200)
         check("pip refuses to install outside a venv",
               "cd ~ && nix shell nixpkgs#python3Packages.pip --command pip install requests",
@@ -469,7 +470,7 @@ def after(step):
                   "cd ~/code/myproject && direnv exec . nvim --headless main.py -c 'luafile /tmp/lsp.lua' 2>&1",
                   lambda rc, o: "pyright" in o, step=step, timeout=180)
     if t.startswith("One-off tools"):
-        check("nix search finds neovim", "nix search nixpkgs '^neovim$' 2>&1 | head -5", lambda rc, o: rc == 0 and "neovim" in o, step=step, timeout=1200)
+        check("nix search finds neovim", "nix search nixpkgs '^neovim$' 2>/dev/null", lambda rc, o: rc == 0 and "legacyPackages.x86_64-linux.neovim " in o, step=step, timeout=1200)
     if t.startswith("Roll back"):
         check("roll forward again", f"cd {hm} && home-manager switch --flake .#tester >/dev/null && echo ok", step=step, timeout=1200)
     if t.startswith("Reclaim disk space"):

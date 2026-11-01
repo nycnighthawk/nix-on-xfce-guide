@@ -20,6 +20,9 @@ xubuntu|mint)
   systemctl disable --now unattended-upgrades.service apt-daily.timer apt-daily-upgrade.timer 2>/dev/null || true
   systemctl stop apt-daily.service apt-daily-upgrade.service 2>/dev/null || true
   while fuser /var/lib/dpkg/lock-frontend /var/lib/apt/lists/lock >/dev/null 2>&1; do sleep 3; done
+  # cloud images run the slim "virtual" kernel without graphics drivers; desktops use linux-generic
+  apt-get update
+  apt-get install -y linux-generic
   if [ "$D" = mint ]; then
     echo 'deb http://packages.linuxmint.com zena main upstream import backport' \
       > /etc/apt/sources.list.d/official-package-repositories.list
@@ -34,7 +37,7 @@ xubuntu|mint)
     DPKG="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew"
     apt-get install -y $DPKG mint-meta-xfce
     # Mint's base-files (os-release says "Linux Mint") is older-versioned than Ubuntu's: allow the downgrade
-    v=$(apt-cache madison base-files | awk '/packages.linuxmint.com/{print $3; exit}')
+    v=$(apt-cache madison base-files | awk '/packages.linuxmint.com/{print $3}' | head -1) || true
     [ -n "$v" ] && apt-get install -y $DPKG --allow-downgrades "base-files=$v" || true
     rm -f /etc/xdg/autostart/mintwelcome.desktop
     S=xfce
