@@ -216,6 +216,7 @@ let
       name = "count-flags-${if structured then "structured" else "plain"}";
       __structuredAttrs = structured;
       dontUnpack = true;
+      dontBuild = true; # no Makefile here; we only want to inspect makeFlags
       makeFlags = [
         "GREETING=Hello there"
         "PREFIX=/opt/x"
