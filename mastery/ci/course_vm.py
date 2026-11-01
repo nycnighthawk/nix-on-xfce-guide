@@ -91,7 +91,7 @@ def docs(course):
 
 
 def run_doc(rel):
-    name = rel.replace("/", "__").removesuffix(".md")
+    name = rel.replace("../", "").replace("/", "__").removesuffix(".md")
     script = f"""set -o pipefail
 mkdir -p ~/work/{name} ~/results && cd ~/work/{name}
 python3 ~/mastery/ci/mdrun.py ~/mastery/courses/{rel} --json ~/results/{name}.json 2>&1 | tee ~/results/{name}.log
@@ -127,7 +127,7 @@ def main():
     lines = [f"## Course {COURSE}", "", "| File | Result | Run blocks |", "|---|---|---|"]
     allok = True
     for rel, rc in results:
-        j = OUT / (rel.replace("/", "__").removesuffix(".md") + ".json")
+        j = OUT / (rel.replace("../", "").replace("/", "__").removesuffix(".md") + ".json")
         info = json.loads(j.read_text()) if j.exists() else {}
         lines.append(f"| {rel} | {'PASS' if rc == 0 else 'FAIL'} | {info.get('ran', '?')} |")
         allok &= rc == 0
