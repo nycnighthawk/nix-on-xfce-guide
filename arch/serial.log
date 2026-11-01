@@ -6,9 +6,9 @@
 
 Loading Linux linux ...
 Loading initial ramdisk ...
-[    0.206217] virt/tdx: TDX not supported by the host platform
+[    0.190731] virt/tdx: TDX not supported by the host platform
 P+q6E616D65\[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J[0;1;39mBooting initrd of [0m[38;2;23;147;209mArch Linux[0m[0;1;39m.[0m
-]3008;start=47681cba0b5343bd8f727a24e0ab4a59;user=root;hostname=archlinux;machineid=7f79c8a145384481a7c41d5e6b1818b4;bootid=989aa7a9edc547f086c2a18e21bf1cde;pid=1;pidfdid=1;comm=systemd;type=boot\         Expecting device [0;1;39m/dev/disk/by-uuid…6c15-9d21-45be-a21b-c81a5423eac4[0m...
+]3008;start=f7bc6106411f4e3c93de776d1310088c;user=root;hostname=archlinux;machineid=d311afc2016f465cb09f41c83de93929;bootid=cd76c23d08d14588bfe19221d86032d0;pid=1;pidfdid=1;comm=systemd;type=boot\         Expecting device [0;1;39m/dev/disk/by-uuid…6c15-9d21-45be-a21b-c81a5423eac4[0m...
 [[0;32m  OK  [0m] Reached target [0;1;39mPath Units[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSlice Units[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSwaps[0m.
@@ -82,7 +82,7 @@
 P+q6E616D65\[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J
 [0;1;39mWelcome to [0m[38;2;23;147;209mArch Linux[0m[0;1;39m![0m
 
-]3008;start=ca77dbb3c7fd4829bc22d3e04cfc5c54;user=root;hostname=archlinux;machineid=21a239361545486f80e5f95e70b71e63;bootid=989aa7a9edc547f086c2a18e21bf1cde;pid=1;pidfdid=1;comm=systemd;type=boot\[[0;32m  OK  [0m] Stopped [0;1;39mSwitch Root[0m.
+]3008;start=295ac6c6e42a4a03a6c4a22b5156661e;user=root;hostname=archlinux;machineid=53d246f9e06a42fb9a66ecb8cfe8cc4e;bootid=cd76c23d08d14588bfe19221d86032d0;pid=1;pidfdid=1;comm=systemd;type=boot\[[0;32m  OK  [0m] Stopped [0;1;39mSwitch Root[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/dirmngr[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/getty[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/gpg-agent[0m.
@@ -157,8 +157,8 @@
 [[0;32m  OK  [0m] Mounted [0;1;39mHuge Pages File System[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mPOSIX Message Queue File System[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mKernel Debug File System[0m.
-[[0;32m  OK  [0m] Started [0;1;39mJournal Service[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mKernel Trace File System[0m.
+[[0;32m  OK  [0m] Started [0;1;39mJournal Service[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mCreate List of Static Device Nodes[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mKernel Configuration File System[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mFUSE Control File System[0m.
@@ -175,25 +175,26 @@
 [[0;32m  OK  [0m] Finished [0;1;39mLoad/Save OS Random Seed[0m.
          Starting [0;1;39mUser Database Manager[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mFlush Journal to Persistent Storage[0m.
-[[0;32m  OK  [0m] Finished [0;1;39mColdplug All udev Devices[0m.
 [[0;32m  OK  [0m] Started [0;1;39mUser Database Manager[0m.
          Starting [0;1;39mLoad Kernel Module overlay[0m...
          Starting [0;1;39mLoad Kernel Module tun[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mLoad Kernel Module tun[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mLoad Kernel Module overlay[0m.
          Starting [0;1;39mNamespace Resource Manager[0m...
+[[0;32m  OK  [0m] Finished [0;1;39mColdplug All udev Devices[0m.
          Mounting [0;1;39mTemporary Directory /tmp[0m...
 [[0;32m  OK  [0m] Mounted [0;1;39mTemporary Directory /tmp[0m.
-[[0;32m  OK  [0m] Started [0;1;39mNamespace Resource Manager[0m.
-[[0;32m  OK  [0m] Finished [0;1;39mCreate Static Device Nodes in /dev gracefully[0m.
+[[0m[0;31m*     [0m] (1 of 4) A start job is running for…in /dev gracefully (3s / no limit)
+M[K[[0;32m  OK  [0m] Started [0;1;39mNamespace Resource Manager[0m.
+[K[[0;32m  OK  [0m] Finished [0;1;39mCreate Static Device Nodes in /dev gracefully[0m.
          Starting [0;1;39mCreate System Users[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mCreate System Users[0m.
          Starting [0;1;39mJournal Metrics Report Socket[0m...
          Starting [0;1;39mJournal Log Access Socket[0m...
          Starting [0;1;39mNetwork Name Resolution[0m...
          Starting [0;1;39mCreate Static Device Nodes in /dev[0m...
-[[0;32m  OK  [0m] Listening on [0;1;39mJournal Metrics Report Socket[0m.
 [[0;32m  OK  [0m] Listening on [0;1;39mJournal Log Access Socket[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mJournal Metrics Report Socket[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mCreate Static Device Nodes in /dev[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mPreparation for Local File Systems[0m.
 [[0;32m  OK  [0m] Set up automount [0;1;39mEFI System Partition Automount[0m.
@@ -224,14 +225,14 @@
 [!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8         Starting [0;1;39mRebuild Journal Catalog[0m...
          Starting [0;1;39mRecord System Boot/Shutdown in UTMP[0m...
 [[0;32m  OK  [0m] Started [0;1;39mListen Kernel Core Dump Socket[0m.
-         Starting [0;1;39mKernel Core Pattern Register[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mRecord System Boot/Shutdown in UTMP[0m.
+         Starting [0;1;39mKernel Core Pattern Register[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mRebuild Journal Catalog[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mKernel Core Pattern Register[0m.
 [!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[[0;32m  OK  [0m] Finished [0;1;39mRebuild Dynamic Linker Cache[0m.
          Starting [0;1;39mUpdate is Completed[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mUpdate is Completed[0m.
-]3008;start=e7df3fb734324c4faf852dbbe62acd1f;user=root;hostname=archlinux;machineid=21a239361545486f80e5f95e70b71e63;bootid=989aa7a9edc547f086c2a18e21bf1cde;pid=360;pidfdid=137;comm=(temd-firstboot);servicename=systemd-firstboot.service;invocationid=7354cb4367c9435ebd524d2b6722016b;type=service\[[0;32m  OK  [0m] Finished [0;1;39mInitial Setup[0m.
+]3008;start=d170c8d9c93a4c7fb35f79ce8cca82a7;user=root;hostname=archlinux;machineid=53d246f9e06a42fb9a66ecb8cfe8cc4e;bootid=cd76c23d08d14588bfe19221d86032d0;pid=356;pidfdid=128;comm=(temd-firstboot);servicename=systemd-firstboot.service;invocationid=4119999ba5134db08f80a327c4cdaba1;type=service\[[0;32m  OK  [0m] Finished [0;1;39mInitial Setup[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mFirst Boot Complete[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSystem Initialization[0m.
 [[0;32m  OK  [0m] Started [0;1;39mDaily Cleanup of Temporary Directories[0m.
@@ -260,7 +261,7 @@
 [[0;32m  OK  [0m] Finished [0;1;39mSSH Key Generation[0m.
 [[0;32m  OK  [0m] Started [0;1;39mCloud-init: Single Process[0m.
          Starting [0;1;39mCloud-init: Local Stage (pre-network)[0m...
-[    8.689354] cloud-init[404]: Cloud-init v. 26.2 running 'init-local' at Sun, 01 Nov 2026 03:21:04 +0000. Up 8.67 seconds.
+[   11.693919] cloud-init[400]: Cloud-init v. 26.2 running 'init-local' at Sun, 01 Nov 2026 03:55:35 +0000. Up 11.67 seconds.
          Starting [0;1;39mHostname Service[0m...
 [[0;32m  OK  [0m] Started [0;1;39mHostname Service[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Local Stage (pre-network)[0m.
@@ -275,33 +276,33 @@
 [[0;32m  OK  [0m] Finished [0;1;39mEnable Persistent Storage in systemd-networkd[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mWait for Network to be Online[0m.
          Starting [0;1;39mCloud-init: Network Stage[0m...
-[   10.928184] cloud-init[404]: Cloud-init v. 26.2 running 'init' at Sun, 01 Nov 2026 03:21:06 +0000. Up 10.92 seconds.
-[   10.937882] cloud-init[404]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
-[   10.941215] cloud-init[404]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.944119] cloud-init[404]: ci-info: | Device |  Up  |          Address           |      Mask     | Scope  |     Hw-Address    |
-[   10.946898] cloud-init[404]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.948978] cloud-init[404]: ci-info: |  eth0  | True |         10.0.2.15          | 255.255.255.0 | global | 52:54:00:12:34:56 |
-[   10.951021] cloud-init[404]: ci-info: |  eth0  | True | fe80::5054:ff:fe12:3456/64 |       .       |  link  | 52:54:00:12:34:56 |
-[   10.953057] cloud-init[404]: ci-info: |   lo   | True |         127.0.0.1          |   255.0.0.0   |  host  |         .         |
-[   10.955116] cloud-init[404]: ci-info: |   lo   | True |          ::1/128           |       .       |  host  |         .         |
-[   10.957131] cloud-init[404]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.959613] cloud-init[404]: ci-info: ++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++
-[   10.961819] cloud-init[404]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.963665] cloud-init[404]: ci-info: | Route | Destination | Gateway  |     Genmask     | Interface | Flags |
-[   10.965416] cloud-init[404]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.967201] cloud-init[404]: ci-info: |   0   |   0.0.0.0   | 10.0.2.2 |     0.0.0.0     |    eth0   |   UG  |
-[   10.968926] cloud-init[404]: ci-info: |   1   |   10.0.2.0  | 0.0.0.0  |  255.255.255.0  |    eth0   |   U   |
-[   10.971341] cloud-init[404]: ci-info: |   2   |   10.0.2.2  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
-[   10.973301] cloud-init[404]: ci-info: |   3   |   10.0.2.3  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
-[   10.975316] cloud-init[404]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.977070] cloud-init[404]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
-[   10.978550] cloud-init[404]: ci-info: +-------+-------------+---------+-----------+-------+
-[   10.980561] cloud-init[404]: ci-info: | Route | Destination | Gateway | Interface | Flags |
-[   10.982515] cloud-init[404]: ci-info: +-------+-------------+---------+-----------+-------+
-[   10.984460] cloud-init[404]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
-[   10.986441] cloud-init[404]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
-[   10.988398] cloud-init[404]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
-[   10.990411] cloud-init[404]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.328115] cloud-init[400]: Cloud-init v. 26.2 running 'init' at Sun, 01 Nov 2026 03:55:36 +0000. Up 13.32 seconds.
+[   13.338134] cloud-init[400]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
+[   13.341163] cloud-init[400]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.344244] cloud-init[400]: ci-info: | Device |  Up  |          Address           |      Mask     | Scope  |     Hw-Address    |
+[   13.347231] cloud-init[400]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.350344] cloud-init[400]: ci-info: |  eth0  | True |         10.0.2.15          | 255.255.255.0 | global | 52:54:00:12:34:56 |
+[   13.353213] cloud-init[400]: ci-info: |  eth0  | True | fe80::5054:ff:fe12:3456/64 |       .       |  link  | 52:54:00:12:34:56 |
+[   13.356953] cloud-init[400]: ci-info: |   lo   | True |         127.0.0.1          |   255.0.0.0   |  host  |         .         |
+[   13.360169] cloud-init[400]: ci-info: |   lo   | True |          ::1/128           |       .       |  host  |         .         |
+[   13.362742] cloud-init[400]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.365355] cloud-init[400]: ci-info: ++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++
+[   13.367635] cloud-init[400]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.369889] cloud-init[400]: ci-info: | Route | Destination | Gateway  |     Genmask     | Interface | Flags |
+[   13.372190] cloud-init[400]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.374489] cloud-init[400]: ci-info: |   0   |   0.0.0.0   | 10.0.2.2 |     0.0.0.0     |    eth0   |   UG  |
+[   13.376730] cloud-init[400]: ci-info: |   1   |   10.0.2.0  | 0.0.0.0  |  255.255.255.0  |    eth0   |   U   |
+[   13.379320] cloud-init[400]: ci-info: |   2   |   10.0.2.2  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
+[   13.381603] cloud-init[400]: ci-info: |   3   |   10.0.2.3  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
+[   13.383758] cloud-init[400]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.385938] cloud-init[400]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+[   13.388925] cloud-init[400]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.392231] cloud-init[400]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+[   13.395287] cloud-init[400]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.398348] cloud-init[400]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+[   13.401606] cloud-init[400]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+[   13.404557] cloud-init[400]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+[   13.407553] cloud-init[400]: ci-info: +-------+-------------+---------+-----------+-------+
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Network Stage[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mCloud-config availability[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mNetwork is Online[0m.
@@ -311,87 +312,87 @@
 [[0;32m  OK  [0m] Started [0;1;39mGetty on tty1[0m.
 [[0;32m  OK  [0m] Started [0;1;39mSerial Getty on ttyS0[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mLogin Prompts[0m.
-[   11.709344] cloud-init[404]: Cloud-init v. 26.2 running 'modules:config' at Sun, 01 Nov 2026 03:21:07 +0000. Up 11.69 seconds.
-[   11.719766] cloud-init[404]: Generating locales...
-[   12.815037] cloud-init[404]:   en_US.UTF-8... done
-[   12.816487] cloud-init[404]: Generation complete.
+[   14.191729] cloud-init[400]: Cloud-init v. 26.2 running 'modules:config' at Sun, 01 Nov 2026 03:55:37 +0000. Up 14.17 seconds.
+[   14.204524] cloud-init[400]: Generating locales...
+[   15.360073] cloud-init[400]:   en_US.UTF-8... done
+[   15.362188] cloud-init[400]: Generation complete.
          Starting [0;1;39mLocale Service[0m...
 [[0;32m  OK  [0m] Started [0;1;39mLocale Service[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Config Stage[0m.
-[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;start=260fa6845d60447a82f180e336b1e54f;user=root;hostname=arch-vm;machineid=21a239361545486f80e5f95e70b71e63;bootid=989aa7a9edc547f086c2a18e21bf1cde;pid=522;pidfdid=8265;comm=(agetty);servicename=serial-getty@ttyS0.service;invocationid=f18ede21baf349be86aa8fc25dec3527;type=service\P+q6E616D65\
+[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;start=82d23142afda4992bd2a9e1b23333c85;user=root;hostname=arch-vm;machineid=53d246f9e06a42fb9a66ecb8cfe8cc4e;bootid=cd76c23d08d14588bfe19221d86032d0;pid=518;pidfdid=152;comm=(agetty);servicename=serial-getty@ttyS0.service;invocationid=7c3fb48e2c714c47a76e79abe75de3c3;type=service\P+q6E616D65\
 Arch Linux 7.2.9-arch1-1 (ttyS0)
 
-arch-vm login: [   46.264267] cloud-init[404]: Cloud-init v. 26.2 running 'modules:final' at Sun, 01 Nov 2026 03:21:42 +0000. Up 46.25 seconds.
+arch-vm login: [   92.109390] cloud-init[400]: Cloud-init v. 26.2 running 'modules:final' at Sun, 01 Nov 2026 03:56:55 +0000. Up 92.09 seconds.
 ci-info: ++++++++++++++++++++++++++++++++++++++Authorized keys from /home/tester/.ssh/authorized_keys for user tester++++++++++++++++++++++++++++++++++++++
 ci-info: +-------------+-------------------------------------------------------------------------------------------------+---------+----------------------+
 ci-info: |   Keytype   |                                       Fingerprint (sha256)                                      | Options |       Comment        |
 ci-info: +-------------+-------------------------------------------------------------------------------------------------+---------+----------------------+
-ci-info: | ssh-ed25519 | a6:55:93:42:90:10:cb:89:01:40:64:1e:90:43:90:13:78:3a:2f:7b:ad:37:dd:0a:98:07:e5:84:b4:dd:b1:f5 |    -    | runner@runnervm48cm3 |
+ci-info: | ssh-ed25519 | f3:b7:a7:2b:a6:b3:07:ba:e7:a9:02:ad:cd:42:24:d0:87:ad:19:16:a2:de:fd:2e:a0:0d:56:4c:49:c9:bf:61 |    -    | runner@runnervm48cm3 |
 ci-info: +-------------+-------------------------------------------------------------------------------------------------+---------+----------------------+
-<14>Nov  1 03:21:42 cloud-init: #############################################################
-<14>Nov  1 03:21:42 cloud-init: -----BEGIN SSH HOST KEY FINGERPRINTS-----
-<14>Nov  1 03:21:42 cloud-init: 256 SHA256:7tcvWNbC+IwEBqEMLVWnL7pIPCxJq05n+LMTievrDbw root@arch-vm (ECDSA)
-<14>Nov  1 03:21:42 cloud-init: 256 SHA256:6nSzINsBL0GYfuGCZjvdTPDWyAJq3I7hspxtFgMW/qo root@arch-vm (ED25519)
-<14>Nov  1 03:21:42 cloud-init: 3072 SHA256:oZ1NLJhIFSFluGkj5rMlauGfej3CVDfjh2l9EiGQ+/w root@arch-vm (RSA)
-<14>Nov  1 03:21:42 cloud-init: -----END SSH HOST KEY FINGERPRINTS-----
-<14>Nov  1 03:21:42 cloud-init: #############################################################
+<14>Nov  1 03:56:55 cloud-init: #############################################################
+<14>Nov  1 03:56:55 cloud-init: -----BEGIN SSH HOST KEY FINGERPRINTS-----
+<14>Nov  1 03:56:55 cloud-init: 256 SHA256:A5rVQJOgDlQI4Ub+OiPSgxTLxNHHdYIqH0xMcy9O83w root@arch-vm (ECDSA)
+<14>Nov  1 03:56:55 cloud-init: 256 SHA256:eBj4t6dnVCa6e1UdNxPSWplULWsEL+RP4RF61eonS/s root@arch-vm (ED25519)
+<14>Nov  1 03:56:55 cloud-init: 3072 SHA256:wkSlPKitoKfKBYzkUCTihVeAD3UmxgaAhCansr8CtiI root@arch-vm (RSA)
+<14>Nov  1 03:56:55 cloud-init: -----END SSH HOST KEY FINGERPRINTS-----
+<14>Nov  1 03:56:55 cloud-init: #############################################################
 -----BEGIN SSH HOST KEY KEYS-----
-ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPHrd/sAhAVdXZkOZzqEcjn90EmMz2nJJWOT2pYUHGOwdO1u25L06kkz4yu0scgC5BvAXzZjdez1jk8qb/whu0I= root@arch-vm
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHHxgXnpYI4KxSBIIJwcdA6i7aPlml4uDiJFq8PLa8x root@arch-vm
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg66Zld14/2CoEkd4R4n0+gDAP3soPGBl7h95iYIh/BmgRzoGrcJTJ/qC8TQPYZFzNl55QQv+YBQyUqtwlpKLrrS1+24+GH7zlslOaB1cvgEFQpUOnrTsv/VWRkZuTIEtQVlJTNVj4uGG5OONb+VDbvTz9RuosefQIm5+V05+wzyuhz4iWMUCpM+7XPam52esQUyT6uEL8nTW/KM7mJPxZqI8GrRt3iieQe6DRzaHbO/mEQ/qVbQRhJYziVs/4VFEJPorDyPWzJuJFMPHf5CTWBW2l6CKXdEDce8y9iohUfES8y8hwSuVZR+CnABm857p0nBtAtC0Z3sq8ymeoiLbFz6jwf3V6Qp0Q8yT9k1KcMIGu3lG7Pkj2uiuGYpBkc8HOTfDcZWR/tkL2vBbeymPXjC8MAfDFOVCk5aFfjqq3RI+/WIB6GSzmDblUySY6b77fjqeigMcEwi4rQgn9+fH39Gc= root@arch-vm
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNi2sGdLvq8aHA6/C6YiQbfnNSMqY93BgcapE0act3S9AdCmNXWFoRIGHNlrk0GW8WprAxLnGwFpkXfXZyq7jYA= root@arch-vm
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIyVFsx4isBLv2vnhgk3XYi90ox5UC2vTnX3KFgNWxvI root@arch-vm
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkE2Oyu/RmYzWdnJ3Vnxr/g7qcirhOsYK/0r4b47LkEWSmuaBS/3QUBWibAy6l5Mv3XVkBJH8m7dW/+ut1Lfo8+zKT08UuG6r4P1BIsGRpmT9yDDWB4xtGNCXubacDREI7820UOTLK1YBhdUc+AUiR9DaZUxITVrq+SmHyXoVMXsfvmGez/4ncxw3sgVdIwMgqnEAXfaLPkgO8DRDhHjrPYDF7MgExUlDVcROodeOvgWPiVwm4mhzeAFkp27sssdtJuWHGrotgrgs4n8aPKYeXsk0E035MJk6wO4wXbUpEC8A8N1MZhVNwptOuhLChI74DIffjKldcGtMiRBxXcgToVaI+DMPQ9S0Ri1qFlzztEy9ukPVh2DVGNbjovQGRgVmhOno2/eAJjoxlrP8zkVpw4ezsJYrPSn6lBXKcbMgBZz+KXAJpZHMez28mabeQgXI9+fDs09CZ6DqhuzwxSKE20uAx7V+cJWCxdJrJ0qAZBghdb/+6bjFwBQ9PWHdSafM= root@arch-vm
 -----END SSH HOST KEY KEYS-----
-[   46.342224] cloud-init[404]: Cloud-init v. 26.2 finished at Sun, 01 Nov 2026 03:21:42 +0000. Datasource DataSourceNoCloud [seed=/dev/vdb].  Up 46.31 seconds
-[   46.342859] cloud-init[404]: Generating public/private rsa key pair.
-[   46.343367] cloud-init[404]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
-[   46.343594] cloud-init[404]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
-[   46.343857] cloud-init[404]: The key fingerprint is:
-[   46.344356] cloud-init[404]: SHA256:oZ1NLJhIFSFluGkj5rMlauGfej3CVDfjh2l9EiGQ+/w root@arch-vm
-[   46.344609] cloud-init[404]: The key's randomart image is:
-[   46.344871] cloud-init[404]: +---[RSA 3072]----+
-[   46.345377] cloud-init[404]: |    o=Oo         |
-[   46.345628] cloud-init[404]: |   ..= + o       |
-[   46.345889] cloud-init[404]: |    .o+ + +      |
-[   46.346392] cloud-init[404]: |  o =o * B       |
-[   46.346644] cloud-init[404]: | o o..* S o      |
-[   46.346910] cloud-init[404]: | .+..  B + .     |
-[   46.347425] cloud-init[404]: |..+=. . o o      |
-[   46.347682] cloud-init[404]: |.o.+.o   E       |
-[   46.347929] cloud-init[404]: |..+o. .          |
-[   46.348430] cloud-init[404]: +----[SHA256]-----+
-[   46.348693] cloud-init[404]: Generating public/private ecdsa key pair.
-[   46.348942] cloud-init[404]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
-[   46.349711] cloud-init[404]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
-[   46.349955] cloud-init[404]: The key fingerprint is:
-[   46.350458] cloud-init[404]: SHA256:7tcvWNbC+IwEBqEMLVWnL7pIPCxJq05n+LMTievrDbw root@arch-vm
-[   46.350729] cloud-init[404]: The key's randomart image is:
-[   46.350973] cloud-init[404]: +---[ECDSA 256]---+
-[   46.351475] cloud-init[404]: |  .o..o..        |
-[   46.351742] cloud-init[404]: |  .o...o         |
-[   46.351993] cloud-init[404]: |   .o ..         |
-[   46.352494] cloud-init[404]: |       .o        |
-[   46.352760] cloud-init[404]: | .. . ..S. o .   |
-[   46.353027] cloud-init[404]: |o=oo . o  o = .  |
-[   46.353265] cloud-init[404]: |o**oo   .. O .   |
-[   46.353513] cloud-init[404]: |o+B= . .  + =    |
-[   46.353776] cloud-init[404]: |=Eo+=   ..   o.  |
-[   46.354277] cloud-init[404]: +----[SHA256]-----+
-[   46.354526] cloud-init[404]: Generating public/private ed25519 key pair.
-[   46.354790] cloud-init[404]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
-[   46.355291] cloud-init[404]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
-[   46.355551] cloud-init[404]: The key fingerprint is:
-[   46.355809] cloud-init[404]: SHA256:6nSzINsBL0GYfuGCZjvdTPDWyAJq3I7hspxtFgMW/qo root@arch-vm
-[   46.356317] cloud-init[404]: The key's randomart image is:
-[   46.356562] cloud-init[404]: +--[ED25519 256]--+
-[   46.356825] cloud-init[404]: |                 |
-[   46.357328] cloud-init[404]: | . o             |
-[   46.357579] cloud-init[404]: |..+.o            |
-[   46.357842] cloud-init[404]: |o*oo+.o          |
-[   46.358341] cloud-init[404]: |+*=o=* .S        |
-[   46.358593] cloud-init[404]: |= ***+ .         |
-[   46.358853] cloud-init[404]: |.=.o=o* o        |
-[   46.359353] cloud-init[404]: |oo+o B + o       |
-[   46.359606] cloud-init[404]: |Eoo.. o .        |
-[   46.359870] cloud-init[404]: +----[SHA256]-----+
+[   92.202791] cloud-init[400]: Cloud-init v. 26.2 finished at Sun, 01 Nov 2026 03:56:55 +0000. Datasource DataSourceNoCloud [seed=/dev/vdb].  Up 92.19 seconds
+[   92.205632] cloud-init[400]: Generating public/private rsa key pair.
+[   92.206632] cloud-init[400]: Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+[   92.207576] cloud-init[400]: Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+[   92.208064] cloud-init[400]: The key fingerprint is:
+[   92.208534] cloud-init[400]: SHA256:wkSlPKitoKfKBYzkUCTihVeAD3UmxgaAhCansr8CtiI root@arch-vm
+[   92.209604] cloud-init[400]: The key's randomart image is:
+[   92.210598] cloud-init[400]: +---[RSA 3072]----+
+[   92.211003] cloud-init[400]: |O+O*o+...        |
+[   92.211918] cloud-init[400]: |*B++++ .         |
+[   92.212815] cloud-init[400]: |+== . =          |
+[   92.213717] cloud-init[400]: |O  + o .         |
+[   92.214627] cloud-init[400]: |+=. . o S        |
+[   92.215514] cloud-init[400]: |+o..   .         |
+[   92.215953] cloud-init[400]: |+.+.             |
+[   92.216841] cloud-init[400]: |E+o              |
+[   92.217708] cloud-init[400]: |*o..             |
+[   92.218581] cloud-init[400]: +----[SHA256]-----+
+[   92.218982] cloud-init[400]: Generating public/private ecdsa key pair.
+[   92.219864] cloud-init[400]: Your identification has been saved in /etc/ssh/ssh_host_ecdsa_key
+[   92.220718] cloud-init[400]: Your public key has been saved in /etc/ssh/ssh_host_ecdsa_key.pub
+[   92.221559] cloud-init[400]: The key fingerprint is:
+[   92.221984] cloud-init[400]: SHA256:A5rVQJOgDlQI4Ub+OiPSgxTLxNHHdYIqH0xMcy9O83w root@arch-vm
+[   92.222867] cloud-init[400]: The key's randomart image is:
+[   92.223842] cloud-init[400]: +---[ECDSA 256]---+
+[   92.224766] cloud-init[400]: |+=*+o+*+ .       |
+[   92.225618] cloud-init[400]: |*..=o+o+o        |
+[   92.226526] cloud-init[400]: |.B+ o+o..        |
+[   92.226996] cloud-init[400]: |++++o+=.         |
+[   92.227913] cloud-init[400]: | ++.+. oSE       |
+[   92.228820] cloud-init[400]: |.o..    ..       |
+[   92.229679] cloud-init[400]: |++o              |
+[   92.230598] cloud-init[400]: |o o.             |
+[   92.231491] cloud-init[400]: |                 |
+[   92.231937] cloud-init[400]: +----[SHA256]-----+
+[   92.232808] cloud-init[400]: Generating public/private ed25519 key pair.
+[   92.233666] cloud-init[400]: Your identification has been saved in /etc/ssh/ssh_host_ed25519_key
+[   92.234545] cloud-init[400]: Your public key has been saved in /etc/ssh/ssh_host_ed25519_key.pub
+[   92.234998] cloud-init[400]: The key fingerprint is:
+[   92.235917] cloud-init[400]: SHA256:eBj4t6dnVCa6e1UdNxPSWplULWsEL+RP4RF61eonS/s root@arch-vm
+[   92.236799] cloud-init[400]: The key's randomart image is:
+[   92.237683] cloud-init[400]: +--[ED25519 256]--+
+[   92.238579] cloud-init[400]: |            oo*+X|
+[   92.239063] cloud-init[400]: |     .     o ++%+|
+[   92.239457] cloud-init[400]: |    . .     +.B==|
+[   92.239909] cloud-init[400]: |     . +  . o*= .|
+[   92.240776] cloud-init[400]: |      + S. + +.  |
+[   92.241648] cloud-init[400]: |       o... . + .|
+[   92.242599] cloud-init[400]: |        .o.. . = |
+[   92.243510] cloud-init[400]: |        .o+   o  |
+[   92.243985] cloud-init[400]: |        o=     .E|
+[   92.244871] cloud-init[400]: +----[SHA256]-----+
 P+q6E616D65\         Stopping [0;1;39mSession 5 of User tester[0m...
 [[0;32m  OK  [0m] Removed slice [0;1;39mSlice /system/dirmngr[0m.
 [[0;32m  OK  [0m] Removed slice [0;1;39mSlice /system/gpg-agent[0m.
@@ -408,7 +409,21 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Stopped target [0;1;39mRemote Verity Protected Volumes[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mSSH Access Available[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mTimer Units[0m.
-[[0;32m  OK  [0m] Stopped [0;1;39mRefresh existing PGP keys         Stopping [0;1;39mOpenSSH Daemon[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mRefresh existing PGP keys of archlinux-keyring regularly[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mDaily verification of password and group files[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mDaily Cleanup of Temporary Directories[0m.
+[[0;32m  OK  [0m] Closed [0;1;39mLoad/Save RF Kill Switch Status /dev/rfkill Watch[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mCloud-init: Final Stage[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mMulti-User System[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mLogin Prompts[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mVirtual Machines and Containers[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mCloud-init: Config Stage[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mCloud-config availability[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mNetwork is Online[0m.
+         Stopping [0;1;39mGetty on tty1[0m...
+         Starting [0;1;39mGenerate shutdown-ramfs[0m...
+         Stopping [0;1;39mSerial Getty on ttyS0[0m...
+         Stopping [0;1;39mOpenSSH Daemon[0m...
 [[0;32m  OK  [0m] Stopped [0;1;39mSave Transient machine-id to Disk[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mFirst Boot Complete[0m.
          Stopping [0;1;39mEnable Persistent Storage in systemd-networkd[0m...
@@ -417,7 +432,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Stopped [0;1;39mLoad udev Rules from Credentials[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mGetty on tty1[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mSerial Getty on ttyS0[0m.
-[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;end=260fa6845d60447a82f18[[0;32m  OK  [0m] Stopped [0;1;39mOpenSSH Daemon[0m.
+[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[[0;32m  OK  [0m] Stopped [0;1;39mOpenSSH Daemon[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mGenerate shutdown-ramfs[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mLoad/Save OS Random Seed[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mSession 5 of User tester[0m.
@@ -425,8 +440,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Removed slice [0;1;39mSlice /system/serial-getty[0m.
          Stopping [0;1;39mInitializes Pacman keyring[0m...
          Stopping [0;1;39mUser Manager for UID 1000[0m...
-[[0;32m  OK  [0m] Stopped [0;1;39mInitializes Pacman keyring[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mEnable Persistent Storage in systemd-networkd[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mInitializes Pacman keyring[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mSystem Time Synchronized[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mSystem Time Set[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mWait Until Kernel Time Synchronized[0m.
@@ -443,9 +458,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
          Stopping [0;1;39mUser Login Management[0m...
          Stopping [0;1;39mNetwork Management[0m...
 [[0;32m  OK  [0m] Stopped [0;1;39mLoad JSON user/group Records from Credentials[0m.
-[[0;32m  OK  [0m] Stopped [0;1;39mHome Area Activation[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mUser Login Management[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mNetwork Management[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mHome Area Activation[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mNetwork Management Resolve Hook Socket[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mPreparation for Network[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mCloud-init: Local Stage (pre-network)[0m.
@@ -484,7 +499,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Stopped target [0;1;39mLocal Verity Protected Volumes[0m.
          Stopping [0;1;39mKernel Core Pattern Register[0m...
 [[0;32m  OK  [0m] Stopped [0;1;39mInitial Setup[0m.
-[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;end=e7df3fb734324c4faf852dbbe62acd1f\[[0;32m  OK  [0m] Closed [0;1;39mHostname Service Socket[0m.
+[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;end=d170c8d9c93a4c7fb35f79ce8cca82a7\[[0;32m  OK  [0m] Closed [0;1;39mHostname Service Socket[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mConsole Output Muting Service Socket[0m.
          Stopping [0;1;39mNamespace Resource Manager[0m...
          Stopping [0;1;39mNetwork Time Synchronization[0m...
@@ -495,22 +510,22 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Stopped [0;1;39mNamespace Resource Manager[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mNetwork Time Synchronization[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mKernel Core Pattern Register[0m.
-[[0;32m  OK  [0m] Stopped [0;1;39mRecord System Boot/Shutdown in UTMP[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mNamespace Resource Manager Socket[0m.
          Stopping [0;1;39mNetwork Name Resolution[0m...
-[[0;32m  OK  [0m] Stopped [0;1;39mCreate System Files and Directories[0m.
          Stopping [0;1;39mListen Kernel Core Dump Socket[0m...
 [[0;32m  OK  [0m] Stopped [0;1;39mListen Kernel Core Dump Socket[0m.
-[[0;32m  OK  [0m] Stopped target [0;1;39mLocal File Systems[0m.
-         Unmounting [0;1;39mEFI System Partition Automount[0m...
-         Unmounting [0;1;39mTemporary Directory /tmp[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mRecord System Boot/Shutdown in UTMP[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mNetwork Name Resolution[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mResolve Monitor Varlink Socket[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mResolve Service Varlink Socket[0m.
 [[0;32m  OK  [0m] Stopped [0;1;39mApply Kernel Variables[0m.
 [[0;32m  OK  [0m] Closed [0;1;39mProcess Core Dump Socket[0m.
-[[0;32m  OK  [0m] Unmounted [0;1;39mEFI System Partition Automount[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mCreate System Files and Directories[0m.
+[[0;32m  OK  [0m] Stopped target [0;1;39mLocal File Systems[0m.
+         Unmounting [0;1;39mEFI System Partition Automount[0m...
+         Unmounting [0;1;39mTemporary Directory /tmp[0m...
 [[0;32m  OK  [0m] Unmounted [0;1;39mTemporary Directory /tmp[0m.
+[[0;32m  OK  [0m] Unmounted [0;1;39mEFI System Partition Automount[0m.
 [[0;32m  OK  [0m] Unset automount [0;1;39mEFI System Partition Automount[0m.
 [[0;32m  OK  [0m] Stopped target [0;1;39mSwaps[0m.
          Deactivating swap [0;1;39m/swap/swapfile[0m...
@@ -527,10 +542,10 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Reached target [0;1;39mLate Shutdown Services[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mSystem Reboot[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSystem Reboot[0m.
-[   79.983572] watchdog: watchdog0: watchdog did not stop!
-]3008;end=e5d92125099f44cbb6226c03635cc626\[   80.063560] watchdog: watchdog0: watchdog did not stop!
-[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J[   80.964905] watchdog: watchdog0: watchdog did not stop!
-[   80.971170] reboot: Restarting system
+[  129.329298] watchdog: watchdog0: watchdog did not stop!
+]3008;end=7bf1fba9886f4ed197231f6695af0379\[  129.417680] watchdog: watchdog0: watchdog did not stop!
+[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J[  130.506228] watchdog: watchdog0: watchdog did not stop!
+[  130.515899] reboot: Restarting system
 [H[J[1;1H[?25l[m[H[J[1;1H[2;28HGNU GRUB  version 2:2.16-1
 
 [m[4;2H+----------------------------------------------------------------------------+[5;2H|[5;79H|[6;2H|[6;79H|[7;2H|[7;79H|[8;2H|[8;79H|[9;2H|[9;79H|[10;2H|[10;79H|[11;2H|[11;79H|[12;2H|[12;79H|[13;2H|[13;79H|[14;2H|[14;79H|[15;2H|[15;79H|[16;2H|[16;79H|[17;2H+----------------------------------------------------------------------------+[m[18;2H[19;2H[m     Use the ^ and v keys to select which entry is highlighted.          
@@ -539,9 +554,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 
 Loading Linux linux ...
 Loading initial ramdisk ...
-[    0.187581] virt/tdx: TDX not supported by the host platform
+[    0.180117] virt/tdx: TDX not supported by the host platform
 P+q6E616D65\[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J[0;1;39mBooting initrd of [0m[38;2;23;147;209mArch Linux[0m[0;1;39m.[0m
-]3008;start=a055764a94304ec58c0452b104260697;user=root;hostname=archlinux;machineid=11a97518dcb74b809b06eac4c88631ec;bootid=ac7aa4a8aa254086ae8e984aba3c10ce;pid=1;pidfdid=1;comm=systemd;type=boot\         Expecting device [0;1;39m/dev/disk/by-uuid…6c15-9d21-45be-a21b-c81a5423eac4[0m...
+]3008;start=554e00998e11422d825a3731f4e44763;user=root;hostname=archlinux;machineid=e605f17a47f94e0bb6fe187d5648c5ad;bootid=887c121630e24b45b3ad5217be01dd00;pid=1;pidfdid=1;comm=systemd;type=boot\         Expecting device [0;1;39m/dev/disk/by-uuid…6c15-9d21-45be-a21b-c81a5423eac4[0m...
 [[0;32m  OK  [0m] Reached target [0;1;39mPath Units[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSlice Units[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mSwaps[0m.
@@ -570,10 +585,10 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Found device [0;1;39m/dev/disk/by-uuid/86a96c15-9d21-45be-a21b-c81a5423eac4[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mInitrd Root Device[0m.
          Starting [0;1;39mFile System Check on /dev…6c15-9d21-45be-a21b-c81a5423eac4[0m...
+[[0;32m  OK  [0m] Finished [0;1;39mFile System Check on /dev…a96c15-9d21-45be-a21b-c81a5423eac4[0m.
          Starting [0;1;39mVirtual Console Setup[0m...
 [[0;32m  OK  [0m] Stopped [0;1;39mVirtual Console Setup[0m.
          Starting [0;1;39mVirtual Console Setup[0m...
-[[0;32m  OK  [0m] Finished [0;1;39mFile System Check on /dev…a96c15-9d21-45be-a21b-c81a5423eac4[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mVirtual Console Setup[0m.
          Mounting [0;1;39m/sysroot[0m...
 [[0;32m  OK  [0m] Mounted [0;1;39m/sysroot[0m.
@@ -610,7 +625,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 P+q6E616D65\[18t7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J
 [0;1;39mWelcome to [0m[38;2;23;147;209mArch Linux[0m[0;1;39m![0m
 
-]3008;start=581ba58e9989461d8d3125aa11ac15fb;user=root;hostname=arch-vm;machineid=21a239361545486f80e5f95e70b71e63;bootid=ac7aa4a8aa254086ae8e984aba3c10ce;pid=1;pidfdid=1;comm=systemd;type=boot\[[0;32m  OK  [0m] Stopped [0;1;39mSwitch Root[0m.
+]3008;start=2ccf14c03018400aaff774a382665891;user=root;hostname=arch-vm;machineid=53d246f9e06a42fb9a66ecb8cfe8cc4e;bootid=887c121630e24b45b3ad5217be01dd00;pid=1;pidfdid=1;comm=systemd;type=boot\[[0;32m  OK  [0m] Stopped [0;1;39mSwitch Root[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/dirmngr[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/getty[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mSlice /system/gpg-agent[0m.
@@ -682,9 +697,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Reached target [0;1;39mLocal Encrypted Volumes[0m.
          Starting [0;1;39mLoad udev Rules from Credentials[0m...
          Starting [0;1;39mColdplug All udev Devices[0m...
+[[0;32m  OK  [0m] Started [0;1;39mJournal Service[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mHuge Pages File System[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mPOSIX Message Queue File System[0m.
-[[0;32m  OK  [0m] Started [0;1;39mJournal Service[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mKernel Debug File System[0m.
 [[0;32m  OK  [0m] Mounted [0;1;39mKernel Trace File System[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mCreate List of Static Device Nodes[0m.
@@ -703,12 +718,12 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Finished [0;1;39mLoad/Save OS Random Seed[0m.
          Starting [0;1;39mUser Database Manager[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mFlush Journal to Persistent Storage[0m.
-[[0;32m  OK  [0m] Finished [0;1;39mColdplug All udev Devices[0m.
 [[0;32m  OK  [0m] Started [0;1;39mUser Database Manager[0m.
          Starting [0;1;39mLoad Kernel Module overlay[0m...
          Starting [0;1;39mLoad Kernel Module tun[0m...
-[[0;32m  OK  [0m] Finished [0;1;39mLoad Kernel Module tun[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mLoad Kernel Module overlay[0m.
+[[0;32m  OK  [0m] Finished [0;1;39mLoad Kernel Module tun[0m.
+[[0;32m  OK  [0m] Finished [0;1;39mColdplug All udev Devices[0m.
          Starting [0;1;39mNamespace Resource Manager[0m...
          Mounting [0;1;39mTemporary Directory /tmp[0m...
 [[0;32m  OK  [0m] Mounted [0;1;39mTemporary Directory /tmp[0m.
@@ -748,8 +763,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
          Starting [0;1;39mRebuild Dynamic Linker Cache[0m...
          Starting [0;1;39mRebuild Journal Catalog[0m...
          Starting [0;1;39mRecord System Boot/Shutdown in UTMP[0m...
-[[0;32m  OK  [0m] Started [0;1;39mListen Kernel Core Dump Socket[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mRecord System Boot/Shutdown in UTMP[0m.
+[[0;32m  OK  [0m] Started [0;1;39mListen Kernel Core Dump Socket[0m.
          Starting [0;1;39mKernel Core Pattern Register[0m...
 [[0;32m  OK  [0m] Finished [0;1;39mRebuild Journal Catalog[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mKernel Core Pattern Register[0m.
@@ -786,7 +801,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Started [0;1;39mUser Login Management[0m.
 [[0;32m  OK  [0m] Started [0;1;39mCloud-init: Single Process[0m.
          Starting [0;1;39mCloud-init: Local Stage (pre-network)[0m...
-[    8.370252] cloud-init[398]: Cloud-init v. 26.2 running 'init-local' at Sun, 01 Nov 2026 03:22:29 +0000. Up 8.35 seconds.
+[   10.925740] cloud-init[399]: Cloud-init v. 26.2 running 'init-local' at Sun, 01 Nov 2026 03:57:48 +0000. Up 10.90 seconds.
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Local Stage (pre-network)[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mPreparation for Network[0m.
 [[0;32m  OK  [0m] Listening on [0;1;39mNetwork Management Resolve Hook Socket[0m.
@@ -799,33 +814,33 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
 [[0;32m  OK  [0m] Finished [0;1;39mEnable Persistent Storage in systemd-networkd[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mWait for Network to be Online[0m.
          Starting [0;1;39mCloud-init: Network Stage[0m...
-[   10.659895] cloud-init[398]: Cloud-init v. 26.2 running 'init' at Sun, 01 Nov 2026 03:22:31 +0000. Up 10.65 seconds.
-[   10.669246] cloud-init[398]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
-[   10.671345] cloud-init[398]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.673328] cloud-init[398]: ci-info: | Device |  Up  |          Address           |      Mask     | Scope  |     Hw-Address    |
-[   10.675320] cloud-init[398]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.677290] cloud-init[398]: ci-info: |  eth0  | True |         10.0.2.15          | 255.255.255.0 | global | 52:54:00:12:34:56 |
-[   10.679240] cloud-init[398]: ci-info: |  eth0  | True | fe80::5054:ff:fe12:3456/64 |       .       |  link  | 52:54:00:12:34:56 |
-[   10.681224] cloud-init[398]: ci-info: |   lo   | True |         127.0.0.1          |   255.0.0.0   |  host  |         .         |
-[   10.683167] cloud-init[398]: ci-info: |   lo   | True |          ::1/128           |       .       |  host  |         .         |
-[   10.685144] cloud-init[398]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
-[   10.687098] cloud-init[398]: ci-info: ++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++
-[   10.688843] cloud-init[398]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.690552] cloud-init[398]: ci-info: | Route | Destination | Gateway  |     Genmask     | Interface | Flags |
-[   10.692245] cloud-init[398]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.694275] cloud-init[398]: ci-info: |   0   |   0.0.0.0   | 10.0.2.2 |     0.0.0.0     |    eth0   |   UG  |
-[   10.696307] cloud-init[398]: ci-info: |   1   |   10.0.2.0  | 0.0.0.0  |  255.255.255.0  |    eth0   |   U   |
-[   10.698059] cloud-init[398]: ci-info: |   2   |   10.0.2.2  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
-[   10.699750] cloud-init[398]: ci-info: |   3   |   10.0.2.3  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
-[   10.701430] cloud-init[398]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
-[   10.703458] cloud-init[398]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
-[   10.705105] cloud-init[398]: ci-info: +-------+-------------+---------+-----------+-------+
-[   10.706532] cloud-init[398]: ci-info: | Route | Destination | Gateway | Interface | Flags |
-[   10.707937] cloud-init[398]: ci-info: +-------+-------------+---------+-----------+-------+
-[   10.709303] cloud-init[398]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
-[   10.710729] cloud-init[398]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
-[   10.712158] cloud-init[398]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
-[   10.713559] cloud-init[398]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.130609] cloud-init[399]: Cloud-init v. 26.2 running 'init' at Sun, 01 Nov 2026 03:57:50 +0000. Up 13.12 seconds.
+[   13.141324] cloud-init[399]: ci-info: ++++++++++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++++++++
+[   13.144609] cloud-init[399]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.147704] cloud-init[399]: ci-info: | Device |  Up  |          Address           |      Mask     | Scope  |     Hw-Address    |
+[   13.150759] cloud-init[399]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.154126] cloud-init[399]: ci-info: |  eth0  | True |         10.0.2.15          | 255.255.255.0 | global | 52:54:00:12:34:56 |
+[   13.157530] cloud-init[399]: ci-info: |  eth0  | True | fe80::5054:ff:fe12:3456/64 |       .       |  link  | 52:54:00:12:34:56 |
+[   13.160810] cloud-init[399]: ci-info: |   lo   | True |         127.0.0.1          |   255.0.0.0   |  host  |         .         |
+[   13.164285] cloud-init[399]: ci-info: |   lo   | True |          ::1/128           |       .       |  host  |         .         |
+[   13.167266] cloud-init[399]: ci-info: +--------+------+----------------------------+---------------+--------+-------------------+
+[   13.170246] cloud-init[399]: ci-info: ++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++
+[   13.172797] cloud-init[399]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.175478] cloud-init[399]: ci-info: | Route | Destination | Gateway  |     Genmask     | Interface | Flags |
+[   13.178067] cloud-init[399]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.180647] cloud-init[399]: ci-info: |   0   |   0.0.0.0   | 10.0.2.2 |     0.0.0.0     |    eth0   |   UG  |
+[   13.183672] cloud-init[399]: ci-info: |   1   |   10.0.2.0  | 0.0.0.0  |  255.255.255.0  |    eth0   |   U   |
+[   13.186222] cloud-init[399]: ci-info: |   2   |   10.0.2.2  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
+[   13.188710] cloud-init[399]: ci-info: |   3   |   10.0.2.3  | 0.0.0.0  | 255.255.255.255 |    eth0   |   UH  |
+[   13.191772] cloud-init[399]: ci-info: +-------+-------------+----------+-----------------+-----------+-------+
+[   13.195222] cloud-init[399]: ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+[   13.197648] cloud-init[399]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.200669] cloud-init[399]: ci-info: | Route | Destination | Gateway | Interface | Flags |
+[   13.203540] cloud-init[399]: ci-info: +-------+-------------+---------+-----------+-------+
+[   13.206387] cloud-init[399]: ci-info: |   0   |  fe80::/64  |    ::   |    eth0   |   U   |
+[   13.209192] cloud-init[399]: ci-info: |   2   |    local    |    ::   |    eth0   |   U   |
+[   13.212146] cloud-init[399]: ci-info: |   3   |  multicast  |    ::   |    eth0   |   U   |
+[   13.214980] cloud-init[399]: ci-info: +-------+-------------+---------+-----------+-------+
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Network Stage[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mCloud-config availability[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mNetwork is Online[0m.
@@ -835,7 +850,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
          Starting [0;1;39mLight Display Manager[0m...
 [[0;32m  OK  [0m] Started [0;1;39mSerial Getty on ttyS0[0m.
 [[0;32m  OK  [0m] Reached target [0;1;39mLogin Prompts[0m.
-[   10.892701] cloud-init[398]: Cloud-init v. 26.2 running 'modules:config' at Sun, 01 Nov 2026 03:22:31 +0000. Up 10.87 seconds.
+[   13.363994] cloud-init[399]: Cloud-init v. 26.2 running 'modules:config' at Sun, 01 Nov 2026 03:57:50 +0000. Up 13.34 seconds.
 [[0;32m  OK  [0m] Finished [0;1;39mCloud-init: Config Stage[0m.
 [[0;32m  OK  [0m] Started [0;1;39mLight Display Manager[0m.
 [[0;32m  OK  [0m] Created slice [0;1;39mUser Slice of UID 1000[0m.
@@ -844,12 +859,12 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvKkJrJs75IO/j+FT2+PGHrF17kA+wxthodJ8PVorg
          Starting [0;1;39mUser Manager for UID 1000[0m...
 [[0;32m  OK  [0m] Started [0;1;39mUser Manager for UID 1000[0m.
 [[0;32m  OK  [0m] Started [0;1;39mSession 1 of User tester[0m.
-         Starting [0;1;39mAuthorization Manager[0m...
          Starting [0;1;39mDaemon for power management[0m...
+         Starting [0;1;39mAuthorization Manager[0m...
 [[0;32m  OK  [0m] Started [0;1;39mAuthorization Manager[0m.
 [[0;32m  OK  [0m] Started [0;1;39mDaemon for power management[0m.
-[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;start=1ecd7b7540c24a64ab720508d42dfffe;user=root;hostname=arch-vm;machineid=21a239361545486f80e5f95e70b71e63;bootid=ac7aa4a8aa254086ae8e984aba3c10ce;pid=467;pidfdid=4216;comm=(agetty);servicename=serial-getty@ttyS0.service;invocationid=1393568f49b343cb8ad8640170bfba9f;type=service\P+q6E616D65\
+[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8[!p]104\[0m[?7h[1G[0J7[32766;32766H[6n8]3008;start=df804711af594f70b8c7a1e9943a01cb;user=root;hostname=arch-vm;machineid=53d246f9e06a42fb9a66ecb8cfe8cc4e;bootid=887c121630e24b45b3ad5217be01dd00;pid=468;pidfdid=4245;comm=(agetty);servicename=serial-getty@ttyS0.service;invocationid=fe33a573073d4fa1a58be894fb936208;type=service\P+q6E616D65\
 Arch Linux 7.2.11-arch1-1 (ttyS0)
 
-arch-vm login: [   82.577967] cloud-init[398]: Cloud-init v. 26.2 running 'modules:final' at Sun, 01 Nov 2026 03:23:43 +0000. Up 82.56 seconds.
-[   82.605613] cloud-init[398]: Cloud-init v. 26.2 finished at Sun, 01 Nov 2026 03:23:43 +0000. Datasource DataSourceNoCloud [seed=/dev/vdb].  Up 82.60 seconds
+arch-vm login: [   44.332836] cloud-init[399]: Cloud-init v. 26.2 running 'modules:final' at Sun, 01 Nov 2026 03:58:21 +0000. Up 44.31 seconds.
+[   44.359982] cloud-init[399]: Cloud-init v. 26.2 finished at Sun, 01 Nov 2026 03:58:21 +0000. Datasource DataSourceNoCloud [seed=/dev/vdb].  Up 44.35 seconds

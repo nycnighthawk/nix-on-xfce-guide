@@ -52,9 +52,9 @@ Neovim option tested: A
 | dev shell: python from .venv, pyright, ruff | PASS |
 | pip refuses to install outside a venv | PASS |
 | pyright attaches in the project | PASS |
-| nix search finds neovim | FAIL |
+| nix search finds neovim | PASS |
 | roll forward again | PASS |
 | page's nix.gc snippet builds and installs a timer: nix.gc = { automatic = true; dates = "weekly"; options = "--delete-older-than 30d"; }; | PASS |
 | original ~/.bashrc restored after uninstall | PASS |
 
-**44 passed, 1 failed**
+**45 passed, 0 failed**

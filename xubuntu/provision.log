@@ -45,7 +45,7 @@ Get:43 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 Comp
 Get:44 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 c-n-f Metadata [120 B]
 Get:45 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 Components [216 B]
 Get:46 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 c-n-f Metadata [120 B]
-Fetched 31.7 MB in 4s (8290 kB/s)
+Fetched 31.7 MB in 5s (7037 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -144,7 +144,7 @@ Get:46 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 linux-tools-
 Get:47 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 thermald amd64 2.5.11-0ubuntu1.1 [221 kB]
 Get:48 http://archive.ubuntu.com/ubuntu resolute/main amd64 upower amd64 1.91.1-1 [101 kB]
 Get:49 http://archive.ubuntu.com/ubuntu resolute/main amd64 usbmuxd amd64 1.1.1-7 [42.1 kB]
-Fetched 932 MB in 6s (163 MB/s)
+Fetched 932 MB in 11s (87.0 MB/s)
 Selecting previously unselected package firmware-sof-signed.
 (Reading database ... 
 (Reading database ... 5%
@@ -387,9 +387,9 @@ Systems on them will not be added to the GRUB boot configuration.
 Check GRUB_DISABLE_OS_PROBER documentation entry.
 Adding boot menu entry for UEFI Firmware Settings ...
 done
-Hit:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu resolute InRelease
-Hit:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:3 http://security.ubuntu.com/ubuntu resolute-security InRelease
 Hit:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
 Reading package lists...
 Reading package lists...
@@ -1369,7 +1369,7 @@ Get:636 http://archive.ubuntu.com/ubuntu resolute/main amd64 liblouisutdml-bin a
 Get:637 http://archive.ubuntu.com/ubuntu resolute/main amd64 mobile-broadband-provider-info all 20251101-1build1 [65.9 kB]
 Get:638 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 xserver-xorg-legacy amd64 2:21.1.22-1ubuntu1.3 [37.4 kB]
 Preconfiguring packages ...
-Fetched 391 MB in 7s (58.8 MB/s)
+Fetched 391 MB in 10s (39.6 MB/s)
 Selecting previously unselected package libaccountsservice0:amd64.
 (Reading database ... 
 (Reading database ... 5%
