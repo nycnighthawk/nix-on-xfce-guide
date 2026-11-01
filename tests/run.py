@@ -408,6 +408,17 @@ def run_guide(steps):
         rc, s, lg = terminal(t, code)
         shots = [s]
         status = "PASS" if rc == 0 else "FAIL"
+        if rc != 0 and t.startswith("Open a new terminal and verify"):
+            check("diagnostics: how a new terminal's bash is set up after installing",
+                  "echo \"--- bash: $BASH_VERSION\"; ls -la /etc/bash.bashrc /etc/bash/bashrc /etc/bashrc /etc/profile.d/nix.sh 2>&1; "
+                  "echo '--- head /etc/bash.bashrc'; head -12 /etc/bash.bashrc; echo '--- PATH in a new terminal'; echo $PATH; "
+                  "echo '--- __ETC_PROFILE_NIX_SOURCED='$__ETC_PROFILE_NIX_SOURCED; echo '--- strings'; "
+                  "strings $(command -v bash) | grep -E '^/etc/bash' | head", lambda rc, o: True, step=step)
+            relogin()
+            rc2, s2, lg2 = terminal(t + " (after logging out and back in)", code)
+            shots.append(s2)
+            note = "first try: nix not found in a new terminal; worked after logging out and back in, as the page advises"
+            status, rc, lg = ("PASS" if rc2 == 0 else "FAIL"), rc2, lg + "\n--- after re-login ---\n" + lg2
         for f in files:   # option B: nvim.nix after the mv block
             path = f"{hm}/{f['label']}"
             rc2, s2, _ = terminal(f"{t}: {path}", f"cat > {path} <<'GUIDE_EOF'\n{f['text']}GUIDE_EOF\n")
@@ -470,7 +481,7 @@ def after(step):
                   "cd ~/code/myproject && direnv exec . nvim --headless main.py -c 'luafile /tmp/lsp.lua' 2>&1",
                   lambda rc, o: "pyright" in o, step=step, timeout=180)
     if t.startswith("One-off tools"):
-        check("nix search finds neovim", "nix search nixpkgs '^neovim$' 2>/dev/null", lambda rc, o: rc == 0 and "legacyPackages.x86_64-linux.neovim " in o, step=step, timeout=1200)
+        check("nix search finds neovim", "nix search nixpkgs '^neovim$' 2>/dev/null", lambda rc, o: rc == 0 and "legacyPackages.x86_64-linux.neovim " in re.sub(r"\x1b\[[0-9;]*m", "", o), step=step, timeout=1200)
     if t.startswith("Roll back"):
         check("roll forward again", f"cd {hm} && home-manager switch --flake .#tester >/dev/null && echo ok", step=step, timeout=1200)
     if t.startswith("Reclaim disk space"):
