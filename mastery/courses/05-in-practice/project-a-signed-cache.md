@@ -257,7 +257,7 @@ nix build .#good --no-link --max-jobs 0
 ```
 
 ```text expect
-Unable to start any build
+local builds are disabled (max-jobs = 0)
 ```
 
 Normal users may pass `--extra-substituters`, but the daemon uses a URL from a normal user only

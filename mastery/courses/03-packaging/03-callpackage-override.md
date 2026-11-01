@@ -273,6 +273,9 @@ rec {
   ghello = hello.overrideAttrs (finalAttrs: prevAttrs: {
     pname = "ghello";
     configureFlags = prevAttrs.configureFlags ++ [ "--program-prefix=g" ];
+    # hello's own test suite runs the program as `hello`, so it can't pass once the binary is
+    # renamed; the version checks below still test the renamed program.
+    doCheck = false;
     meta = prevAttrs.meta // { mainProgram = "ghello"; };
   });
 }

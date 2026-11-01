@@ -176,7 +176,7 @@ arguments are documented in `pkgs/build-support/setup-hooks/make-wrapper.sh`:
   makeWrapper,
   bash,
   hello,
-  wrap ? true,
+  withWrapper ? true,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -197,7 +197,7 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
-  postInstall = lib.optionalString wrap ''
+  postInstall = lib.optionalString withWrapper ''
     wrapProgram $out/bin/greet-twice --prefix PATH : ${lib.makeBinPath [ hello ]}
   '';
 
@@ -217,9 +217,15 @@ rec {
   hardwired = pkgs.callPackage ./hardwired.nix { };
   broken-substitution = hardwired.override { pattern = "hullo --greeting"; };
   wrapped = pkgs.callPackage ./wrapped.nix { };
-  unwrapped = wrapped.override { wrap = false; };
+  unwrapped = wrapped.override { withWrapper = false; };
 }
 ```
+
+> **Name optional arguments `withX`/`enableX`.** `callPackage` fills *every* argument whose name
+> matches an attribute of `pkgs` — defaults are only used when nothing matches. Name the flag
+> `wrap` and you get nixpkgs' `wrap` package (a Go program) instead of `true`, and evaluation
+> fails with `expected a Boolean but found a set`. (This lesson hit exactly that in CI.) nixpkgs
+> avoids it by convention: `withWrapper`, `enableTests`, `withNls`.
 
 ### The patch
 
@@ -486,7 +492,7 @@ to the name `Nixer`, while still letting a caller's `GREET_NAME` win. Check both
   makeWrapper,
   bash,
   hello,
-  wrap ? true,
+  withWrapper ? true,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -507,7 +513,7 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
-  postInstall = lib.optionalString wrap ''
+  postInstall = lib.optionalString withWrapper ''
     wrapProgram $out/bin/greet-twice \
       --prefix PATH : ${lib.makeBinPath [ hello ]} \
       --set-default GREET_NAME Nixer

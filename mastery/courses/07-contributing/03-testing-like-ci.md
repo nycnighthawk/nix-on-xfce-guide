@@ -167,11 +167,13 @@ The test runs `rot13`, so inside the test it is a `nativeBuildInputs` entry (les
 Wire the directory up with nixpkgs' by-name overlay, exactly as a checkout does:
 
 ```nix file=default.nix
+# A function, like nixpkgs' own default.nix: `import ./. { }` and `nix-build -A` both work
+{ overlays ? [ ] }:
 let
   nixpkgs = import ./nixpkgs.nix;
   byName = import ((nixpkgs { }).path + "/pkgs/top-level/by-name-overlay.nix") ./pkgs/by-name;
 in
-nixpkgs { overlays = [ byName ]; }
+nixpkgs { overlays = [ byName ] ++ overlays; }
 ```
 
 ```bash

@@ -125,12 +125,14 @@ writeShellApplication {
 `default.nix` that applies nixpkgs' own `by-name-overlay.nix` to `./pkgs/by-name`:
 
 ```nix file=default.nix
+# A function, like nixpkgs' own default.nix: `import ./. { }` and `nix-build -A` both work
+{ overlays ? [ ] }:
 let
   nixpkgs = import ./nixpkgs.nix;
   # nixpkgs' own by-name overlay, pointed at our directory instead of theirs
   byName = import ((nixpkgs { }).path + "/pkgs/top-level/by-name-overlay.nix") ./pkgs/by-name;
 in
-nixpkgs { overlays = [ byName ]; }
+nixpkgs { overlays = [ byName ] ++ overlays; }
 ```
 
 ```bash

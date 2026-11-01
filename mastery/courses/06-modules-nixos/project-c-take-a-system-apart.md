@@ -155,7 +155,7 @@ path, the modules that define it, and the files that set the options those modul
 inside nixpkgs are shown relative to nixpkgs:
 
 ```nix file=trace.nix
-# Usage: nix eval --json --file trace.nix --argstr host box --argstr name hostname
+# Usage: nix-instantiate --eval --strict --json trace.nix --argstr host box --argstr name hostname
 { host, name }:
 let
   flake = builtins.getFlake (toString ./.);
@@ -181,7 +181,7 @@ in
 ```
 
 ```bash
-nix eval --json --file trace.nix --argstr host box --argstr name hostname
+nix-instantiate --eval --strict --json trace.nix --argstr host box --argstr name hostname
 ```
 
 ```text expect
@@ -214,7 +214,7 @@ with `writeText "etc-hostname"` → the `etc` derivation links it → `gen1/etc/
 Your own file traces to your own module:
 
 ```bash
-nix eval --json --file trace.nix --argstr host box --argstr name greeting.txt
+nix-instantiate --eval --strict --json trace.nix --argstr host box --argstr name greeting.txt
 ```
 
 ```text expect
@@ -287,8 +287,8 @@ set -e
 [ "$(cat gen1/etc/hostname)" = "box" ]
 nix why-depends ./gen2 "$hello" > /dev/null
 nix why-depends ./gen1 "$hello" 2>&1 | grep -q "does not depend on"
-nix eval --json --file trace.nix --argstr host box --argstr name hostname | grep -q network-interfaces.nix
-nix eval --json --file trace.nix --argstr host box2 --argstr name greeting.txt | grep -q gen2.nix
+nix-instantiate --eval --strict --json trace.nix --argstr host box --argstr name hostname | grep -q network-interfaces.nix
+nix-instantiate --eval --strict --json trace.nix --argstr host box2 --argstr name greeting.txt | grep -q gen2.nix
 nix store diff-closures ./gen1 ./gen2 | grep -q 'hello: ∅ → 2.12.3'
 echo "PROJECT 06c OK"
 ```
@@ -300,7 +300,7 @@ PROJECT 06c OK
 Look at the fifth check more closely:
 
 ```bash
-nix eval --json --file trace.nix --argstr host box2 --argstr name greeting.txt
+nix-instantiate --eval --strict --json trace.nix --argstr host box2 --argstr name greeting.txt
 ```
 
 ```text expect
