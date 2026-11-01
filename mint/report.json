@@ -1,0 +1,10 @@
+{
+ "distro": "mint",
+ "nvim_option": "B",
+ "steps": [],
+ "checks": [],
+ "started": 1793500540.4184432,
+ "error": "Traceback (most recent call last):\n  File \"/home/runner/work/nix-on-xfce-guide/nix-on-xfce-guide/tests/run.py\", line 518, in <module>\n    main()\n  File \"/home/runner/work/nix-on-xfce-guide/nix-on-xfce-guide/tests/run.py\", line 504, in main\n    raise RuntimeError(\"provisioning failed (see provision.log)\")\nRuntimeError: provisioning failed (see provision.log)\n",
+ "finished": 1793500745.8026843,
+ "elapsed_min": 3.4
+}

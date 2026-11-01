@@ -1,0 +1,477 @@
+{
+ "distro": "arch",
+ "nvim_option": "A",
+ "steps": [
+  {
+   "idx": 2,
+   "section": "install",
+   "title": "Install Arch's native package",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/002-install-arch-s-native-package.png"
+   ],
+   "note": "--noconfirm answers pacman's [Y/n]",
+   "log_tail": ".0.2-1-x86_64 downloading...\n libsodium-1.0.22-1-x86_64 downloading...\n aws-c-http-1.0.0-1-x86_64 downloading...\n aws-c-mqtt-1.0.0-1-x86_64 downloading...\n nlohmann-json-3.12.0-2-any downloading...\n aws-c-s3-1.3.0-1-x86_64 downloading...\n aws-c-io-1.0.0-1-x86_64 downloading...\n libcpuid-0.8.2-1-x86_64 downloading...\n zlib-ng-2.3.3-1-x86_64 downloading...\n aws-c-auth-1.0.0-1-x86_64 downloading...\n aws-checksums-1.0.1-1-x86_64 downloading...\n perl-timedate-2.35-1-any downloading...\n perl-mailtools-2.22-3-any downloading...\n aws-c-sdkutils-1.0.0-1-x86_64 downloading...\n aws-c-event-stream-1.0.0-1-x86_64 downloading...\n aws-c-cal-1.0.0-1-x86_64 downloading...\n editline-2.1.0-1-x86_64 downloading...\n llhttp-9.3.1-1-x86_64 downloading...\n libblake3-1.8.7-1-x86_64 downloading...\n perl-error-0.17031-1-any downloading...\n aws-c-compression-1.0.0-1-x86_64 downloading...\nchecking keyring...\nchecking package integrity...\nloading package files...\nchecking for file conflicts...\nchecking available disk space...\n:: Processing package changes...\ninstalling aws-c-common...\ninstalling aws-c-cal...\ninstalling aws-c-compression...\ninstalling s2n-tls...\ninstalling aws-c-io...\ninstalling aws-c-http...\ninstalling aws-c-sdkutils...\ninstalling aws-c-auth...\ninstalling aws-checksums...\ninstalling aws-c-event-stream...\ninstalling aws-c-mqtt...\ninstalling aws-c-s3...\ninstalling aws-crt-cpp...\ninstalling boost-libs...\nOptional dependencies for boost-libs\n    openmpi: for mpi support\ninstalling editline...\n\nThe man page has been renamed to editline-troglobit\nto avoid conflicting with libedit's man page.\n\ninstalling gc...\ninstalling hwloc...\nOptional dependencies for hwloc\n    cairo: PDF, Postscript, and PNG export support [installed]\n    libxml2: full XML import/export support [installed]\ninstalling onetbb...\nOptional dependencies for onetbb\n    python: for Python module [installed]\ninstalling libblake3...\ninstalling libcpuid...\ninstalling llhttp...\ninstalling libgit2...\ninstalling libsodium...\ninstalling lowdown...\ninstalling nix-busybox...\ninstalling nlohmann-json...\ninstalling nix...\ninstalling db5.3...\ninstalling perl...\ninstalling perl-error...\ninstalling perl-timedate...\ninstalling perl-mailtools...\ninstalling zlib-ng...\ninstalling git...\nOptional dependencies for git\n    git-zsh-completion: upstream zsh completion\n    tk: gitk and git gui\n    openssh: ssh transport and crypto [installed]\n    man: show help with `git command --help`\n    perl-libwww: git svn\n    perl-term-readkey: git svn and interactive.singlekey setting\n    perl-io-socket-ssl: git send-email TLS support\n    perl-authen-sasl: git send-email TLS support\n    perl-cgi: gitweb (web interface) support\n    python: git svn & git p4 [installed]\n    subversion: git svn\n    org.freedesktop.secrets: keyring credential helper\n    libsecret: libsecret credential helper [installed]\n    less: the default pager for git\n:: Running post-transaction hooks...\n(1/6) Creating system user accounts...\nCreating group 'nixbld' with GID 965.\nCreating group 'git' with GID 964.\nCreating user 'git' (git daemon user) with UID 964 and GID 964.\nCreating user 'nixbld01' (Nix builder 01) with UID 963 and GID 965.\nCreating user 'nixbld02' (Nix builder 02) with UID 962 and GID 965.\nCreating user 'nixbld03' (Nix builder 03) with UID 961 and GID 965.\nCreating user 'nixbld04' (Nix builder 04) with UID 960 and GID 965.\nCreating user 'nixbld05' (Nix builder 05) with UID 959 and GID 965.\nCreating user 'nixbld06' (Nix builder 06) with UID 958 and GID 965.\nCreating user 'nixbld07' (Nix builder 07) with UID 957 and GID 965.\nCreating user 'nixbld08' (Nix builder 08) with UID 956 and GID 965.\nCreating user 'nixbld09' (Nix builder 09) with UID 955 and GID 965.\nCreating user 'nixbld10' (Nix builder 10) with UID 954 and GID 965.\n(2/6) Creating temporary files...\n(3/6) Reloading system manager configuration...\n(4/6) Arming ConditionNeedsUpdate...\n(5/6) Checking for old perl modules...\n(6/6) Updating the desktop file MIME type cache...\n"
+  },
+  {
+   "idx": 3,
+   "section": "install",
+   "title": "Enable the daemon and initialise the store",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/003-enable-the-daemon-and-initialise-the-store.png"
+   ],
+   "note": "",
+   "log_tail": "Created symlink '/etc/systemd/system/sockets.target.wants/nix-daemon.socket' \u2192 '/usr/lib/systemd/system/nix-daemon.socket'.\n\u25cf nix-daemon.socket - Nix Daemon Socket\n     Loaded: loaded (/usr/lib/systemd/system/nix-daemon.socket; enabled; preset: disabled)\n     Active: active (listening) since Sun 2026-11-01 02:38:54 UTC; 57ms ago\n Invocation: 4ca6253f2d1e47f9a0beb892e395e033\n   Triggers: \u25cf nix-daemon.service\n     Listen: /nix/var/nix/daemon-socket/socket (Stream)\n"
+  },
+  {
+   "idx": 4,
+   "section": "install",
+   "title": "Log out of Xfce and back in",
+   "status": "PASS",
+   "rc": null,
+   "shots": [
+    "shots/004-log-out-of-xfce-and-back-in.png"
+   ],
+   "note": "logged out and back in (LightDM restart)",
+   "log_tail": ""
+  },
+  {
+   "idx": 5,
+   "section": "install",
+   "title": "Open a new terminal and verify",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/005-open-a-new-terminal-and-verify.png"
+   ],
+   "note": "",
+   "log_tail": "nix (Nix) 2.35.4\n2\n"
+  },
+  {
+   "idx": 6,
+   "section": "config",
+   "title": "Write /etc/nix/nix.conf settings",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/006-write-etc-nix-nix-conf-settings.png"
+   ],
+   "note": "",
+   "log_tail": ""
+  },
+  {
+   "idx": 7,
+   "section": "config",
+   "title": "Restart the daemon and check",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/007-restart-the-daemon-and-check.png"
+   ],
+   "note": "",
+   "log_tail": "experimental-features = fetch-tree flakes nix-command\ntrusted-users = root tester\nunpacking 'https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst' into the Git cache...\nthese 15 paths will be fetched (29.2 MiB download, 106.9 MiB unpacked):\n  /nix/store/3hk1ngk4hsk4s53v2s7sg096irdania4-acl-2.4.0\n  /nix/store/pnwvsvwppd1lsamcxmiw6g7fp1k1g2j0-attr-2.6.0\n  /nix/store/nnm9gdr70ihc6zc9298mzz8jpcgaciql-bash-5.3p20\n  /nix/store/cb987zkxvsv0490753ilrvn5yk7ylgxi-coreutils-9.12\n  /nix/store/4lbicqd70qlfdw2l5wbq23c9qj1m5nww-cowsay-3.8.4\n  /nix/store/7a2cjhcgzyym5zaz6m4fksw47qvm150w-gcc-16.2.0-lib\n  /nix/store/3sj8msrsym648f35mk3gb3pp385hhk8r-gcc-16.2.0-libgcc\n  /nix/store/pqyiidz5mi73wv5f91d48s9plcqyj5bz-glibc-2.44-57\n  /nix/store/vs4bjcgq2r93adg875isf55hyn29dk09-gmp-with-cxx-6.3.0\n  /nix/store/00fs4zz9c0jjcvs62wg39b91dydz7zqb-libidn2-2.3.8\n  /nix/store/bx7jdvkba26sy20ryr4l617qqmzj9hff-libunistring-1.4.2\n  /nix/store/30qgvhl60m3lpnj99l3xjprk776qg3ik-libxcrypt-4.5.2\n  /nix/store/y1gmkixqpkfwayj9iqxn3c8brm6zkn1m-perl-5.42.3\n  /nix/store/pkkjnyk4z46n18fkyqwlg24p272apb69-xgcc-16.2.0-libgcc\n  /nix/store/ji36842higmp6b06hbbpmzbd59g1c07c-zlib-1.3.2\ncopying path '/nix/store/pkkjnyk4z46n18fkyqwlg24p272apb69-xgcc-16.2.0-libgcc' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bx7jdvkba26sy20ryr4l617qqmzj9hff-libunistring-1.4.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3sj8msrsym648f35mk3gb3pp385hhk8r-gcc-16.2.0-libgcc' from 'https://cache.nixos.org'...\ncopying path '/nix/store/00fs4zz9c0jjcvs62wg39b91dydz7zqb-libidn2-2.3.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pqyiidz5mi73wv5f91d48s9plcqyj5bz-glibc-2.44-57' from 'https://cache.nixos.org'...\ncopying path '/nix/store/nnm9gdr70ihc6zc9298mzz8jpcgaciql-bash-5.3p20' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3hk1ngk4hsk4s53v2s7sg096irdania4-acl-2.4.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ji36842higmp6b06hbbpmzbd59g1c07c-zlib-1.3.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/30qgvhl60m3lpnj99l3xjprk776qg3ik-libxcrypt-4.5.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pnwvsvwppd1lsamcxmiw6g7fp1k1g2j0-attr-2.6.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/7a2cjhcgzyym5zaz6m4fksw47qvm150w-gcc-16.2.0-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/vs4bjcgq2r93adg875isf55hyn29dk09-gmp-with-cxx-6.3.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/cb987zkxvsv0490753ilrvn5yk7ylgxi-coreutils-9.12' from 'https://cache.nixos.org'...\ncopying path '/nix/store/y1gmkixqpkfwayj9iqxn3c8brm6zkn1m-perl-5.42.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/4lbicqd70qlfdw2l5wbq23c9qj1m5nww-cowsay-3.8.4' from 'https://cache.nixos.org'...\n _____________\n< flakes work >\n -------------\n        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||\n"
+  },
+  {
+   "idx": 8,
+   "section": "hm",
+   "title": "Create the config repo",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/008-create-the-config-repo.png"
+   ],
+   "note": "",
+   "log_tail": "mkdir: cannot create directory \u2018/home/tester/.config/home-manager\u2019: Permission denied\nhint: Using 'master' as the name for the initial branch. This default branch name\nhint: will change to \"main\" in Git 3.0. To configure the initial branch name\nhint: to use in all of your new repositories, which will suppress this warning,\nhint: call:\nhint:\nhint: \tgit config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint: \tgit branch -m <name>\nhint:\nhint: Disable this message with \"git config set advice.defaultBranchName false\"\nInitialized empty Git repository in /home/tester/.git/\n"
+  },
+  {
+   "idx": 9,
+   "section": "hm",
+   "title": "Create flake.nix",
+   "status": "FAIL",
+   "rc": null,
+   "shots": [
+    "shots/009-create-flake-nix-config-home-manager-flake-nix.png"
+   ],
+   "note": "file written exactly as shown",
+   "log_tail": ""
+  },
+  {
+   "idx": 10,
+   "section": "hm",
+   "title": "Create home.nix",
+   "status": "FAIL",
+   "rc": null,
+   "shots": [
+    "shots/010-create-home-nix-config-home-manager-home-nix.png"
+   ],
+   "note": "file written exactly as shown",
+   "log_tail": ""
+  },
+  {
+   "idx": 11,
+   "section": "hm",
+   "title": "Create a placeholder nvim.nix",
+   "status": "FAIL",
+   "rc": 1,
+   "shots": [
+    "shots/011-create-a-placeholder-nvim-nix.png"
+   ],
+   "note": "",
+   "log_tail": "bash: /home/tester/.config/home-manager/nvim.nix: No such file or directory\n"
+  },
+  {
+   "idx": 12,
+   "section": "hm",
+   "title": "Bootstrap and switch",
+   "status": "FAIL",
+   "rc": 1,
+   "shots": [
+    "shots/012-bootstrap-and-switch.png"
+   ],
+   "note": "",
+   "log_tail": "from 'https://cache.nixos.org'...\ncopying path '/nix/store/bhv6xyvqw6gjs3j488gi1z6wdv18bdpa-coreutils-9.11' from 'https://cache.nixos.org'...\ncopying path '/nix/store/lzhb5kzy2ljhaasyx3fj8kb7aizqirnm-libgit2-1.9.7-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/9pvkf5pxxrd66zmx2d6vnavch61packw-libblake3-1.8.5' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3c08y11lb4zqk151f0j89zf83wwjvcqz-libarchive-3.8.9-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/z8fp2l0b1k64swd0dxpych445wpfcgb0-zstd-1.5.7-bin' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3kz2hypzh1f5x0v4jirzv8gmh41xzpaj-aws-c-io-0.27.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/q3lhcbjc0bxxiqnhcp2vslmn9mh3f256-curl-8.22.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/qms1wk1x5xbj2aal475s629mvd3dmm30-aws-c-event-stream-0.7.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/w4zvs3bl9rrgp5shd8c8ah0qyjry2cgc-aws-c-http-0.11.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/8lakgf27dgy0fxnn1zmijmpdpacajd30-aws-c-auth-0.9.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ywyfkyrq9whdgb8kwywhaqwrmfv1gbxj-aws-c-mqtt-0.13.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c4hal5azha13zashr1m6ijhlniqw342s-aws-c-s3-0.8.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/4yscyhm4p5f87h9ii28hk4bay2c4n1sq-aws-crt-cpp-0.34.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/aqq53g5lgr9n9hxzmbblpfzds5z067ca-diffutils-3.12' from 'https://cache.nixos.org'...\ncopying path '/nix/store/nl0wq6d4bpjrxmlax141liq0qr9z87gn-findutils-4.10.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/4lgbwpg4r41kcsms7nlwrzdlmhw83skj-stdenv-linux' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bji80frz88sg8ai8n71sgvjkwg7whr3m-man-db-2.13.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/anc26dy8hjdrzdix8xyd8fhzlhmlxqzk-boost-1.89.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ipvrfy1jiwnl1bdzrzrys7zsgwqlchw0-nix-util-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/5b4h5srpwjhmsa49whldvzizf3x9giqv-inetutils-2.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ddq05cazw9816yclq99bk8ksp8sdy9x0-less-692' from 'https://cache.nixos.org'...\ncopying path '/nix/store/hzwckv1kq2pqa7010zph0a6j0xfbyvwa-readline-8.3p3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/dh9s594dikj5vz2y70mjbpk1fgd3f4xk-nix-nswrapper-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bf914zpijrk4j8bs0ya04j99mrxjpq93-nix-store-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pwxj9ycwqd117yra6czifh3xfx5p88lh-bash-interactive-5.3p9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/h0hsjl7h3xpdsl46gg0sk0v60i8yjl2w-nix-main-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/fwcacq1gp2f070lq3mniwdyjcwlja8nv-nix-fetchers-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/w0mni06gl4l6g43jrnxhab4n160ckghb-nix-expr-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/6fxqq6hrvyn6d982nazdlk5ll7rgsgpq-nix-flake-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/fy3khr6czr6d1dyc1bd1p56dj48h6p2a-nix-cmd-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/z4wkkj3ncr69vgrb3020saqx1c8mfsjj-nix-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/5np0yidzrnyjbb243hvgqpgpss865p0n-nix-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/n1qk5iy0wvzcvrmp859vwdza53yhdlwb-nixos-option' from 'https://cache.nixos.org'...\nbuilding '/nix/store/sngnscgz1vdvzpm7i15ajy377kchski3-home-manager.drv'...\npath \"/home/tester\" does not contain a 'flake.nix', searching up\nerror: path \"/home/tester\" is not part of a flake (neither it nor its parent directories contain a 'flake.nix' file)\nbash: home-manager: command not found\nbash: cd: /home/tester/.config/home-manager: No such file or directory\n"
+  },
+  {
+   "idx": 13,
+   "section": "hm",
+   "title": "Log out of Xfce and back in",
+   "status": "PASS",
+   "rc": null,
+   "shots": [
+    "shots/013-log-out-of-xfce-and-back-in.png"
+   ],
+   "note": "logged out and back in (LightDM restart)",
+   "log_tail": ""
+  },
+  {
+   "idx": 14,
+   "section": "nvim",
+   "title": "Replace nvim.nix",
+   "status": "FAIL",
+   "rc": null,
+   "shots": [
+    "shots/014-replace-nvim-nix-config-home-manager-nvim-nix.png"
+   ],
+   "note": "file written exactly as shown",
+   "log_tail": ""
+  },
+  {
+   "idx": 16,
+   "section": "nvim",
+   "title": "Apply and check",
+   "status": "FAIL",
+   "rc": 127,
+   "shots": [
+    "shots/015-apply-and-check.png",
+    "shots/016-apply-and-check-nvim-checkhealth.png"
+   ],
+   "note": "full-screen Neovim screenshotted, then quit",
+   "log_tail": "bash: cd: /home/tester/.config/home-manager: No such file or directory\nbash: home-manager: command not found\n"
+  },
+  {
+   "idx": 17,
+   "section": "project",
+   "title": "Pick a template and save it as flake.nix in the project root",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/017-pick-a-template-and-save-it-as-flake-nix-in-the-project-root.png"
+   ],
+   "note": "Python template saved as ~/code/myproject/flake.nix",
+   "log_tail": "hint: Using 'master' as the name for the initial branch. This default branch name\nhint: will change to \"main\" in Git 3.0. To configure the initial branch name\nhint: to use in all of your new repositories, which will suppress this warning,\nhint: call:\nhint:\nhint: \tgit config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint: \tgit branch -m <name>\nhint:\nhint: Disable this message with \"git config set advice.defaultBranchName false\"\nInitialized empty Git repository in /home/tester/code/myproject/.git/\n"
+  },
+  {
+   "idx": 17,
+   "section": "project",
+   "title": "Pick a template and save it as flake.nix in the project root",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/018-template-node-nix-develop.png"
+   ],
+   "note": "node template dev shell",
+   "log_tail": "ying path '/nix/store/s45snyx4414z3q1ycj63qh40hqhhs5yr-gmp-with-cxx-6.3.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/5lqvbgf40v78y7i5d1kcyzz23jky5yqp-simdutf-6.5.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/a3al4xgkxqp4w718d5ai4nhrk4blm6am-simdjson-4.6.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/7348w7xcmpri6ajymnp136w2hkz1mdwx-zstd-1.5.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/mjxf7qs56s2qyaa309m5634xg73142yc-simdutf-9.0.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/1j636kydlynrwd8fl2ba67n0smv52fz4-xz-5.8.4-bin' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kwc34h21my8mf7xbqm9gxs1xfx07xb4i-coreutils-9.11' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ys0n6cqchpfk8hc7nlwq3p5qpxby4vs2-nghttp2-1.69.0-dev' from 'https://cache.nixos.org'...\ncopying path '/nix/store/yw17brhraxrgq2wj4j6ibhhincxkz6bc-zstd-1.5.7-bin' from 'https://cache.nixos.org'...\ncopying path '/nix/store/x735fzw5abldd4sk10lasz1dkayi3bwr-zstd-1.5.7-dev' from 'https://cache.nixos.org'...\ncopying path '/nix/store/124ca9b7djjkzidqdqzd93mcwqvbpidg-ada-3.4.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/1y3zm9j2w0za51ckdy6qzx4ygvvw50yv-findutils-4.10.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/j94gqsd625lr89i34h2dhhvi7x8yjjdb-diffutils-3.12' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zifs9cd56bk4v9gqnpj63ylq4s137vjr-stdenv-linux' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c1a2l64csn5lrwjqqnaman6hdici70vq-binutils-wrapper-2.46' from 'https://cache.nixos.org'...\ncopying path '/nix/store/acyqmf1mm0r2hq8xv2sckficwp3dg9qb-icu4c-78.3-dev' from 'https://cache.nixos.org'...\ncopying path '/nix/store/lzq4ckjav6vvxg7xgh9xcys588m6z40m-nodejs-slim-22.23.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zv7jk9knz9g176az3rcm8wyxc68nms8a-nodejs-slim-24.22.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3yhivr3h6801yk7sy3skzj4f2j86i68r-readline-8.3p3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/13czpvp88x852739v5xi04s871pn35b5-bash-interactive-5.3p9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/i1syr60g4vrk2qgb28asaksgax3slvif-nodejs-slim-22.23.4-corepack' from 'https://cache.nixos.org'...\ncopying path '/nix/store/890kqkr5zr4pm3jsa57p9ngya1g45w68-nodejs-slim-22.23.4-npm' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ghmsmds9fr37yq40r84q12n2q80bnnh8-nodejs-slim-24.22.1-corepack' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zfq4xfj25ja11vik413zb66bl0ykqlkz-nodejs-slim-24.22.1-npm' from 'https://cache.nixos.org'...\ncopying path '/nix/store/d7fkazkwq58bchr0jixiqpq1m8742ijj-vscode-langservers-extracted-1.116.02821' from 'https://cache.nixos.org'...\ncopying path '/nix/store/g3w3b06gf0dk7iaxgpy94ajd3yl1g8z5-pnpm-11.27.0' from 'https://cache.nixos.org'...\nbuilding '/nix/store/v31wckh4i6ljnlv9q621nmjxprvkk897-nodejs-22.23.4.drv'...\ncopying path '/nix/store/709kghqbswlhrfshjmrh9sn566gjbwdd-nodejs-24.22.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/0592hadxldzhhd3ppc6nskslzd39fwlz-gcc-wrapper-15.3.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/q3g53s1vr0p94fz0vjbcyadk2cfs3s6j-typescript-5.9.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bds9i60lxg8viivxw59b9l18hl8h1vcd-stdenv-linux' from 'https://cache.nixos.org'...\ncopying path '/nix/store/6qzhfhn137nqkskaf136zb4zvz6yhrmi-typescript-language-server-5.3.0' from 'https://cache.nixos.org'...\nbuilding '/nix/store/ygj6wv7j40719fqp6gmczbxfpfyjl3i3-nix-shell-env.drv'...\ncopying path '/nix/store/07n9a4m7mp105215ms5x0ybli2kc3da4-source' from 'https://cache.nixos.org'...\nthis path will be fetched (107.5 KiB download, 107.4 KiB unpacked):\n  /nix/store/jlff34v3dkfg860sl56rdzhzdvh9km60-bash-interactive-5.3p9-man\ncopying path '/nix/store/jlff34v3dkfg860sl56rdzhzdvh9km60-bash-interactive-5.3p9-man' from 'https://cache.nixos.org'...\nv22.23.4\nVersion 5.9.3\n5.3.0\n"
+  },
+  {
+   "idx": 17,
+   "section": "project",
+   "title": "Pick a template and save it as flake.nix in the project root",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/019-template-rust-nix-develop.png"
+   ],
+   "note": "rust template dev shell",
+   "log_tail": "warning: Git tree '/home/tester/code/t-rust' is dirty\nwarning: creating lock file \"/home/tester/code/t-rust/flake.lock\": \n\u2022 Added input 'nixpkgs':\n    'github:NixOS/nixpkgs/fa1373130d5a21c040a47c5dbe1913d59ed91808?narHash=sha256-HzgjxrLY4AEc0044ZuM5CHbLSWLZgDlay1idmzvvpJs%3D' (2026-10-31)\ncopying path '/nix/store/arg9jmc5491gzs3m9g0d7rwwxxm01k7v-rust-lib-src' from 'https://cache.nixos.org'...\ncopying path '/nix/store/9ldbnd0p3q858l2yznakj63hz3rj10p0-expand-response-params' from 'https://cache.nixos.org'...\ncopying path '/nix/store/dwd7kl43aa95xlj6xb2zx792lismssq5-rust-analyzer-unwrapped-2026-06-01' from 'https://cache.nixos.org'...\ncopying path '/nix/store/n56d9xz7m3sc1gvyr2hi9v082abq5sdb-pkg-config-0.29.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/jq0mamb7v8ly6gxyrq8fnrs7al0l3cdp-libssh2-1.11.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ilc04wmg2xh5jncdbc4v5zc0jdzag4mz-pkg-config-wrapper-0.29.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/9wdq1zinil9w64n9asv6haxyis1php6c-publicsuffix-list-0-unstable-2026-05-13' from 'https://cache.nixos.org'...\ncopying path '/nix/store/31f225xam9v06jnm4878id3ch2wjkgkl-keyutils-1.6.3-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/14qcxkw8ql6pm6sj0bkkx4g5qlr3g7fs-rustc-bootstrap-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/mhdban9k5rif6n21v9wqnxpbh9kbq647-libffi-3.8.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/56vgzbxd1k167sq900dnlp7lldcmznl3-libxml2-2.15.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/yishn4jrfiyvh63w7cb1wl01mq4wclag-libpsl-0.21.5' from 'https://cache.nixos.org'...\ncopying path '/nix/store/hy66nai3pdjgzhv584c0j6di0y087kdb-krb5-1.22.2-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/dkg6a8p4fy81fzbgfrc34anzddh4qb4m-llvm-21.1.8-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kvdgx9r3ssdsnyrvg2wfv6il4pgvazi5-curl-8.23.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kvpw574rmgyhynfnbj4pv56z452ryhxk-rust-analyzer-2026-06-01' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c6q7rin9gr1d7vnh7imsma1nacgh641f-rustc-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/hk259v0n134x75xa6zdgp6sqkky4nsn6-rustc-bootstrap-wrapper-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/vicyd60754z45nxaqv010ihhk82z8cvp-cargo-bootstrap-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/wjc392lc9964vh7qiaz5gng3rz1lrdf2-rustc-wrapper-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/jns8kcb5md7991kjxzxy4n0wnjiw34ds-clippy-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pavjw0i8jqk8xmx3nl59s9wj5nm0wp08-cargo-1.95.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/sc3a1dfya07rzi4pikr488y8y1aifygl-rustfmt-1.95.0' from 'https://cache.nixos.org'...\nbuilding '/nix/store/zc53qr7zy0xzwm8aszq982g9zqvrn57k-nix-shell-env.drv'...\ncargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrust-analyzer 2026-06-01\nRUST_SRC_PATH ok\n"
+  },
+  {
+   "idx": 17,
+   "section": "project",
+   "title": "Pick a template and save it as flake.nix in the project root",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/020-template-go-nix-develop.png"
+   ],
+   "note": "go template dev shell",
+   "log_tail": "warning: Git tree '/home/tester/code/t-go' is dirty\nwarning: creating lock file \"/home/tester/code/t-go/flake.lock\": \n\u2022 Added input 'nixpkgs':\n    'github:NixOS/nixpkgs/fa1373130d5a21c040a47c5dbe1913d59ed91808?narHash=sha256-HzgjxrLY4AEc0044ZuM5CHbLSWLZgDlay1idmzvvpJs%3D' (2026-10-31)\ncopying path '/nix/store/ghwcn9lnrczq88sqkcb1ibhwqdchqrp5-iana-etc-20251215' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pcxd79slak3wdi1kzkyzzcpcy82sarzs-tzdata-2026e' from 'https://cache.nixos.org'...\ncopying path '/nix/store/8r9awlc6p0i47vr34p4j11sbgq4mi9bv-mailcap-2.1.54' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zfvzimx0x6wncrshk8ydsdvisjsq30l6-go-1.26.10' from 'https://cache.nixos.org'...\ncopying path '/nix/store/671j9yb15yvhrw8399bya7dr0l5chnpw-delve-1.26.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/mn96ggi9v4hcnq2sk5wyq89432bszibv-gopls-0.22.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/0q13782q3ky4h2ykbgs25q7haadmzcam-golangci-lint-2.12.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/s74byl65f2vjbbsqc9gj2f75mdhzhl5a-gotools-0.44.0' from 'https://cache.nixos.org'...\nbuilding '/nix/store/2h29cz403sab79h215ada4s3bs12sf79-nix-shell-env.drv'...\ngo version go1.26.10 linux/amd64\ngolang.org/x/tools/gopls v0.22.0\nGOPATH=/home/tester/code/t-go/.go\n"
+  },
+  {
+   "idx": 17,
+   "section": "project",
+   "title": "Pick a template and save it as flake.nix in the project root",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/021-template-c-nix-develop.png"
+   ],
+   "note": "c template dev shell",
+   "log_tail": "warning: Git tree '/home/tester/code/t-c' is dirty\nwarning: creating lock file \"/home/tester/code/t-c/flake.lock\": \n\u2022 Added input 'nixpkgs':\n    'github:NixOS/nixpkgs/fa1373130d5a21c040a47c5dbe1913d59ed91808?narHash=sha256-HzgjxrLY4AEc0044ZuM5CHbLSWLZgDlay1idmzvvpJs%3D' (2026-10-31)\ncopying path '/nix/store/l7sqiai7yhlnfpgam5rqf64cy6swzacg-ninja-1.13.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/adfik6zjchfzvcmzhm4n88scvz2wx046-curl-8.23.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/hnz82d47sah31rhskabkpjimz5pwzpkm-libarchive-3.8.9-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/mfpbi9zzfqj8nf9lfrnlpigjybgkkdm6-libipt-2.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/k0qnrn1rz01rvc2ys7vcll4wa80qcrdi-expat-2.9.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/gbykir1k8azlivvpc6g7fhmnwr93dqpn-rhash-1.4.6' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3l38rh04ravq1igf7j6a6zwji9048z3f-clang-21.1.8-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/jiq66qchbgsx2zrvmr8qilc807x4w322-xxhash-0.8.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/iw7ljvmirxgjxpii7zhkxikiaq5vbqz9-gmp-with-cxx-6.3.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/758dqlhlnw546rqrf77dqw289i78nkxi-setup-debug-info-dirs-hook' from 'https://cache.nixos.org'...\ncopying path '/nix/store/10d0lpvg6pxnzlgnrdpm3xjyki00zgah-gdbm-1.26-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/f12i9hyaxqr5bjwqkiln83lzhr2i6rvd-binutils-wrapper-2.46' from 'https://cache.nixos.org'...\ncopying path '/nix/store/m07vjyxxxvaly7rzshw0yf18jmpr5bcr-icu4c-76.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kgdssyvx7yicf449x92lvilxpxa5z532-compiler-rt-libc-21.1.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/a6d8x05xvrafdg2l8v118sv8jcg25x01-json-c-0.18' from 'https://cache.nixos.org'...\ncopying path '/nix/store/akmhgr98bcg2nrnls89gl7xz282h1mzf-mpdecimal-4.0.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/d3f8rpj3iy1wx2p2d8fxqab8kdygyi9f-util-linux-minimal-2.42.4-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/r9xf7z82x1kkw8x7d87i60kimzkxvgln-bear-4.0.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/2q11r01q5q6n2zs45jdiv7gf387x3kmz-mpfr-4.2.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/q52v1h4w22zxywx62mzs4axv22c2nn5p-cmake-4.1.6' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kp6p38x6zb21n7gdlnp9nsm2aagq7sg2-python3-3.13.17' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c37jpglrjhdp4y3dkq7g5s8qshv43jnj-elfutils-0.194' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c7279njacpa5lh90l5c220r3r1l6286q-compiler-rt-libc-21.1.8-dev' from 'https://cache.nixos.org'...\ncopying path '/nix/store/qf5grc57ddsq9vmz9wi0ms7gqvlm26as-boost-1.89.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/b10hhj5dzfb4hah8gm9v7vf7y3jyri87-source-highlight-3.1.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/kf7mrhlsv492y70w6lajz9qvq3nj8vhr-clang-21.1.8-python' from 'https://cache.nixos.org'...\ncopying path '/nix/store/xy5dpppsipcwmg9rbf6cp67h8vbq61s6-gdb-17.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/7h22ni20xnhw2rmiwgp4z4lgmws8s6j9-clang-21.1.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ga31ml14vpim8x4nv9r0y8wjyny25h28-clang-wrapper-21.1.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/j3vcvc22j55gwnz6983wabdp9ih7lfvl-clang-tools-21.1.8' from 'https://cache.nixos.org'...\nbuilding '/nix/store/r643s50byfv0gf0drqn2q2jhq3acx9jd-nix-shell-env.drv'...\ncmake version 4.1.6\ngcc (GCC) 15.3.0\nclangd version 21.1.8\nGNU gdb (GDB) 17.2\n"
+  },
+  {
+   "idx": 18,
+   "section": "project",
+   "title": "Wire it to direnv",
+   "status": "FAIL",
+   "rc": 127,
+   "shots": [
+    "shots/022-wire-it-to-direnv.png",
+    "shots/023-wire-it-to-direnv-nvim-in-the-project.png"
+   ],
+   "note": "full-screen Neovim screenshotted, then quit",
+   "log_tail": "bash: direnv: command not found\n"
+  },
+  {
+   "idx": 19,
+   "section": "project",
+   "title": "One-off tools without installing anything",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/024-one-off-tools-without-installing-anything.png"
+   ],
+   "note": "`nix shell` given a command instead of opening an interactive subshell",
+   "log_tail": "ing'...\nevaluating 'legacyPackages.x86_64-linux.zsh-forgit'...\nevaluating 'legacyPackages.x86_64-linux.zsh-fzf-history-search'...\nevaluating 'legacyPackages.x86_64-linux.zsh-fzf-tab'...\nevaluating 'legacyPackages.x86_64-linux.zsh-git-prompt'...\nevaluating 'legacyPackages.x86_64-linux.zsh-histdb'...\nevaluating 'legacyPackages.x86_64-linux.zsh-history-search-multi-word'...\nevaluating 'legacyPackages.x86_64-linux.zsh-history-substring-search'...\nevaluating 'legacyPackages.x86_64-linux.zsh-history-to-fish'...\nevaluating 'legacyPackages.x86_64-linux.zsh-navigation-tools'...\nevaluating 'legacyPackages.x86_64-linux.zsh-nix-shell'...\nevaluating 'legacyPackages.x86_64-linux.zsh-patina'...\nevaluating 'legacyPackages.x86_64-linux.zsh-powerlevel10k'...\nevaluating 'legacyPackages.x86_64-linux.zsh-powerlevel9k'...\nevaluating 'legacyPackages.x86_64-linux.zsh-prezto'...\nevaluating 'legacyPackages.x86_64-linux.zsh-syntax-highlighting'...\nevaluating 'legacyPackages.x86_64-linux.zsh-system-clipboard'...\nevaluating 'legacyPackages.x86_64-linux.zsh-vi-mode'...\nevaluating 'legacyPackages.x86_64-linux.zsh-wd'...\nevaluating 'legacyPackages.x86_64-linux.zsh-you-should-use'...\nevaluating 'legacyPackages.x86_64-linux.zsh-z'...\nevaluating 'legacyPackages.x86_64-linux.zsh-zhooks'...\nevaluating 'legacyPackages.x86_64-linux.zsign'...\nevaluating 'legacyPackages.x86_64-linux.zsnes'...\nevaluating 'legacyPackages.x86_64-linux.zsnes2'...\nevaluating 'legacyPackages.x86_64-linux.zsnow'...\nevaluating 'legacyPackages.x86_64-linux.zssh'...\nevaluating 'legacyPackages.x86_64-linux.zstd'...\nevaluating 'legacyPackages.x86_64-linux.zsteg'...\nevaluating 'legacyPackages.x86_64-linux.zstxtns-utils'...\nevaluating 'legacyPackages.x86_64-linux.zsv'...\nevaluating 'legacyPackages.x86_64-linux.zsync'...\nevaluating 'legacyPackages.x86_64-linux.zsync2'...\nevaluating 'legacyPackages.x86_64-linux.ztags'...\nevaluating 'legacyPackages.x86_64-linux.zthrottle'...\nevaluating 'legacyPackages.x86_64-linux.ztools'...\nevaluating 'legacyPackages.x86_64-linux.zuban'...\nevaluating 'legacyPackages.x86_64-linux.zug'...\nevaluating 'legacyPackages.x86_64-linux.zuki-themes'...\nevaluating 'legacyPackages.x86_64-linux.zulip'...\nevaluating 'legacyPackages.x86_64-linux.zulip-term'...\nevaluating 'legacyPackages.x86_64-linux.zulu'...\nevaluating 'legacyPackages.x86_64-linux.zulu11'...\nevaluating 'legacyPackages.x86_64-linux.zulu17'...\nevaluating 'legacyPackages.x86_64-linux.zulu21'...\nevaluating 'legacyPackages.x86_64-linux.zulu23'...\nevaluating 'legacyPackages.x86_64-linux.zulu24'...\nevaluating 'legacyPackages.x86_64-linux.zulu25'...\nevaluating 'legacyPackages.x86_64-linux.zulu27'...\nevaluating 'legacyPackages.x86_64-linux.zulu8'...\nevaluating 'legacyPackages.x86_64-linux.zunclient'...\nevaluating 'legacyPackages.x86_64-linux.zunit'...\nevaluating 'legacyPackages.x86_64-linux.zuo'...\nevaluating 'legacyPackages.x86_64-linux.zuse'...\nevaluating 'legacyPackages.x86_64-linux.zutty'...\nevaluating 'legacyPackages.x86_64-linux.zvbi'...\nevaluating 'legacyPackages.x86_64-linux.zvm'...\nevaluating 'legacyPackages.x86_64-linux.zwave-js-server'...\nevaluating 'legacyPackages.x86_64-linux.zwave-js-ui'...\nevaluating 'legacyPackages.x86_64-linux.zx'...\nevaluating 'legacyPackages.x86_64-linux.zxcvbn-c'...\nevaluating 'legacyPackages.x86_64-linux.zxfer'...\nevaluating 'legacyPackages.x86_64-linux.zxing'...\nevaluating 'legacyPackages.x86_64-linux.zxing-cpp'...\nevaluating 'legacyPackages.x86_64-linux.zxpy'...\nevaluating 'legacyPackages.x86_64-linux.zxtune'...\nevaluating 'legacyPackages.x86_64-linux.zydis'...\nevaluating 'legacyPackages.x86_64-linux.zyn-fusion'...\nevaluating 'legacyPackages.x86_64-linux.zynaddsubfx'...\nevaluating 'legacyPackages.x86_64-linux.zynaddsubfx-fltk'...\nevaluating 'legacyPackages.x86_64-linux.zynaddsubfx-ntk'...\nevaluating 'legacyPackages.x86_64-linux.zziplib'...\nevaluating 'legacyPackages.x86_64-linux.zztgo'...\nevaluating 'legacyPackages.x86_64-linux.zzuf'...\nevaluating 'legacyPackages.x86_64-linux.zzz'...\n"
+  },
+  {
+   "idx": 20,
+   "section": "hygiene",
+   "title": "Audit what's already polluting the base system",
+   "status": "FAIL",
+   "rc": 2,
+   "shots": [
+    "shots/025-audit-what-s-already-polluting-the-base-system.png"
+   ],
+   "note": "skipped the example removal line (those packages aren't installed here)",
+   "log_tail": ""
+  },
+  {
+   "idx": 21,
+   "section": "maint",
+   "title": "Update your home environment deliberately",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/026-update-your-home-environment-deliberately.png"
+   ],
+   "note": "",
+   "log_tail": "bash: cd: /home/tester/.config/home-manager: No such file or directory\npath \"/home/tester\" does not contain a 'flake.nix', searching up\nerror: path \"/home/tester\" is not part of a flake (neither it nor its parent directories contain a 'flake.nix' file)\nbash: home-manager: command not found\nAuthor identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'tester@arch-vm.(none)')\nalready up to date\n"
+  },
+  {
+   "idx": 22,
+   "section": "maint",
+   "title": "Roll back if an update breaks something",
+   "status": "FAIL",
+   "rc": 127,
+   "shots": [
+    "shots/027-roll-back-if-an-update-breaks-something.png"
+   ],
+   "note": "`<hash>` filled in with the previous generation from the listing",
+   "log_tail": "bash: home-manager: command not found\nbash: home-manager: command not found\nbash: /activate: No such file or directory\n"
+  },
+  {
+   "idx": 23,
+   "section": "maint",
+   "title": "Reclaim disk space",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/028-reclaim-disk-space.png"
+   ],
+   "note": "",
+   "log_tail": "83gc1rs-unpretty-cabal-conf.awk'\ndeleting '/nix/store/3v7jr622lqcrjisv0b8ryamvvma8ivlv-export-heap-methods.patch'\ndeleting '/nix/store/z6wq6d86q9v99ga73rwxwhzg7nmvinka-ghc-define-undefined-elf-st-visibility.patch'\ndeleting '/nix/store/1cgv521pm7f85vgnffgypbb2fc8mvs9n-ghc-9.6-or-later-docs-sphinx-9.patch'\ndeleting '/nix/store/xr9pz9ndd13lpia2f0jzamjfk5c12985-source'\ndeleting '/nix/store/40dmwwmx2arx4rzz4m4bws6i2wbxfgk1-utils.sh'\ndeleting '/nix/store/1k6r7nnd9cxggbl94k9nfmcyfk6wplbi-lua-dso.make'\ndeleting '/nix/store/kzhs0iqzhs4iscivr27rbgz3hc27zyfc-lua-setup-hook'\ndeleting '/nix/store/57w4xa43g7ilkdjd7mplrn8l3pvmyklf-ghc-paths-nix.patch'\ndeleting '/nix/store/lkqdzcw5kjx20v2icx0lzd97x5kw4jsa-basement-add-cast.patch'\ndeleting '/nix/store/z6kfxmd52j0pcz5cx6nka318cl524iiz-basement-ghcjs.patch'\ndeleting '/nix/store/z1bgxf6idi9rcxp55l7rzipb9mhb0dy3-foundation-ghcjs.patch'\ndeleting '/nix/store/9l1xjywddlj2ikzh3d1wc6266zpijpwd-src'\ndeleting '/nix/store/ld6fr1fk4z9s918d54n92xhkldbnz3d4-pytest-9.1-compat.patch'\ndeleting '/nix/store/qaa6lwj055517vz0yha4bskq07k4r8ri-setuptools-rust-hook.sh'\ndeleting '/nix/store/2il9n08q103d3bs1ly6s1sbc4m902bi6-pytest-8-compatible.patch'\ndeleting '/nix/store/q1dcic6kc5pc5gjch4lkhm1f606q6269-gcc15.patch'\ndeleting '/nix/store/08a3w4nvvy11hxx7wr1sqmysxnbqc2if-flatten-include-hack-hook.sh'\ndeleting '/nix/store/3ki6s9wm7kfm4pm60jk6z89aijzsv408-enable-table-validation.patch'\ndeleting '/nix/store/2zrzrqy4r3bxdzcnjcxlaiirf24bzmkb-enable-subpixel-rendering.patch'\ndeleting '/nix/store/qgfij9cxhp7gfjk6hs43hzy4n3w9am3c-setup-hook.sh'\ndeleting '/nix/store/af24dq46v6ajacvlsm4qf9711da2zpzj-pyproject-version-patch-hook.sh'\ndeleting '/nix/store/2vag7l00xmrqbxj67k8c2wix9isgp9j7-pyproject-version-patch-hook.py'\ndeleting '/nix/store/gjskckwscwj1w0g68p7sa6wplcqjl11c-setup-hook.sh'\ndeleting '/nix/store/3lhv8aafg78xxwpb7hlr33ji68rpdygs-absolute_shlib_path.patch'\ndeleting '/nix/store/az86sliky9s5cdy5vc5vd4hkb4h5q317-glib-appinfo-watch.patch'\ndeleting '/nix/store/xmaba5a6w625vcyk9iaf44vzz8mnydk7-schema-override-variable.patch'\ndeleting '/nix/store/d8pkc3xxx3arcvdid48vh8imx9q9g4vq-elementary-terminal-support.patch'\ndeleting '/nix/store/0s51jr07rjwls4bwwb7mrpzikc2ax15m-split-dev-programs.patch'\ndeleting '/nix/store/abzy833a3cyracjdj47qxkx26r7lw2sg-gdb_script.patch'\ndeleting '/nix/store/97x7cp9zx7klgzgwar89bw0m8bby92ia-0001-Suppress-undefined-symbol-error-on-Darwin.patch'\ndeleting '/nix/store/50yf4wc3hncq2kcjb51l3xfik8v9hdny-rename-version.patch'\ndeleting '/nix/store/arp5cs1x3d0rh9xc7k6sadk0savbfkks-set-python-sys-path.patch'\ndeleting '/nix/store/h87x7ncrpxb69nylxfjw346nbdhimaml-make-fonts-conf.xsl'\ndeleting '/nix/store/fmkmn3q4v0g2r5xvajmlbn8y0gnl3g37-meson.patch'\ndeleting '/nix/store/rzf1nici52cxz44ng0z4k31wm205zbfz-absolute_gir_path.patch'\ndeleting '/nix/store/znxr6xcwkdcqgdaknidfsrq3h2azz9mq-installed-tests-path.patch'\ndeleting '/nix/store/2d8r0hb31c2hkp51mk8qbdz0qsg1rrfr-setup-hook.sh'\ndeleting '/nix/store/d77svhhwwqkvacx0gdyscjp4jdfjkh9d-gcc-15.patch'\ndeleting '/nix/store/y04i1z387pa8x6rv4lw2z1ib0vrp558k-outputs.patch'\ndeleting '/nix/store/ilkh9rz6mnkasii42ix7sw6hmw2qg9xw-dither-honour-byte-order.patch'\ndeleting '/nix/store/jj22n127g9sa1vb8z12hdyxn9ma5ix0p-yuv.pc'\ndeleting '/nix/store/0999cjni1iyq8fb6qjy1v46h8gf14jwz-disable-check-symbols-test.patch'\ndeleting '/nix/store/3rzdzlmrg0y2fznljcazgync8nj8kcca-fix-disabled-vector-tests.patch'\ndeleting '/nix/store/i1c25ywrrcby0638l3bcqbjsp5mix1xm-setup-hook.sh'\ndeleting '/nix/store/mrq4wqh4c9m8xp2fdcvrnb9cpv3mq39j-hardcode-graphviz-path.patch'\ndeleting '/nix/store/ka3rcf8hhvs5hs4g77h57gp975khr2nv-Update-to-pygments-2.21.0.patch'\ndeleting '/nix/store/p584kz3izl255v1i7m4xlcnb1jvdcmm1-sqlite-3.53.3-man'\ndeleting unused links...\nnote: hard linking is currently saving 0.0 KiB\n6420 store paths deleted, 5.2 GiB freed\nfinding garbage collector roots...\ndeleting garbage...\ndeleting unused links...\nnote: hard linking is currently saving 0.0 KiB\n0 store paths deleted, 0.0 KiB freed\n12K\t/nix/store\n"
+  },
+  {
+   "idx": 24,
+   "section": "maint",
+   "title": "Set up a second machine",
+   "status": "FAIL",
+   "rc": 1,
+   "shots": [
+    "shots/029-set-up-a-second-machine.png"
+   ],
+   "note": "emulated: cloned the local config repo instead of a remote one",
+   "log_tail": "' from 'https://cache.nixos.org'...\ncopying path '/nix/store/9csszq0cch2npq0flybqmvkabb1dj3r4-libssh2-1.11.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/k0fby92994cjcmj3npd562dy22qxnwdy-ngtcp2-1.22.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/lxlgk884g7bjiy680n9insxx0xzpn0v3-s2n-tls-1.7.6' from 'https://cache.nixos.org'...\ncopying path '/nix/store/52zkl7ambd31fncmb8h1yljizzh2ihah-aws-c-cal-0.9.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/yfvrxfh24kxshxsvgic60893sy8h4shc-krb5-1.22.2-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3c08y11lb4zqk151f0j89zf83wwjvcqz-libarchive-3.8.9-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/lzhb5kzy2ljhaasyx3fj8kb7aizqirnm-libgit2-1.9.7-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3kz2hypzh1f5x0v4jirzv8gmh41xzpaj-aws-c-io-0.27.2' from 'https://cache.nixos.org'...\ncopying path '/nix/store/qms1wk1x5xbj2aal475s629mvd3dmm30-aws-c-event-stream-0.7.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/w4zvs3bl9rrgp5shd8c8ah0qyjry2cgc-aws-c-http-0.11.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/q3lhcbjc0bxxiqnhcp2vslmn9mh3f256-curl-8.22.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/8lakgf27dgy0fxnn1zmijmpdpacajd30-aws-c-auth-0.9.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ywyfkyrq9whdgb8kwywhaqwrmfv1gbxj-aws-c-mqtt-0.13.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/c4hal5azha13zashr1m6ijhlniqw342s-aws-c-s3-0.8.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/4yscyhm4p5f87h9ii28hk4bay2c4n1sq-aws-crt-cpp-0.34.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/aqq53g5lgr9n9hxzmbblpfzds5z067ca-diffutils-3.12' from 'https://cache.nixos.org'...\ncopying path '/nix/store/nl0wq6d4bpjrxmlax141liq0qr9z87gn-findutils-4.10.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/4lgbwpg4r41kcsms7nlwrzdlmhw83skj-stdenv-linux' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bji80frz88sg8ai8n71sgvjkwg7whr3m-man-db-2.13.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/anc26dy8hjdrzdix8xyd8fhzlhmlxqzk-boost-1.89.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/5b4h5srpwjhmsa49whldvzizf3x9giqv-inetutils-2.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ddq05cazw9816yclq99bk8ksp8sdy9x0-less-692' from 'https://cache.nixos.org'...\ncopying path '/nix/store/hzwckv1kq2pqa7010zph0a6j0xfbyvwa-readline-8.3p3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pwxj9ycwqd117yra6czifh3xfx5p88lh-bash-interactive-5.3p9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/ipvrfy1jiwnl1bdzrzrys7zsgwqlchw0-nix-util-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/dh9s594dikj5vz2y70mjbpk1fgd3f4xk-nix-nswrapper-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/bf914zpijrk4j8bs0ya04j99mrxjpq93-nix-store-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/fwcacq1gp2f070lq3mniwdyjcwlja8nv-nix-fetchers-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/h0hsjl7h3xpdsl46gg0sk0v60i8yjl2w-nix-main-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/w0mni06gl4l6g43jrnxhab4n160ckghb-nix-expr-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/6fxqq6hrvyn6d982nazdlk5ll7rgsgpq-nix-flake-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/fy3khr6czr6d1dyc1bd1p56dj48h6p2a-nix-cmd-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/z4wkkj3ncr69vgrb3020saqx1c8mfsjj-nix-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/5np0yidzrnyjbb243hvgqpgpss865p0n-nix-2.34.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/n1qk5iy0wvzcvrmp859vwdza53yhdlwb-nixos-option' from 'https://cache.nixos.org'...\nbuilding '/nix/store/sngnscgz1vdvzpm7i15ajy377kchski3-home-manager.drv'...\nerror: getting status of \"/tmp/second-machine\": No such file or directory\n"
+  },
+  {
+   "idx": 25,
+   "section": "uninstall",
+   "title": "Remove Home Manager's files first",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/030-remove-home-manager-s-files-first.png"
+   ],
+   "note": "`yes |` answers the uninstall confirmation",
+   "log_tail": "bash: home-manager: command not found\n"
+  },
+  {
+   "idx": 26,
+   "section": "uninstall",
+   "title": "Remove the package and the store",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/031-remove-the-package-and-the-store.png"
+   ],
+   "note": "--noconfirm answers pacman's [Y/n]",
+   "log_tail": "Removed '/etc/systemd/system/sockets.target.wants/nix-daemon.socket'.\nDisabling 'nix-daemon.service', but its triggering units are still active:\nnix-daemon.socket\nchecking dependencies...\n\nPackages (27) aws-c-auth-1.0.0-1  aws-c-cal-1.0.0-1  aws-c-common-1.0.2-1  aws-c-compression-1.0.0-1  aws-c-event-stream-1.0.0-1  aws-c-http-1.0.0-1  aws-c-io-1.0.0-1  aws-c-mqtt-1.0.0-1  aws-c-s3-1.3.0-1  aws-c-sdkutils-1.0.0-1  aws-checksums-1.0.1-1  aws-crt-cpp-0.43.8-1  boost-libs-1.92.0-1  editline-2.1.0-1  gc-8.2.12-1  hwloc-2.15.0-1  libblake3-1.8.7-1  libcpuid-0.8.2-1  libgit2-1:1.9.7-1  libsodium-1.0.22-1  llhttp-9.3.1-1  lowdown-3.2.1-1  nix-busybox-1.37.0-1  nlohmann-json-3.12.0-2  onetbb-2023.2.0-1  s2n-tls-1.7.11-1  nix-2.35.4-1\n\nTotal Removed Size:  90.81 MiB\n\n:: Do you want to remove these packages? [Y/n] \n:: Processing package changes...\nremoving nix...\nremoving nlohmann-json...\nremoving nix-busybox...\nremoving lowdown...\nremoving libsodium...\nremoving libgit2...\nremoving llhttp...\nremoving libcpuid...\nremoving libblake3...\nremoving onetbb...\nremoving hwloc...\nremoving gc...\nremoving editline...\nremoving boost-libs...\nremoving aws-crt-cpp...\nremoving aws-c-s3...\nremoving aws-c-mqtt...\nremoving aws-c-event-stream...\nremoving aws-checksums...\nremoving aws-c-auth...\nremoving aws-c-sdkutils...\nremoving aws-c-http...\nremoving aws-c-compression...\nremoving aws-c-io...\nremoving s2n-tls...\nremoving aws-c-cal...\nremoving aws-c-common...\n:: Running post-transaction hooks...\n(1/3) Reloading system manager configuration...\n(2/3) Arming ConditionNeedsUpdate...\n(3/3) Updating the desktop file MIME type cache...\n"
+  },
+  {
+   "idx": null,
+   "section": null,
+   "title": "Nix fully removed; new terminal starts clean",
+   "status": "PASS",
+   "rc": 0,
+   "shots": [
+    "shots/032-after-uninstalling-a-new-terminal.png"
+   ],
+   "note": "Nix fully removed; new terminal starts clean",
+   "log_tail": "nix: not found\nls: cannot access '/nix': No such file or directory\nPATH=/home/tester/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl\n"
+  }
+ ],
+ "checks": [
+  {
+   "name": "HM tools on PATH in a new terminal",
+   "after_step": 13,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "exit"
+  },
+  {
+   "name": "Session variables (EDITOR, PIP_REQUIRE_VIRTUALENV, XDG_DATA_DIRS)",
+   "after_step": 13,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "EDITOR= PIP=\n/usr/local/share:/usr/share:/home/tester/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/share"
+  },
+  {
+   "name": "git identity from Home Manager",
+   "after_step": 13,
+   "status": "FAIL",
+   "rc": 1,
+   "output": ""
+  },
+  {
+   "name": "Neovim starts with no errors",
+   "after_step": 16,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "[bash: nvim: command not found]"
+  },
+  {
+   "name": "checkhealth reports no ERROR",
+   "after_step": 16,
+   "status": "PASS",
+   "rc": 0,
+   "output": "bash: /tmp/h.txt: No such file or directory\ngrep: /tmp/h.txt: No such file or directory\ngrep: /tmp/h.txt: No such file or directory"
+  },
+  {
+   "name": "nil_ls attaches + tree-sitter highlights a .nix file",
+   "after_step": 16,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "bash: cd: /home/tester/.config/home-manager: No such file or directory"
+  },
+  {
+   "name": "lua_ls attaches to a .lua file",
+   "after_step": 16,
+   "status": "FAIL",
+   "rc": 127,
+   "output": "bash: nvim: command not found"
+  },
+  {
+   "name": "plugins load (telescope, blink.cmp, conform, gitsigns, lualine, which-key)",
+   "after_step": 16,
+   "status": "FAIL",
+   "rc": 127,
+   "output": "bash: nvim: command not found"
+  },
+  {
+   "name": "format on save (conform + stylua)",
+   "after_step": 16,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "x=1"
+  },
+  {
+   "name": "dev shell: python from .venv, pyright, ruff",
+   "after_step": 18,
+   "status": "FAIL",
+   "rc": 127,
+   "output": "bash: direnv: command not found"
+  },
+  {
+   "name": "pip refuses to install outside a venv",
+   "after_step": 18,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "tore/xahxrjs30p3mw0a42bqg9ikgkikskw8m-python3-3.14.8\n  /nix/store/0zg5k7jiiz8z8sfhq14lrgj0ld1dgq5l-python3.14-pip-26.1.2\n  /nix/store/awdmn0hg2y8wk0xbxyzq32rchp4kr35r-python3.14-pip-26.1.2-man\n  /nix/store/j9436i4mh2hlhnlqlk59fq5dc2sprs4i-readline-8.3p3\n  /nix/store/xrzzvmqkmx68f6yj1hy16gjvc1r2bmr8-sqlite-3.53.3\n  /nix/store/fsrw69w5mx838p7xydbdvywhwl6wnbjw-tzdata-2026e\n  /nix/store/zsvigijjqf64yym31xg8y8ab37q1bdkg-util-linux-minimal-2.42.4-lib\n  /nix/store/3xaspbv6nwvihmc3ybmlv0wjjksvpamq-xz-5.8.4\n  /nix/store/f5r77q40xh7rj30dfkajv8y6jwbf4xh2-zstd-1.5.7\ncopying path '/nix/store/awdmn0hg2y8wk0xbxyzq32rchp4kr35r-python3.14-pip-26.1.2-man' from 'https://cache.nixos.org'...\ncopying path '/nix/store/i68jrr4ixqmpb5dk5phddx7bnhlwqffs-mailcap-2.1.54' from 'https://cache.nixos.org'...\ncopying path '/nix/store/fsrw69w5mx838p7xydbdvywhwl6wnbjw-tzdata-2026e' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zx4ag3v11v9rl0iqvg6vzbpflzlg0dk2-bzip2-1.0.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/qwzgw6wlb5ghsy3ph0x1p9mvf3mxwms5-mpdecimal-4.0.1' from 'https://cache.nixos.org'...\ncopying path '/nix/store/lazac5vw20j0pyahzbaxz8z8hyf7m9zf-openssl-3.5.9' from 'https://cache.nixos.org'...\ncopying path '/nix/store/r9nlzwasmr1hgcbrfzcp2b2cz33scij2-ncurses-6.6' from 'https://cache.nixos.org'...\ncopying path '/nix/store/7rx5im6jbgyfhrl0lc0kyxd9yf14rdxc-expat-2.9.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/xrzzvmqkmx68f6yj1hy16gjvc1r2bmr8-sqlite-3.53.3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pfds9zw10xksh0zr7qplqg1lj9avs2gz-libffi-3.8.0' from 'https://cache.nixos.org'...\ncopying path '/nix/store/pfav6492acf7d8m41lggwqghpprkq9di-gdbm-1.26-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/zsvigijjqf64yym31xg8y8ab37q1bdkg-util-linux-minimal-2.42.4-lib' from 'https://cache.nixos.org'...\ncopying path '/nix/store/f5r77q40xh7rj30dfkajv8y6jwbf4xh2-zstd-1.5.7' from 'https://cache.nixos.org'...\ncopying path '/nix/store/3xaspbv6nwvihmc3ybmlv0wjjksvpamq-xz-5.8.4' from 'https://cache.nixos.org'...\ncopying path '/nix/store/j9436i4mh2hlhnlqlk59fq5dc2sprs4i-readline-8.3p3' from 'https://cache.nixos.org'...\ncopying path '/nix/store/xahxrjs30p3mw0a42bqg9ikgkikskw8m-python3-3.14.8' from 'https://cache.nixos.org'...\ncopying path '/nix/store/0zg5k7jiiz8z8sfhq14lrgj0ld1dgq5l-python3.14-pip-26.1.2' from 'https://cache.nixos.org'...\nerror: externally-managed-environment\n\n\u00d7 This environment is externally managed\n\u2570\u2500> This command has been disabled as it tries to modify the immutable\n    `/nix/store` filesystem.\n    \n    To use Python with Nix and nixpkgs, have a look at the online documentation:\n    <https://nixos.org/manual/nixpkgs/stable/#python>.\n\nnote: If you believe this is a mistake, please contact your Python installation or OS distribution provider. You can override this, at the risk of breaking your Python installation or OS, by passing --break-system-packages.\nhint: See PEP 668 for the detailed specification."
+  },
+  {
+   "name": "pyright attaches in the project",
+   "after_step": 18,
+   "status": "FAIL",
+   "rc": 127,
+   "output": "bash: direnv: command not found"
+  },
+  {
+   "name": "nix search finds neovim",
+   "after_step": 19,
+   "status": "FAIL",
+   "rc": 0,
+   "output": "evaluating 'legacyPackages.x86_64-linux'...\nevaluating 'legacyPackages.x86_64-linux.AAAAAASomeThingsFailToEvaluate'...\nevaluating 'legacyPackages.x86_64-linux.AMB-plugins'...\nevaluating 'legacyPackages.x86_64-linux.ArchiSteamFarm'...\nevaluating 'legacyPackages.x86_64-linux.AusweisApp2'..."
+  },
+  {
+   "name": "roll forward again",
+   "after_step": 22,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "bash: cd: /home/tester/.config/home-manager: No such file or directory"
+  },
+  {
+   "name": "page's nix.gc snippet builds and installs a timer: nix.gc = { automatic = true; dates = \"weekly\"; options = \"--delete-older-than 30d\"; };",
+   "after_step": 23,
+   "status": "FAIL",
+   "rc": 1,
+   "output": "bash: cd: /home/tester/.config/home-manager: No such file or directory"
+  },
+  {
+   "name": "original ~/.bashrc restored after uninstall",
+   "after_step": 25,
+   "status": "PASS",
+   "rc": 0,
+   "output": "-rw-r--r-- 1 tester tester  57 Sep 15 19:47 /home/tester/.bash_profile\n-rw-r--r-- 1 tester tester 172 Sep 15 19:47 /home/tester/.bashrc"
+  }
+ ],
+ "started": 1793500534.0104256,
+ "os": [
+  "PROVISIONED: Arch Linux, session xfce"
+ ],
+ "desktop_shot": "shots/001-desktop-before-starting.png",
+ "elapsed_min": 10.2,
+ "finished": 1793501145.3616178
+}
