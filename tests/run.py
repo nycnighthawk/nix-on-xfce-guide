@@ -147,25 +147,26 @@ def shot(name):
 GUEST_HELPERS = r'''
 mkdir -p ~/.gt
 cat > ~/.gt/sessenv <<'EOF'
-# import the running Xfce session's environment (what a terminal opened from the desktop gets)
+# SESSENV = the running Xfce session's environment, exactly: what a terminal opened from the desktop
+# gets. Never the ssh shell's own (on Ubuntu, bash sources bashrc even for ssh commands).
 pid=$(pgrep -u "$USER" -x xfce4-session | head -1)
-if [ -n "$pid" ]; then while IFS= read -r -d '' kv; do export "$kv" 2>/dev/null; done < /proc/$pid/environ; fi
-export DISPLAY=${DISPLAY:-:0}
+SESSENV=()
+if [ -n "$pid" ]; then while IFS= read -r -d '' kv; do SESSENV+=("$kv"); done < /proc/$pid/environ; fi
 EOF
 cat > ~/.gt/gui <<'EOF'
 #!/bin/bash
 # gui TITLE WRAPPER: open a new xfce4-terminal in the desktop session running WRAPPER; prints its pid
 . ~/.gt/sessenv
 cd ~
-nohup xfce4-terminal --disable-server --maximize --hide-menubar --title "$1" -x bash -i "$2" >/dev/null 2>&1 < /dev/null &
+nohup env -i "${SESSENV[@]}" xfce4-terminal --disable-server --maximize --hide-menubar --title "$1" -x bash -i "$2" >/dev/null 2>&1 < /dev/null &
 echo $!
 EOF
 cat > ~/.gt/run <<'EOF'
 #!/bin/bash
-# run CMD: run CMD headlessly with the desktop session's environment in an interactive shell
+# run CMD: run CMD headlessly in an interactive shell with only the desktop session's environment
 . ~/.gt/sessenv
 cd ~
-exec bash -i -c "$1" 2>&1 < /dev/null
+exec env -i "${SESSENV[@]}" bash -i -c "$1" 2>&1 < /dev/null
 EOF
 chmod +x ~/.gt/gui ~/.gt/run
 '''
@@ -181,7 +182,7 @@ def wait_session(old=None, limit=600):
         p = session_pid()
         if p and p != old:
             time.sleep(12)            # let panel/desktop finish drawing
-            ssh(". ~/.gt/sessenv; xset s off -dpms 2>/dev/null; true", quiet=True)
+            ssh("~/.gt/run 'xset s off -dpms' >/dev/null 2>&1; true", quiet=True)
             return p
         time.sleep(5)
     raise RuntimeError("Xfce session never started")
@@ -203,7 +204,7 @@ def grun(cmd, timeout=600):
 STEP_N = 0
 
 
-def terminal(title, code, wait=True, timeout=3600, interactive_secs=None, kill="nvim"):
+def terminal(title, code, wait=True, timeout=2400, interactive_secs=None, kill="nvim"):
     """Open a new terminal on the desktop, show + run `code`, screenshot when done.
     interactive_secs: for full-screen programs (nvim) - screenshot after N s, then quit it."""
     global STEP_N
@@ -374,6 +375,9 @@ def run_guide(steps):
                           code, flags=re.M)
             note = "`nix shell` given a command instead of opening an interactive subshell"
         elif t.startswith("Audit what's already"):
+            if D != "arch":
+                code = code.replace("sudo apt remove --autoremove", "sudo apt remove -y --autoremove")
+                note = "-y answers apt's [Y/n] on the example removal"
             if D == "arch":
                 code = "\n".join(l for l in code.splitlines() if not l.startswith("sudo pacman -Rns")) + "\n"
                 note = "skipped the example removal line (those packages aren't installed here)"
