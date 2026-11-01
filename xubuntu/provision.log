@@ -1,13 +1,13 @@
 status: done
-Get:1 http://security.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
-Hit:2 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
+Get:2 http://security.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
 Get:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
 Get:4 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Packages [607 kB]
 Get:5 http://archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
-Get:6 http://security.ubuntu.com/ubuntu resolute-security/main Translation-en [141 kB]
-Get:7 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Components [46.7 kB]
-Get:8 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Packages [206 kB]
-Get:9 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Packages [16.0 MB]
+Get:6 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Packages [16.0 MB]
+Get:7 http://security.ubuntu.com/ubuntu resolute-security/main Translation-en [141 kB]
+Get:8 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Components [46.7 kB]
+Get:9 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Packages [206 kB]
 Get:10 http://security.ubuntu.com/ubuntu resolute-security/universe Translation-en [67.9 kB]
 Get:11 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Components [55.5 kB]
 Get:12 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 c-n-f Metadata [3552 B]
@@ -45,7 +45,7 @@ Get:43 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 Comp
 Get:44 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 c-n-f Metadata [120 B]
 Get:45 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 Components [216 B]
 Get:46 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 c-n-f Metadata [120 B]
-Fetched 31.7 MB in 5s (5829 kB/s)
+Fetched 31.7 MB in 4s (8397 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -1392,7 +1392,7 @@ Get:869 http://archive.ubuntu.com/ubuntu resolute/main amd64 mobile-broadband-pr
 Get:870 http://archive.ubuntu.com/ubuntu resolute/main amd64 rygel amd64 45.0-1ubuntu1 [330 kB]
 Get:871 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 xserver-xorg-legacy amd64 2:21.1.22-1ubuntu1.3 [37.4 kB]
 Preconfiguring packages ...
-Fetched 561 MB in 15s (36.5 MB/s)
+Fetched 561 MB in 5s (104 MB/s)
 Selecting previously unselected package libaccountsservice0:amd64.
 (Reading database ... 
 (Reading database ... 5%
@@ -5225,6 +5225,7 @@ Created symlink '/etc/systemd/system/default.target' → '/usr/lib/systemd/syste
 + install -d -o tester -g tester /home/tester/.config/xfce4/xfconf/xfce-perchannel-xml
 + '[' -f /etc/xdg/xfce4/panel/default.xml ']'
 + install -o tester -g tester /etc/xdg/xfce4/panel/default.xml /home/tester/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
++ chown -R tester:tester /home/tester/.config
 + . /etc/os-release
 ++ PRETTY_NAME='Ubuntu 26.04.1 LTS'
 ++ NAME=Ubuntu

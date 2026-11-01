@@ -3,11 +3,11 @@
  "nvim_option": "A",
  "steps": [],
  "checks": [],
- "started": 1793500487.998586,
+ "started": 1793502050.905453,
  "os": [
   "PROVISIONED: Ubuntu 26.04.1 LTS, session xubuntu"
  ],
  "error": "Traceback (most recent call last):\n  File \"/home/runner/work/nix-on-xfce-guide/nix-on-xfce-guide/tests/run.py\", line 518, in <module>\n    main()\n  File \"/home/runner/work/nix-on-xfce-guide/nix-on-xfce-guide/tests/run.py\", line 510, in main\n    wait_session()\n  File \"/home/runner/work/nix-on-xfce-guide/nix-on-xfce-guide/tests/run.py\", line 187, in wait_session\n    raise RuntimeError(\"Xfce session never started\")\nRuntimeError: Xfce session never started\n",
- "finished": 1793501314.8089395,
- "elapsed_min": 13.8
+ "finished": 1793502864.1403499,
+ "elapsed_min": 13.6
 }
