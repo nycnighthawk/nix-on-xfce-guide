@@ -43,7 +43,7 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules && sudo udevadm trigger --name-match=kvm
           for m in kvm_intel kvm_amd; do
-            [ -e /sys/module/$m/parameters/nested ] && echo "$m nested=$(cat /sys/module/$m/parameters/nested)"
+            if [ -e /sys/module/$m/parameters/nested ]; then echo "$m nested=$(cat /sys/module/$m/parameters/nested)"; fi
           done
       - name: Install QEMU
         run: |

@@ -1,1 +1,1 @@
-00-setup 01-how-nix-works 02-nix-language
+00-setup 01-how-nix-works 02-nix-language 03-packaging 04-flakes-versioning 05-in-practice 06-modules-nixos 07-contributing 08-capstone
