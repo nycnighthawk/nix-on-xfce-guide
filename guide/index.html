@@ -540,10 +540,17 @@ nix search nixpkgs neovim                  <span class="c"># find package names<
     <tr><td>"It builds in my shell"</td><td><code>nix build</code> and <code>nix flake check</code>: hermetic, and enforced by a Stop hook</td></tr>
   </table>
   <div class="step"><div class="step-h"><input type="checkbox"><b>Let Nix's bubblewrap create sandboxes</b></div>
-    <p>Claude Code's sandbox uses bubblewrap. The copy Nix provides lives in <code>/nix/store</code>, but Xubuntu's AppArmor only
-    lets <code>/usr/bin/bwrap</code> create the user namespaces a sandbox needs. Grant the same permission to Nix's bubblewrap, and
-    nothing more. (Mint ships with the restriction off, so the first line prints <code>0</code> there. The profile is harmless,
-    and it keeps working if a future update turns the restriction on.)</p>
+    <p>Claude Code's sandbox uses bubblewrap, which needs unprivileged user namespaces. The copy Nix provides lives in
+    <code>/nix/store</code>, so check that it may create them.</p>
+    <p data-only="xubuntu">Xubuntu's AppArmor allows user namespaces only for <code>/usr/bin/bwrap</code> and a few other known
+    programs, so the first test below fails. Give Nix's bubblewrap the same permission, and nothing more.</p>
+    <p data-only="mint">Linux Mint ships with Ubuntu's restriction turned off, so the first line prints <code>0</code> and the first
+    test usually already works. Add the profile anyway: it is harmless now, and the sandbox keeps working if a Mint upgrade turns the
+    restriction on (Ubuntu has had it on since 24.04).</p>
+    <p data-only="arch">Arch's standard kernel allows user namespaces and has no AppArmor restriction, so there's nothing to change:
+    just check. If you run <code>linux-hardened</code>, the first line prints <code>0</code> and the check fails. Turn them on with
+    <code>echo kernel.unprivileged_userns_clone=1 | sudo tee /etc/sysctl.d/90-userns.conf &amp;&amp; sudo sysctl --system</code>,
+    or keep the hardened default and install <code>bubblewrap-suid</code> from the AUR instead.</p>
     <div data-only="xubuntu mint"><div class="code"><pre><code>sysctl kernel.apparmor_restrict_unprivileged_userns 2&gt;/dev/null || true   # 1 = restricted
 nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true || echo &quot;blocked by AppArmor (expected before the fix)&quot;
 sudo tee /etc/apparmor.d/nix-bwrap &gt; /dev/null &lt;&lt;&#x27;EOF&#x27;
@@ -558,7 +565,7 @@ profile nix-bwrap /nix/store/*-bubblewrap-*/bin/bwrap flags=(unconfined) {
 EOF
 sudo apparmor_parser -r /etc/apparmor.d/nix-bwrap
 nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true &amp;&amp; echo &quot;bubblewrap sandbox works&quot; </code></pre></div></div>
-    <div data-only="arch"><div class="code"><pre><code># Arch doesn&#x27;t restrict user namespaces; just check
+    <div data-only="arch"><div class="code"><pre><code>sysctl kernel.unprivileged_userns_clone 2&gt;/dev/null || true   # 0 only on linux-hardened
 nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true &amp;&amp; echo &quot;bubblewrap sandbox works&quot; </code></pre></div>
     </div>
   </div>
@@ -724,7 +731,7 @@ cat &gt; CLAUDE.md &lt;&lt;&#x27;EOF&#x27;
 The toolchain comes from `flake.nix` (Node 22, Python 3.12) and is pinned by `flake.lock`.
 
 - Work inside the dev shell. If a tool is missing, add it to `devShells.default.packages` in
-  `flake.nix`. Never install anything globally (`sudo apt`, `nix profile`, `npm -g`, `pip --user`).
+  `flake.nix`. Never install anything globally (`sudo apt`/`sudo pacman`, `nix profile`, `npm -g`, `pip --user`).
 - Caches and installs live in `.cache/` (set by the dev shell). Don&#x27;t change those variables.
 - Python: use a virtualenv in `.venv`; plain `pip install` is refused on purpose.
 - Done means `nix build` and `nix flake check` both pass. That is the reproducible build that
