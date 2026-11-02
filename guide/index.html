@@ -540,9 +540,10 @@ nix search nixpkgs neovim                  <span class="c"># find package names<
     <tr><td>"It builds in my shell"</td><td><code>nix build</code> and <code>nix flake check</code>: hermetic, and enforced by a Stop hook</td></tr>
   </table>
   <div class="step"><div class="step-h"><input type="checkbox"><b>Let Nix's bubblewrap create sandboxes</b></div>
-    <p>Claude Code's sandbox uses bubblewrap. The copy Nix provides lives in <code>/nix/store</code>, but Ubuntu's AppArmor only
+    <p>Claude Code's sandbox uses bubblewrap. The copy Nix provides lives in <code>/nix/store</code>, but Xubuntu's AppArmor only
     lets <code>/usr/bin/bwrap</code> create the user namespaces a sandbox needs. Grant the same permission to Nix's bubblewrap, and
-    nothing more:</p>
+    nothing more. (Mint ships with the restriction off, so the first line prints <code>0</code> there. The profile is harmless,
+    and it keeps working if a future update turns the restriction on.)</p>
     <div data-only="xubuntu mint"><div class="code"><pre><code>sysctl kernel.apparmor_restrict_unprivileged_userns 2&gt;/dev/null || true   # 1 = restricted
 nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true || echo &quot;blocked by AppArmor (expected before the fix)&quot;
 sudo tee /etc/apparmor.d/nix-bwrap &gt; /dev/null &lt;&lt;&#x27;EOF&#x27;
