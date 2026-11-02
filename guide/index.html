@@ -95,9 +95,10 @@ th{background:var(--panel2);font-weight:600}
   <a href="#hm"><span class="n">3</span>Home Manager</a>
   <a href="#nvim"><span class="n">4</span>Neovim, declaratively</a>
   <a href="#project"><span class="n">5</span>Per-project dev shells</a>
-  <a href="#hygiene"><span class="n">6</span>Avoid pollution</a>
-  <a href="#maint"><span class="n">7</span>Update · roll back · clean</a>
-  <a href="#uninstall"><span class="n">8</span>Uninstall</a>
+  <a href="#agent"><span class="n">6</span>Claude Code projects</a>
+  <a href="#hygiene"><span class="n">7</span>Avoid pollution</a>
+  <a href="#maint"><span class="n">8</span>Update · roll back · clean</a>
+  <a href="#uninstall"><span class="n">9</span>Uninstall</a>
   <div class="progress">Progress for <span id="pdistro">Xubuntu</span>: <span id="pcount">0/0</span>
     <div class="bar"><i id="pbar"></i></div>
   </div>
@@ -124,7 +125,7 @@ th{background:var(--panel2);font-weight:600}
   <div class="layers">
     <div class="layer l1"><b>apt / pacman</b><span>Kernel, drivers, Xfce desktop, firmware, login manager, printing, and most GUI apps. Keep this layer small and boring.</span></div>
     <div class="layer l2"><b>Nix + Home Manager</b><span>Your user environment: CLI tools, shell config, git, <b>Neovim with its plugins and language servers</b>. One file, pinned by a lock file, the same on every machine.</span></div>
-    <div class="layer l3"><b>Project flake + direnv</b><span>Compilers, runtimes, and per-project LSPs. They load when you <code>cd</code> into the project and disappear when you leave.</span></div>
+    <div class="layer l3"><b>Project flake + direnv</b><span>Compilers, runtimes, per-project LSPs and the project's own Claude Code. They load when you <code>cd</code> into the project and disappear when you leave.</span></div>
   </div>
   <div class="note ok"><b>Tested 31 Oct 2026.</b> Every step was run in User-Mode Linux VMs on Ubuntu 26.04 (Xubuntu's base), Linux Mint 22.3 "Zena" Xfce and current Arch, with Nix 2.35.4 and nixpkgs/Home Manager 26.05, using the code blocks extracted from this page. The Neovim config was also run natively: <code>nil_ls</code>/<code>lua_ls</code> attach, tree-sitter highlights, and format-on-save works.</div>
   <div class="note">Pick your distro at the top. Steps specific to that distro appear, and the progress bar tracks your checkboxes per distro (saved in this browser).</div>
@@ -523,9 +524,265 @@ nix search nixpkgs neovim                  <span class="c"># find package names<
   </div>
 </section>
 
+<!-- agent -->
+<section id="agent">
+  <h2><span class="n">06</span>Develop with Claude Code: isolated projects, reproducible builds</h2>
+  <p class="lead">Claude Code runs commands for you, and a coding agent installs things freely. Without guard rails, project A's
+  <code>npm install -g</code> or <code>pip install</code> changes what project B sees, and "works on my machine" becomes "works in
+  my session". This section gives every project its own pinned toolchain, its own caches and its own Claude Code version, and
+  makes a sandboxed <code>nix build</code> the definition of done.</p>
+  <table>
+    <tr><th>What leaks between projects</th><th>What stops it here</th></tr>
+    <tr><td>Different compiler/runtime versions</td><td>Each project's <code>flake.nix</code> + <code>flake.lock</code> pins its toolchain</td></tr>
+    <tr><td>Shared caches and "global" installs (<code>~/.npm</code>, <code>~/.cache/pip</code>, <code>~/.cargo</code>, <code>~/go</code>)</td><td>The dev shell points every tool's cache and global prefix into the project's <code>.cache/</code></td></tr>
+    <tr><td>The agent changing your system, or reading another project</td><td>Claude Code's sandbox (bubblewrap) and permission rules in <code>.claude/settings.json</code></td></tr>
+    <tr><td>Claude Code itself updating under you</td><td>Claude Code comes from the project's nixpkgs pin; Nix's build turns off its self-updater</td></tr>
+    <tr><td>"It builds in my shell"</td><td><code>nix build</code> and <code>nix flake check</code>: hermetic, and enforced by a Stop hook</td></tr>
+  </table>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Let Nix's bubblewrap create sandboxes</b></div>
+    <p>Claude Code's sandbox uses bubblewrap. The copy Nix provides lives in <code>/nix/store</code>, but Ubuntu's AppArmor only
+    lets <code>/usr/bin/bwrap</code> create the user namespaces a sandbox needs. Grant the same permission to Nix's bubblewrap, and
+    nothing more:</p>
+    <div data-only="xubuntu mint"><div class="code"><pre><code>sysctl kernel.apparmor_restrict_unprivileged_userns 2&gt;/dev/null || true   # 1 = restricted
+nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true || echo &quot;blocked by AppArmor (expected before the fix)&quot;
+sudo tee /etc/apparmor.d/nix-bwrap &gt; /dev/null &lt;&lt;&#x27;EOF&#x27;
+# Let bubblewrap from the Nix store create user namespaces, as Ubuntu allows for /usr/bin/bwrap
+abi &lt;abi/4.0&gt;,
+include &lt;tunables/global&gt;
+
+profile nix-bwrap /nix/store/*-bubblewrap-*/bin/bwrap flags=(unconfined) {
+  userns,
+  include if exists &lt;local/nix-bwrap&gt;
+}
+EOF
+sudo apparmor_parser -r /etc/apparmor.d/nix-bwrap
+nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true &amp;&amp; echo &quot;bubblewrap sandbox works&quot; </code></pre></div></div>
+    <div data-only="arch"><div class="code"><pre><code># Arch doesn&#x27;t restrict user namespaces; just check
+nix run nixpkgs#bubblewrap -- --unshare-all --ro-bind / / --dev /dev true &amp;&amp; echo &quot;bubblewrap sandbox works&quot; </code></pre></div>
+    </div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Create project A</b></div>
+    <p>A tiny Node app stands in for real code. What matters is the shape: a git repository, the app, and a
+    <code>.gitignore</code> that keeps per-project caches and build links out of git.</p>
+    <div class="code"><pre><code>mkdir -p ~/code/project-a &amp;&amp; cd ~/code/project-a &amp;&amp; git init -q
+cat &gt; app.js &lt;&lt;&#x27;EOF&#x27;
+const name = require(&quot;path&quot;).basename(__dirname); // $out/share/&lt;project&gt;
+console.log(`${name} running on Node ${process.version}`);
+EOF
+printf &#x27;.cache/\n.direnv/\nresult\n&#x27; &gt; .gitignore</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Write project A's <code>flake.nix</code></b></div>
+    <p>One file declares the reproducible build (<code>packages</code>), the place you and Claude Code work
+    (<code>devShells</code>, which includes Claude Code itself) and what must pass (<code>checks</code>).</p>
+    <div class="code"><span class="lbl">~/code/project-a/flake.nix</span><pre><code>{
+  description = &quot;project-a&quot;;
+  inputs.nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+
+  outputs = { self, nixpkgs }:
+    let
+      system = &quot;x86_64-linux&quot;;
+      pkgs = import nixpkgs {
+        inherit system;
+        # Claude Code is unfree: allow exactly that one package
+        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ &quot;claude-code&quot; ];
+      };
+      name = &quot;project-a&quot;;
+      nodejs = pkgs.nodejs_22; # project B: nodejs_24
+      python = pkgs.python312; # project B: python313
+    in
+    {
+      # The reproducible build: sandboxed, from git-tracked files and the locked nixpkgs only.
+      packages.${system}.default = pkgs.stdenvNoCC.mkDerivation {
+        pname = name;
+        version = &quot;0.1.0&quot;;
+        src = ./.;
+        __structuredAttrs = true;
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        installPhase = &#x27;&#x27;
+          runHook preInstall
+          install -Dm644 app.js $out/share/${name}/app.js
+          makeWrapper ${nodejs}/bin/node $out/bin/${name} --add-flags $out/share/${name}/app.js
+          runHook postInstall
+        &#x27;&#x27;;
+      };
+
+      # Where you and Claude Code work: this project&#x27;s tools, pinned, plus Claude Code itself.
+      devShells.${system}.default = pkgs.mkShell {
+        # bubblewrap + socat: what Claude Code's sandbox runs on Linux
+        packages = [ nodejs python pkgs.claude-code pkgs.bubblewrap pkgs.socat pkgs.git pkgs.jq ];
+        shellHook = &#x27;&#x27;
+          root=$(git rev-parse --show-toplevel 2&gt;/dev/null || pwd)
+          # Every language tool keeps its caches and &quot;global&quot; installs inside this project.
+          export npm_config_cache=&quot;$root/.cache/npm&quot;
+          export npm_config_prefix=&quot;$root/.cache/npm-global&quot;
+          export PIP_CACHE_DIR=&quot;$root/.cache/pip&quot;
+          export UV_CACHE_DIR=&quot;$root/.cache/uv&quot;
+          export PIP_REQUIRE_VIRTUALENV=true
+          export GOPATH=&quot;$root/.cache/go&quot; GOMODCACHE=&quot;$root/.cache/go/mod&quot;
+          export CARGO_HOME=&quot;$root/.cache/cargo&quot;
+          export PATH=&quot;$npm_config_prefix/bin:$PATH&quot;
+        &#x27;&#x27;;
+      };
+
+      checks.${system}.build = self.packages.${system}.default;
+    };
+}</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Make project B with different versions</b></div>
+    <p>Project B is the same project on newer runtimes: Node 24 and Python 3.13. Both can be open at once.</p>
+    <div class="code"><pre><code>mkdir -p ~/code/project-b &amp;&amp; cd ~/code/project-b &amp;&amp; git init -q
+cp ~/code/project-a/{app.js,.gitignore,flake.nix} .
+sed -i -e &#x27;s/project-a/project-b/g&#x27; -e &#x27;s/nodejs_22;/nodejs_24;/&#x27; -e &#x27;s/python312;/python313;/&#x27; flake.nix
+git add -A
+cd ~/code/project-a &amp;&amp; git add -A</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Prove the projects don't interfere</b></div>
+    <p>Each project gets its own versions. A "global" npm install inside project A lands in A's <code>.cache/</code>, so
+    project B and the rest of your system never see it:</p>
+    <div class="code"><pre><code>cd ~/code/project-a &amp;&amp; nix develop -c bash -c &#x27;node --version; python --version; npm install -g --silent cowsay; cowsay &quot;installed in A&quot;&#x27;
+cd ~/code/project-b &amp;&amp; nix develop -c bash -c &#x27;node --version; python --version; command -v cowsay || echo &quot;project B: no cowsay&quot;&#x27;
+command -v cowsay || echo &quot;rest of the system: no cowsay&quot;
+ls ~/code/project-a/.cache/npm-global/bin</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Pin Claude Code per project</b></div>
+    <p>Claude Code comes from each project's locked nixpkgs. It's never installed globally, and the Nix build disables
+    its self-updater, so it changes only when you run <code>nix flake update</code> in that project. Each project could even pin a
+    different version.</p>
+    <div class="code"><pre><code>cd ~/code/project-a &amp;&amp; nix develop -c claude --version
+cd ~/code/project-b &amp;&amp; nix develop -c claude --version
+command -v claude || echo &quot;not installed globally&quot; </code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Give Claude Code each project's rules</b></div>
+    <p><code>.claude/settings.json</code> is committed with the project, so every session follows it:</p>
+    <ul>
+      <li><b>Permissions:</b> allow the Nix build commands; ask before updating the lock or pushing; deny global installs and secrets.</li>
+      <li><b>Sandbox:</b> Claude's commands run in bubblewrap. They can write only inside the project, can't read the other project or
+      your keys, and reach only the listed hosts. <code>allowUnixSockets</code> lets Nix commands reach the Nix daemon.</li>
+      <li><b>Stop hook:</b> before Claude says it's done, <code>nix flake check</code> must pass. If it fails, the last lines go back to
+      Claude (exit code 2) and it keeps working.</li>
+    </ul>
+    <p><code>CLAUDE.md</code> tells Claude the same rules in words. Both files go into project B too, with the sandbox pointed at
+    project A instead:</p>
+    <div class="code"><pre><code>cd ~/code/project-a
+mkdir -p .claude
+cat &gt; .claude/settings.json &lt;&lt;&#x27;EOF&#x27;
+{
+  &quot;$schema&quot;: &quot;https://json.schemastore.org/claude-code-settings.json&quot;,
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [
+      &quot;Bash(nix build *)&quot;,
+      &quot;Bash(nix flake check *)&quot;,
+      &quot;Bash(nix develop *)&quot;,
+      &quot;Bash(git status)&quot;,
+      &quot;Bash(git diff *)&quot;
+    ],
+    &quot;ask&quot;: [&quot;Bash(nix flake update *)&quot;, &quot;Bash(git push *)&quot;],
+    &quot;deny&quot;: [
+      &quot;Bash(sudo *)&quot;,
+      &quot;Bash(nix profile *)&quot;,
+      &quot;Bash(nix-env *)&quot;,
+      &quot;Bash(npm install -g *)&quot;,
+      &quot;Bash(pip install --user *)&quot;,
+      &quot;Read(./.env)&quot;,
+      &quot;Read(~/.ssh/**)&quot;
+    ]
+  },
+  &quot;sandbox&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;failIfUnavailable&quot;: true,
+    &quot;allowUnsandboxedCommands&quot;: false,
+    &quot;filesystem&quot;: {
+      &quot;denyRead&quot;: [&quot;~/code/project-b&quot;, &quot;~/.ssh&quot;, &quot;~/.aws&quot;, &quot;~/.gnupg&quot;]
+    },
+    &quot;network&quot;: {
+      &quot;allowedDomains&quot;: [
+        &quot;cache.nixos.org&quot;, &quot;channels.nixos.org&quot;, &quot;github.com&quot;, &quot;codeload.github.com&quot;,
+        &quot;registry.npmjs.org&quot;, &quot;pypi.org&quot;, &quot;files.pythonhosted.org&quot;
+      ],
+      &quot;allowUnixSockets&quot;: [&quot;/nix/var/nix/daemon-socket/socket&quot;]
+    }
+  },
+  &quot;hooks&quot;: {
+    &quot;Stop&quot;: [
+      {
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;out=$(nix flake check 2&gt;&amp;1) || { echo \&quot;$out\&quot; | tail -n 20 &gt;&amp;2; exit 2; }&quot;,
+            &quot;timeout&quot;: 900
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
+cat &gt; CLAUDE.md &lt;&lt;&#x27;EOF&#x27;
+# project-a: rules for Claude Code
+
+The toolchain comes from `flake.nix` (Node 22, Python 3.12) and is pinned by `flake.lock`.
+
+- Work inside the dev shell. If a tool is missing, add it to `devShells.default.packages` in
+  `flake.nix`. Never install anything globally (`sudo apt`, `nix profile`, `npm -g`, `pip --user`).
+- Caches and installs live in `.cache/` (set by the dev shell). Don&#x27;t change those variables.
+- Python: use a virtualenv in `.venv`; plain `pip install` is refused on purpose.
+- Done means `nix build` and `nix flake check` both pass. That is the reproducible build that
+  CI and other machines run; a Stop hook checks it before you finish.
+- Never edit `flake.lock` by hand. Ask before running `nix flake update`.
+- Stay in this repository. Other projects under ~/code are off limits.
+EOF
+printf &#x27;.claude/settings.local.json\n&#x27; &gt;&gt; .gitignore
+git add -A
+# check the settings file against the published Claude Code settings schema
+nix run nixpkgs#check-jsonschema -- --schemafile https://json.schemastore.org/claude-code-settings.json .claude/settings.json
+# the same files for project B, pointed the other way
+sed -e &#x27;s|~/code/project-b|~/code/project-a|&#x27; .claude/settings.json &gt; ../project-b/.claude.tmp
+mkdir -p ../project-b/.claude &amp;&amp; mv ../project-b/.claude.tmp ../project-b/.claude/settings.json
+sed -e &#x27;s/project-a/project-b/; s/Node 22, Python 3.12/Node 24, Python 3.13/&#x27; CLAUDE.md &gt; ../project-b/CLAUDE.md
+cp .gitignore ../project-b/.gitignore
+cd ../project-b &amp;&amp; git add -A
+grep -h -A1 denyRead ~/code/project-a/.claude/settings.json ~/code/project-b/.claude/settings.json</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Start Claude Code inside project A</b></div>
+    <p>Let direnv load the dev shell whenever you <code>cd</code> into the project, then start Claude Code there. Its tool
+    calls inherit this environment, so they get Node 22, Python 3.12 and the project-local caches. The first start asks you to log in
+    (a Claude account or an API key); the login is per user, and everything else comes from the project. For project B, open a
+    second terminal and do the same in <code>~/code/project-b</code>.</p>
+    <div class="code"><pre><code>cd ~/code/project-a
+echo &#x27;use flake&#x27; &gt; .envrc
+git add .envrc
+direnv allow
+claude</code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>The reproducible build</b></div>
+    <p>The dev shell is for working; <code>nix build</code> is the truth. It builds in Nix's sandbox from git-tracked files and the
+    locked nixpkgs only, so it gives the same result on any machine. <code>--rebuild</code> builds again and compares bit for bit.
+    Commit <code>flake.lock</code> with the code; it is the version of everything.</p>
+    <div class="code"><pre><code>cd ~/code/project-a
+nix build
+./result/bin/project-a
+nix build --rebuild &amp;&amp; echo &quot;rebuilt bit-for-bit identical&quot;
+nix flake check
+# Claude&#x27;s Stop hook runs exactly this; it passes now
+sh -c &quot;$(jq -r &#x27;.hooks.Stop[0].hooks[0].command&#x27; .claude/settings.json)&quot; &amp;&amp; echo &quot;Stop hook passes&quot;
+git commit -qm &quot;project-a: initial&quot; &amp;&amp; git log --oneline | head -1
+cd ~/code/project-b &amp;&amp; nix build &amp;&amp; ./result/bin/project-b &amp;&amp; git commit -qm &quot;project-b: initial&quot; </code></pre></div>
+  </div>
+  <div class="step"><div class="step-h"><input type="checkbox"><b>Update one project, never both</b></div>
+    <p>Each lock moves only when you update that project, so upgrading B's toolchain (or its Claude Code) can't break A:</p>
+    <div class="code"><pre><code>for p in project-a project-b; do
+  (cd ~/code/$p &amp;&amp; echo &quot;$p: nixpkgs $(nix flake metadata --json | jq -r .locks.nodes.nixpkgs.locked.rev | cut -c1-12)&quot;)
+done
+cd ~/code/project-b &amp;&amp; nix flake update &amp;&amp; nix flake check &amp;&amp; git commit -qam &quot;project-b: update inputs&quot; || echo &quot;already up to date&quot; </code></pre></div>
+  </div>
+  <div class="note">Running several Claude Code sessions on the <em>same</em> project at once? Give each its own
+  <code>git worktree</code> (<code>git worktree add ../project-a-feature</code>). Each worktree is a separate directory with the same
+  flake, so sessions don't overwrite each other's files.</div>
+</section>
+
 <!-- 6 -->
 <section id="hygiene">
-  <h2><span class="n">06</span>Rules that keep the system clean</h2>
+  <h2><span class="n">07</span>Rules that keep the system clean</h2>
   <table>
     <tr><th>Instead of…</th><th>Do this</th></tr>
     <tr><td><code>sudo <span data-only="xubuntu mint">apt install</span><span data-only="arch">pacman -S</span> python3-dev nodejs golang …</code></td><td>Put the toolchain in the project's <code>flake.nix</code></td></tr>
@@ -553,7 +810,7 @@ ls ~/.local/bin ~/.cargo/bin ~/go/bin 2&gt;/dev/null || true</code></pre></div>
 
 <!-- 7 -->
 <section id="maint">
-  <h2><span class="n">07</span>Update, roll back, clean up</h2>
+  <h2><span class="n">08</span>Update, roll back, clean up</h2>
   <div class="step"><div class="step-h"><input type="checkbox"><b>Update your home environment deliberately</b></div>
     <div class="code"><pre><code>cd ~/.config/home-manager
 nix flake update                         <span class="c"># bumps flake.lock</span>
@@ -581,7 +838,7 @@ nix run home-manager/release-26.05 -- switch -b backup --flake ~/.config/home-ma
 
 <!-- 8 -->
 <section id="uninstall">
-  <h2><span class="n">08</span>Uninstall (if you ever need to)</h2>
+  <h2><span class="n">09</span>Uninstall (if you ever need to)</h2>
   <div class="step"><div class="step-h"><input type="checkbox"><b>Remove Home Manager's files first</b></div>
     <div class="code"><pre><code><span class="c"># the uninstaller imports &lt;nixpkgs&gt;; point it at the flake registry (Arch has no channel)</span>
 NIX_PATH=nixpkgs=flake:nixpkgs home-manager uninstall

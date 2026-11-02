@@ -204,7 +204,7 @@ def grun(cmd, timeout=600):
 STEP_N = 0
 
 
-def terminal(title, code, wait=True, timeout=2400, interactive_secs=None, kill="nvim"):
+def terminal(title, code, wait=True, timeout=2400, interactive_secs=None, kill="-x nvim"):
     """Open a new terminal on the desktop, show + run `code`, screenshot when done.
     interactive_secs: for full-screen programs (nvim) - screenshot after N s, then quit it."""
     global STEP_N
@@ -232,7 +232,7 @@ sleep 3600
     if interactive_secs:
         time.sleep(interactive_secs)
         s = shot(title)
-        ssh(f"pkill -u tester -x {kill}; sleep 2", quiet=True)
+        ssh(f"pkill -u tester {kill}; sleep 2", quiet=True)
         rc = 0
         logtxt = ""
     else:
@@ -347,8 +347,8 @@ def run_guide(steps):
             shots = []
             ok = True
             for b in bl:
-                path = f"{hm}/{b['label']}"
-                rc, s, lg = terminal(f"{t}: {path}", f"mkdir -p {hm}\ncat > {path} <<'GUIDE_EOF'\n{b['text']}GUIDE_EOF\n")
+                path = b["label"] if b["label"].startswith("~") else f"{hm}/{b['label']}"
+                rc, s, lg = terminal(f"{t}: {path}", f"mkdir -p $(dirname {path})\ncat > {path} <<'GUIDE_EOF'\n{b['text']}GUIDE_EOF\n")
                 shots.append(s); ok &= rc == 0
             add_step(step, "PASS" if ok else "FAIL", shots=shots, note="file written exactly as shown")
             continue
@@ -370,6 +370,9 @@ def run_guide(steps):
         elif t.startswith("Apply and check") or t.startswith("Wire it to direnv"):
             interactive = [l for l in code.splitlines() if l.startswith("nvim ")]
             code = "\n".join(l for l in code.splitlines() if not l.startswith("nvim ")) + "\n"
+        elif t.startswith("Start Claude Code inside"):
+            code = "\n".join(l for l in code.splitlines() if l.strip() != "claude") + "\n"
+            interactive = ["claude"]
         elif t.startswith("One-off tools"):
             code = re.sub(r"^nix shell (.*?)\s+#.*$", r"nix shell \1 --command bash -c 'http --version && sqlite3 --version'",
                           code, flags=re.M)
@@ -424,7 +427,7 @@ def run_guide(steps):
             note = "first try: nix not found in a new terminal; worked after logging out and back in, as the page advises"
             status, rc, lg = ("PASS" if rc2 == 0 else "FAIL"), rc2, lg + "\n--- after re-login ---\n" + lg2
         for f in files:   # option B: nvim.nix after the mv block
-            path = f"{hm}/{f['label']}"
+            path = f["label"] if f["label"].startswith("~") else f"{hm}/{f['label']}"
             rc2, s2, _ = terminal(f"{t}: {path}", f"cat > {path} <<'GUIDE_EOF'\n{f['text']}GUIDE_EOF\n")
             shots.append(s2)
             status = status if rc2 == 0 else "FAIL"
@@ -437,8 +440,13 @@ def run_guide(steps):
                     _, s3, _ = terminal(t + ": nvim in the project", "cd ~/code/myproject\neval \"$(direnv export bash 2>/dev/null)\"\n"
                                         "nvim main.py +'lua vim.g.health = { style = \"float\" }; vim.defer_fn(function() vim.cmd(\"checkhealth vim.lsp\") end, 15000)'\n",
                                         interactive_secs=35)
+                elif l == "claude":
+                    # the pattern can't match pkill's own command line ("[^" is followed by a space)
+                    _, s3, _ = terminal(t + ": claude", "cd ~/code/project-a\neval \"$(direnv export bash 2>/dev/null)\"\nclaude\n",
+                                        interactive_secs=60, kill="-f '/nix/store/[^ ]*claude'")
                 shots.append(s3)
-            note = (note + "; " if note else "") + "full-screen Neovim screenshotted, then quit"
+            note = (note + "; " if note else "") + ("Claude Code's first screen (login) screenshotted, then quit" if interactive == ["claude"]
+                                                    else "full-screen Neovim screenshotted, then quit")
         add_step(step, status, rc, shots, note, lg)
         after(step)
 
@@ -488,6 +496,51 @@ def after(step):
             check("pyright attaches in the project",
                   "cd ~/code/myproject && direnv exec . nvim --headless main.py -c 'luafile /tmp/lsp.lua' 2>&1",
                   lambda rc, o: "pyright" in o, step=step, timeout=180)
+    if t.startswith("Let Nix's bubblewrap"):
+        check("unprivileged user namespaces work for Nix's bwrap (what Claude Code's sandbox needs)",
+              "nix run nixpkgs#bubblewrap -- --unshare-user --unshare-net --ro-bind / / --dev /dev --tmpfs /tmp sh -c 'id -u; touch /tmp/x && echo sandbox-ok'",
+              lambda rc, o: rc == 0 and "sandbox-ok" in o, step=step, timeout=600)
+    if t.startswith("Prove the projects"):
+        check("project A: Node 22 + Python 3.12; npm -g went into A's .cache",
+              "cd ~/code/project-a && nix develop -c bash -c 'node --version; python --version; command -v cowsay' 2>/dev/null",
+              lambda rc, o: rc == 0 and "v22." in o and "Python 3.12" in o and "/code/project-a/.cache/npm-global/bin/cowsay" in o, step=step, timeout=1800)
+        check("project B: Node 24 + Python 3.13; no cowsay",
+              "cd ~/code/project-b && nix develop -c bash -c 'node --version; python --version; ! command -v cowsay' 2>/dev/null",
+              lambda rc, o: rc == 0 and "v24." in o and "Python 3.13" in o, step=step, timeout=1800)
+        check("host: no cowsay anywhere outside project A",
+              "! command -v cowsay && [ -z \"$(find ~ -path ~/code/project-a -prune -o -name cowsay -print)\" ] && echo clean",
+              lambda rc, o: rc == 0 and "clean" in o, step=step)
+    if t.startswith("Pin Claude Code"):
+        check("claude comes from each project's /nix/store, not the host",
+              "for p in a b; do (cd ~/code/project-$p && nix develop -c bash -c 'command -v claude; claude --version' 2>/dev/null) || exit 1; done; ! command -v claude",
+              lambda rc, o: rc == 0 and o.count("/nix/store/") >= 2, step=step, timeout=1800)
+    if t.startswith("Give Claude Code each project"):
+        check("project B's sandbox hides project A; A's hides B",
+              "grep -A1 denyRead ~/code/project-a/.claude/settings.json | grep -q project-b && "
+              "grep -A1 denyRead ~/code/project-b/.claude/settings.json | grep -q project-a && "
+              "jq -e '.sandbox.enabled and .sandbox.failIfUnavailable' ~/code/project-b/.claude/settings.json && "
+              "grep -q 'Node 24, Python 3.13' ~/code/project-b/CLAUDE.md", step=step)
+    if t.startswith("Start Claude Code inside"):
+        check("direnv loads project A's shell (Node 22, Python 3.12, claude, bwrap)",
+              "cd ~/code/project-a && direnv exec . bash -c 'node --version; python --version; command -v claude bwrap socat' 2>/dev/null",
+              lambda rc, o: rc == 0 and "v22." in o and "Python 3.12" in o and o.count("/nix/store/") >= 3, step=step, timeout=1800)
+        check("leaving the project unloads it (no claude outside it)",
+              "cd ~ && eval \"$(direnv export bash 2>/dev/null)\"; ! command -v claude && echo unloaded",
+              lambda rc, o: "unloaded" in o, step=step)
+    if t.startswith("The reproducible build"):
+        check("build output is the same path every time (and identical on rebuild)",
+              "cd ~/code/project-a && a=$(nix build --print-out-paths --no-link) && b=$(nix build --print-out-paths --no-link --rebuild) && "
+              "echo \"$a\"; [ \"$a\" = \"$b\" ] && \"$a/bin/project-a\"",
+              lambda rc, o: rc == 0 and "project-a running on Node v22." in o, step=step, timeout=1200)
+        check("project B builds on Node 24", "~/code/project-b/result/bin/project-b",
+              lambda rc, o: rc == 0 and "project-b running on Node v24." in o, step=step)
+        check("a failing build makes the Stop hook block (exit 2) with the error",
+              "cd ~/code/project-a && cp flake.nix /tmp/f && sed -i 's/install -Dm644 app.js/install -Dm644 missing.js/' flake.nix && "
+              "sh -c \"$(jq -r '.hooks.Stop[0].hooks[0].command' .claude/settings.json)\"; rc=$?; cp /tmp/f flake.nix; echo \"hook rc=$rc\"; [ $rc = 2 ]",
+              lambda rc, o: rc == 0 and "hook rc=2" in o, step=step, timeout=900)
+    if t.startswith("Update one project"):
+        check("project A's lock didn't move", "cd ~/code/project-a && git diff --quiet flake.lock && git status --short | grep -v '^??' | wc -l",
+              lambda rc, o: rc == 0 and o.strip().endswith("0"), step=step)
     if t.startswith("One-off tools"):
         check("nix search finds neovim", "nix search nixpkgs '^neovim$' 2>/dev/null", lambda rc, o: rc == 0 and "legacyPackages.x86_64-linux.neovim " in re.sub(r"\x1b\[[0-9;]*m", "", o), step=step, timeout=1200)
     if t.startswith("Roll back"):

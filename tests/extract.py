@@ -67,7 +67,7 @@ class P(HTMLParser):
                 only = [x["only"] for x in self.stack[self.cur["_depth"]:] if x["only"]]
                 tab = [x["id"] for x in self.stack[self.cur["_depth"]:] if "tabpanel" in x["cls"].split()]
                 text = self.code.replace("{{USER}}", USER).replace("{{SYS}}", SYS)
-                self.cur["blocks"].append({"label": (self.lbl or "").split("/")[-1] or None,
+                self.cur["blocks"].append({"label": (self.lbl or "").strip() or None,
                                            "only": only[-1].split() if only else None,
                                            "tab": tab[-1] if tab else None,
                                            "text": text if text.endswith("\n") else text + "\n"})
