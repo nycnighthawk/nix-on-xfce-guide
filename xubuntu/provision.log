@@ -1,51 +1,51 @@
 status: done
 Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
-Get:2 http://security.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
-Get:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
-Get:4 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Packages [607 kB]
-Get:5 http://archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
-Get:6 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Packages [16.0 MB]
-Get:7 http://security.ubuntu.com/ubuntu resolute-security/main Translation-en [141 kB]
-Get:8 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Components [46.7 kB]
-Get:9 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Packages [206 kB]
-Get:10 http://security.ubuntu.com/ubuntu resolute-security/universe Translation-en [67.9 kB]
-Get:11 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Components [55.5 kB]
-Get:12 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 c-n-f Metadata [3552 B]
-Get:13 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 Packages [20.0 kB]
-Get:14 http://security.ubuntu.com/ubuntu resolute-security/multiverse Translation-en [3728 B]
-Get:15 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 Components [212 B]
-Get:16 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 c-n-f Metadata [120 B]
-Get:17 http://archive.ubuntu.com/ubuntu resolute/universe Translation-en [6329 kB]
-Get:18 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Components [4556 kB]
-Get:19 http://archive.ubuntu.com/ubuntu resolute/universe amd64 c-n-f Metadata [313 kB]
-Get:20 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 Packages [290 kB]
-Get:21 http://archive.ubuntu.com/ubuntu resolute/multiverse Translation-en [127 kB]
-Get:22 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 Components [50.0 kB]
-Get:23 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 c-n-f Metadata [8276 B]
-Get:24 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 Packages [803 kB]
-Get:25 http://archive.ubuntu.com/ubuntu resolute-updates/main Translation-en [184 kB]
-Get:26 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 Components [110 kB]
-Get:27 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 Packages [374 kB]
-Get:28 http://archive.ubuntu.com/ubuntu resolute-updates/universe Translation-en [118 kB]
-Get:29 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 Components [201 kB]
-Get:30 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 c-n-f Metadata [4704 B]
-Get:31 http://archive.ubuntu.com/ubuntu resolute-updates/restricted amd64 Packages [542 kB]
-Get:32 http://archive.ubuntu.com/ubuntu resolute-updates/restricted Translation-en [112 kB]
-Get:33 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 Packages [21.0 kB]
-Get:34 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse Translation-en [4168 B]
-Get:35 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 Components [216 B]
-Get:36 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 c-n-f Metadata [256 B]
-Get:37 http://archive.ubuntu.com/ubuntu resolute-backports/main amd64 Components [212 B]
-Get:38 http://archive.ubuntu.com/ubuntu resolute-backports/main amd64 c-n-f Metadata [112 B]
-Get:39 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 Packages [3136 B]
-Get:40 http://archive.ubuntu.com/ubuntu resolute-backports/universe Translation-en [7988 B]
-Get:41 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 Components [1060 B]
-Get:42 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 c-n-f Metadata [116 B]
-Get:43 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 Components [216 B]
-Get:44 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 c-n-f Metadata [120 B]
-Get:45 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 Components [216 B]
-Get:46 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 c-n-f Metadata [120 B]
-Fetched 31.7 MB in 4s (7297 kB/s)
+Get:2 http://archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
+Get:3 http://archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
+Get:4 http://security.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
+Get:5 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Packages [16.0 MB]
+Get:6 http://archive.ubuntu.com/ubuntu resolute/universe Translation-en [6329 kB]
+Get:7 http://archive.ubuntu.com/ubuntu resolute/universe amd64 Components [4556 kB]
+Get:8 http://archive.ubuntu.com/ubuntu resolute/universe amd64 c-n-f Metadata [313 kB]
+Get:9 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 Packages [290 kB]
+Get:10 http://archive.ubuntu.com/ubuntu resolute/multiverse Translation-en [127 kB]
+Get:11 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 Components [50.0 kB]
+Get:12 http://archive.ubuntu.com/ubuntu resolute/multiverse amd64 c-n-f Metadata [8276 B]
+Get:13 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 Packages [803 kB]
+Get:14 http://archive.ubuntu.com/ubuntu resolute-updates/main Translation-en [184 kB]
+Get:15 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 Components [110 kB]
+Get:16 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 Packages [374 kB]
+Get:17 http://archive.ubuntu.com/ubuntu resolute-updates/universe Translation-en [118 kB]
+Get:18 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 Components [201 kB]
+Get:19 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 c-n-f Metadata [4704 B]
+Get:20 http://archive.ubuntu.com/ubuntu resolute-updates/restricted amd64 Packages [542 kB]
+Get:21 http://archive.ubuntu.com/ubuntu resolute-updates/restricted Translation-en [112 kB]
+Get:22 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 Packages [21.0 kB]
+Get:23 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse Translation-en [4168 B]
+Get:24 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 Components [216 B]
+Get:25 http://archive.ubuntu.com/ubuntu resolute-updates/multiverse amd64 c-n-f Metadata [256 B]
+Get:26 http://archive.ubuntu.com/ubuntu resolute-backports/main amd64 Components [212 B]
+Get:27 http://archive.ubuntu.com/ubuntu resolute-backports/main amd64 c-n-f Metadata [112 B]
+Get:28 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 Packages [3136 B]
+Get:29 http://archive.ubuntu.com/ubuntu resolute-backports/universe Translation-en [7988 B]
+Get:30 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 Components [1056 B]
+Get:31 http://archive.ubuntu.com/ubuntu resolute-backports/universe amd64 c-n-f Metadata [116 B]
+Get:32 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 Components [216 B]
+Get:33 http://archive.ubuntu.com/ubuntu resolute-backports/restricted amd64 c-n-f Metadata [120 B]
+Get:34 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 Components [216 B]
+Get:35 http://archive.ubuntu.com/ubuntu resolute-backports/multiverse amd64 c-n-f Metadata [120 B]
+Get:36 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Packages [607 kB]
+Get:37 http://security.ubuntu.com/ubuntu resolute-security/main Translation-en [141 kB]
+Get:38 http://security.ubuntu.com/ubuntu resolute-security/main amd64 Components [46.7 kB]
+Get:39 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Packages [206 kB]
+Get:40 http://security.ubuntu.com/ubuntu resolute-security/universe Translation-en [67.9 kB]
+Get:41 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 Components [55.6 kB]
+Get:42 http://security.ubuntu.com/ubuntu resolute-security/universe amd64 c-n-f Metadata [3552 B]
+Get:43 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 Packages [20.0 kB]
+Get:44 http://security.ubuntu.com/ubuntu resolute-security/multiverse Translation-en [3728 B]
+Get:45 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 Components [212 B]
+Get:46 http://security.ubuntu.com/ubuntu resolute-security/multiverse amd64 c-n-f Metadata [120 B]
+Fetched 31.7 MB in 4s (8939 kB/s)
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -144,7 +144,7 @@ Get:46 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 linux-tools-
 Get:47 http://archive.ubuntu.com/ubuntu resolute-updates/main amd64 thermald amd64 2.5.11-0ubuntu1.1 [221 kB]
 Get:48 http://archive.ubuntu.com/ubuntu resolute/main amd64 upower amd64 1.91.1-1 [101 kB]
 Get:49 http://archive.ubuntu.com/ubuntu resolute/main amd64 usbmuxd amd64 1.1.1-7 [42.1 kB]
-Fetched 932 MB in 7s (142 MB/s)
+Fetched 932 MB in 8s (115 MB/s)
 Selecting previously unselected package firmware-sof-signed.
 (Reading database ... 
 (Reading database ... 5%
@@ -387,10 +387,10 @@ Systems on them will not be added to the GRUB boot configuration.
 Check GRUB_DISABLE_OS_PROBER documentation entry.
 Adding boot menu entry for UEFI Firmware Settings ...
 done
-Hit:1 http://security.ubuntu.com/ubuntu resolute-security InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu resolute InRelease
-Hit:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
-Hit:4 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu resolute-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu resolute-security InRelease
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -1369,7 +1369,7 @@ Get:636 http://archive.ubuntu.com/ubuntu resolute/main amd64 liblouisutdml-bin a
 Get:637 http://archive.ubuntu.com/ubuntu resolute/main amd64 mobile-broadband-provider-info all 20251101-1build1 [65.9 kB]
 Get:638 http://archive.ubuntu.com/ubuntu resolute-updates/universe amd64 xserver-xorg-legacy amd64 2:21.1.22-1ubuntu1.3 [37.4 kB]
 Preconfiguring packages ...
-Fetched 391 MB in 10s (39.3 MB/s)
+Fetched 391 MB in 14s (27.5 MB/s)
 Selecting previously unselected package libaccountsservice0:amd64.
 (Reading database ... 
 (Reading database ... 5%
